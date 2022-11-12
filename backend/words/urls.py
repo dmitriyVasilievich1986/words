@@ -1,6 +1,8 @@
 from django.urls import path, include
-from main.views import index_view
+from django.shortcuts import render
 
 urlpatterns = [
-    path("", index_view),
+    path("api/", include("main.urls")),
+    path("<path:resource>", lambda request: render(request, "index.html")),
+    path("", lambda request: render(request, "index.html")),
 ]
