@@ -5,6 +5,7 @@ function Phrase() {
   const verbDeclension = useSelector((state) => state.words.verbDeclension);
   const nounCase = useSelector((state) => state.words.nounCase);
   const wordCase = useSelector((state) => state.words.case);
+  const adjCase = useSelector((state) => state.words.adjCase);
   const pron = useSelector((state) => state.words.pron);
 
   const [randWord, setRandWord] = React.useState(null);
@@ -29,22 +30,21 @@ function Phrase() {
     [verbDeclension, nounCase]
   );
 
-  const getWordReverse = (w, r) => (r ? w.translate : w.word);
-
   const GetPhrase = (_) => {
     const p = pron.find((i) => i.id == randWord.pron);
+    const l = adjCase.filter((i) => i.case == randCase.case);
+    const ac = l[Math.floor(Math.random() * l.length)];
+    const wr = (w, r) => w.map((i) => (r ? i.translate : i.word)).join(" ");
     return (
       <div>
-        {getWordReverse(p, reverse)} {getWordReverse(randWord, reverse)}{" "}
-        {getWordReverse(randCase, reverse)}
+        {wr([p, randWord, ac, randCase], reverse)}
         <button
           style={{ margin: "0px 10px" }}
           onClick={(_) => setReverse(!reverse)}
         >
           r
         </button>
-        {getWordReverse(p, !reverse)} {getWordReverse(randWord, !reverse)}{" "}
-        {getWordReverse(randCase, !reverse)}
+        {wr([p, randWord, ac, randCase], !reverse)}
       </div>
     );
   };

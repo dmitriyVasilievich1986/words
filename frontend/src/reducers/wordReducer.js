@@ -9,6 +9,8 @@ export const wordsSlice = createSlice({
     nounCase: [],
     noun: [],
     case: [],
+    adjective: [],
+    adjCase: [],
   },
   reducers: {
     setState: (state, action) => {

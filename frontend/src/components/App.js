@@ -15,6 +15,8 @@ function App() {
       axios.get("/api/nouncase/"),
       axios.get("/api/case/"),
       axios.get("/api/noun/"),
+      axios.get("/api/adjective/"),
+      axios.get("/api/adjcase/"),
     ])
       .then((values) => {
         const [
@@ -24,6 +26,8 @@ function App() {
           nounCaseData,
           caseData,
           nounData,
+          adjectiveData,
+          adjcaseData,
         ] = values;
         dispatch(
           setState({
@@ -33,6 +37,8 @@ function App() {
             nounCase: nounCaseData.data,
             noun: nounData.data,
             case: caseData.data,
+            adjective: adjectiveData.data,
+            adjCase: adjcaseData.data,
           })
         );
       })
