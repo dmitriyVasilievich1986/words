@@ -6,7 +6,14 @@ class Case(models.Model):
     name = models.CharField(max_length=150, blank=False, null=False)
 
 
+class Adjective(models.Model):
+    gender = models.CharField(max_length=150, blank=False, null=False, default="f")
+    translate = models.CharField(max_length=150, blank=False, null=False)
+    word = models.CharField(max_length=150, blank=False, null=False)
+
+
 class Noun(models.Model):
+    gender = models.CharField(max_length=150, blank=False, null=False, default="f")
     translate = models.CharField(max_length=150, blank=False, null=False)
     word = models.CharField(max_length=150, blank=False, null=False)
 
@@ -23,6 +30,22 @@ class NounCase(models.Model):
     case = models.ForeignKey(
         related_name="noun_case",
         on_delete=models.CASCADE,
+        to="Case",
+    )
+
+
+class AdjCase(models.Model):
+    translate = models.CharField(max_length=150, blank=False, null=False)
+    word = models.CharField(max_length=150, blank=False, null=False)
+
+    adjective = models.ForeignKey(
+        on_delete=models.CASCADE,
+        related_name="adj_case",
+        to="Adjective",
+    )
+    case = models.ForeignKey(
+        on_delete=models.CASCADE,
+        related_name="adj_case",
         to="Case",
     )
 
@@ -53,18 +76,14 @@ class VerbDeclension(models.Model):
     )
 
 
-def input():
+def i():
     words = [
         [
-            {"word": "книга", "translate": "книга"},
-            {"word": "книгу", "translate": "книгу"},
-        ],
-        [
-            {"word": "река", "translate": "река"},
-            {"word": "реку", "translate": "реку"},
+            {"word": "лепа", "translate": "красивая"},
+            {"word": "лепу", "translate": "красивую"},
         ],
     ]
     for noun, nc in words:
-        n = Noun(**noun)
+        n = Adjective(**noun)
         n.save()
-        NounCase(noun=n, case=Case.objects.get(name="accusative"), **nc).save()
+        AdjCase(adjective=n, case=Case.objects.get(name="accusative"), **nc).save()

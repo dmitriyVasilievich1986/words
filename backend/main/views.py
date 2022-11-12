@@ -1,5 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import Pron, Verb, VerbDeclension, Noun, Case, NounCase
+from .models import Pron, Verb, VerbDeclension, Noun, Case, NounCase, Adjective, AdjCase
 
 from .serializer import (
     VerbDeclensionSerializer,
@@ -8,7 +8,19 @@ from .serializer import (
     NounCaseSerializer,
     NounSerializer,
     CaseSerializer,
+    AdjectiveSerializer,
+    AdjCaseSerializer,
 )
+
+
+class AdjCaseViewSet(ModelViewSet):
+    serializer_class = AdjCaseSerializer
+    queryset = AdjCase.objects.all()
+
+
+class AdjectiveViewSet(ModelViewSet):
+    serializer_class = AdjectiveSerializer
+    queryset = Adjective.objects.all()
 
 
 class NounCaseViewSet(ModelViewSet):

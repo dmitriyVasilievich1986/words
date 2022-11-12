@@ -7,6 +7,8 @@ from .views import (
     NounCaseViewSet,
     CaseViewSet,
     NounViewSet,
+    AdjectiveViewSet,
+    AdjCaseViewSet,
 )
 
 
@@ -18,5 +20,7 @@ router.register(r"verb", VerbViewSet)
 router.register(r"nouncase", NounCaseViewSet)
 router.register(r"case", CaseViewSet)
 router.register(r"noun", NounViewSet)
+router.register(r"adjective", AdjectiveViewSet)
+router.register(r"adjcase", AdjCaseViewSet)
 
 urlpatterns = router.urls
