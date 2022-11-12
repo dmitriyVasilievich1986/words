@@ -1,6 +1,29 @@
-from .serializer import PronSerializer, VerbSerializer, VerbDeclensionSerializer
 from rest_framework.viewsets import ModelViewSet
-from .models import Pron, Verb, VerbDeclension
+from .models import Pron, Verb, VerbDeclension, Noun, Case, NounCase
+
+from .serializer import (
+    VerbDeclensionSerializer,
+    PronSerializer,
+    VerbSerializer,
+    NounCaseSerializer,
+    NounSerializer,
+    CaseSerializer,
+)
+
+
+class NounCaseViewSet(ModelViewSet):
+    serializer_class = NounCaseSerializer
+    queryset = NounCase.objects.all()
+
+
+class CaseViewSet(ModelViewSet):
+    serializer_class = CaseSerializer
+    queryset = Case.objects.all()
+
+
+class NounViewSet(ModelViewSet):
+    serializer_class = NounSerializer
+    queryset = Noun.objects.all()
 
 
 class PronViewSet(ModelViewSet):
