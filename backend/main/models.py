@@ -1,6 +1,4 @@
 from django.db import models
-from random import choices
-from enum import Enum
 
 
 Pronoun = {
