@@ -12,14 +12,27 @@ function App() {
       axios.get("/api/verbdeclension/"),
       axios.get("/api/verb/"),
       axios.get("/api/pron/"),
+      axios.get("/api/nouncase/"),
+      axios.get("/api/case/"),
+      axios.get("/api/noun/"),
     ])
       .then((values) => {
-        const [verbdeclensionData, verbData, pronData] = values;
+        const [
+          verbdeclensionData,
+          verbData,
+          pronData,
+          nounCaseData,
+          caseData,
+          nounData,
+        ] = values;
         dispatch(
           setState({
             verbDeclension: verbdeclensionData.data,
             verb: verbData.data,
             pron: pronData.data,
+            nounCase: nounCaseData.data,
+            noun: nounData.data,
+            case: caseData.data,
           })
         );
       })

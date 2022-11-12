@@ -6,6 +6,9 @@ export const wordsSlice = createSlice({
     verbDeclension: [],
     verb: [],
     pron: [],
+    nounCase: [],
+    noun: [],
+    case: [],
   },
   reducers: {
     setState: (state, action) => {
