@@ -1,10 +1,10 @@
+import { setState } from "../reducers/wordReducer";
+import { useDispatch } from "react-redux";
+import Phrase from "./pages/Phrase";
 import React from "react";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import { setState } from "../reducers/wordReducer";
 
 function App() {
-  const verb = useSelector((state) => state.words.verb);
   const dispatch = useDispatch();
 
   React.useEffect((_) => {
@@ -26,7 +26,11 @@ function App() {
       .catch((e) => console.log(e));
   }, []);
 
-  return <div>App</div>;
+  return (
+    <div>
+      <Phrase />
+    </div>
+  );
 }
 
 export default App;
