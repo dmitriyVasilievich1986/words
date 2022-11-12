@@ -1,7 +1,7 @@
 */migrations/*.py
 */static/js/*txt
-*/static/js/*js
 postgres_data
+*/static/js/*
 node_modules
 __pycache__
 .vscode
