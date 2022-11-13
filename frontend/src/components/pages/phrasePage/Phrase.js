@@ -1,5 +1,9 @@
 import { getAdjCaseRandom, getPronRandom } from "Reducers/wordRandomizer";
+import className from "classnames";
+import style from "./style.scss";
 import React from "react";
+
+const cx = className.bind(style);
 
 function Phrase(props) {
   const [reverse, setReverse] = React.useState(false);
@@ -13,12 +17,7 @@ function Phrase(props) {
   return (
     <div style={{ display: "flex" }}>
       <div
-        style={{
-          backgroundColor: show ? "white" : "black",
-          width: "fit-content",
-          padding: "10px 20px",
-          cursor: "pointer",
-        }}
+        className={className("word", { hide: !show })}
         onMouseLeave={(_) => setShow(false)}
         onMouseEnter={(_) => setShow(true)}
         onClick={props.changeRandWord}
@@ -26,14 +25,7 @@ function Phrase(props) {
         {wr([p, props.randVerb, ac, props.randCase], reverse)}
       </div>
       <button onClick={(_) => setReverse(!reverse)}>r</button>
-      <div
-        style={{
-          width: "fit-content",
-          padding: "10px 20px",
-          cursor: "pointer",
-        }}
-        onClick={props.changeRandWord}
-      >
+      <div className={className("word")} onClick={props.changeRandWord}>
         {wr([p, props.randVerb, ac, props.randCase], !reverse)}
       </div>
     </div>

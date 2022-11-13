@@ -1,0 +1,10 @@
+.word {
+    background-color: white;
+    width: fit-content;
+    padding: 10px 20px;
+    cursor: pointer;
+
+    &.hide {
+        background-color: black;
+    }
+}
