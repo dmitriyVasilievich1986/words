@@ -1,4 +1,5 @@
 import { getAdjCaseRandom, getPronRandom } from "Reducers/wordRandomizer";
+import reverseIcon from "./actualize-arrows-couple-in-circle.png";
 import className from "classnames";
 import style from "./style.scss";
 import React from "react";
@@ -15,7 +16,7 @@ function Phrase(props) {
   const p = getPronRandom(props.randVerb.pron);
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", alignItems: "center" }}>
       <div
         className={className("word", { hide: !show })}
         onMouseLeave={(_) => setShow(false)}
@@ -24,7 +25,11 @@ function Phrase(props) {
       >
         {wr([p, props.randVerb, ac, props.randCase], reverse)}
       </div>
-      <button onClick={(_) => setReverse(!reverse)}>r</button>
+      <img
+        src={reverseIcon}
+        onClick={(_) => setReverse(!reverse)}
+        style={{ width: "25px", height: "25px", cursor: "pointer" }}
+      />
       <div className={className("word")} onClick={props.changeRandWord}>
         {wr([p, props.randVerb, ac, props.randCase], !reverse)}
       </div>
