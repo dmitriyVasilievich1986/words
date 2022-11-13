@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import React from "react";
 
 import {
@@ -7,9 +7,9 @@ import {
   getAdjCaseRandom,
   getCaseRandom,
   getPronRandom,
-} from "../../reducers/wordRandomizer";
+} from "../../../reducers/wordRandomizer";
 
-function Phrase() {
+function PhrasePage() {
   const verbDeclension = useSelector((state) => state.words.verbDeclension);
   const nounCase = useSelector((state) => state.words.nounCase);
 
@@ -74,4 +74,4 @@ function Phrase() {
   );
 }
 
-export default Phrase;
+export default PhrasePage;

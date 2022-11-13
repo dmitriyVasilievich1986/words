@@ -1,6 +1,6 @@
+import PhrasePage from "./pages/phrasePage/PhrasePage";
 import { setState } from "../reducers/wordReducer";
 import { useDispatch } from "react-redux";
-import Phrase from "./pages/Phrase";
 import React from "react";
 import axios from "axios";
 
@@ -47,7 +47,7 @@ function App() {
 
   return (
     <div>
-      <Phrase />
+      <PhrasePage />
     </div>
   );
 }
