@@ -46,8 +46,13 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <PhrasePage />
+    <div style={{ display: "flex" }}>
+      <div style={{ flex: "3 300px" }}></div>
+      <div style={{ flex: "1 500px" }}>
+        <div style={{ height: "4rem" }}></div>
+        <PhrasePage />
+      </div>
+      <div style={{ flex: "3 300px" }}></div>
     </div>
   );
 }

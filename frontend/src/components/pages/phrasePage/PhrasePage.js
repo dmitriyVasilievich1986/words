@@ -31,16 +31,11 @@ function PhrasePage() {
 
   if (randVerb === null) return null;
   return (
-    <div>
-      <div>
-        <Phrase
-          changeRandWord={changeRandWord}
-          randVerb={randVerb}
-          randCase={randCase}
-        />
-      </div>
-      <button onClick={changeRandWord}>new</button>
-    </div>
+    <Phrase
+      changeRandWord={changeRandWord}
+      randVerb={randVerb}
+      randCase={randCase}
+    />
   );
 }
 
