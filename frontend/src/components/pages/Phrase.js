@@ -1,24 +1,25 @@
 import { useSelector, useDispatch } from "react-redux";
 import React from "react";
 
+import {
+  getVerbDeclensionRandom,
+  getNounCaseRandom,
+  getAdjCaseRandom,
+  getCaseRandom,
+  getPronRandom,
+} from "../../reducers/wordRandomizer";
+
 function Phrase() {
   const verbDeclension = useSelector((state) => state.words.verbDeclension);
   const nounCase = useSelector((state) => state.words.nounCase);
-  const wordCase = useSelector((state) => state.words.case);
-  const adjCase = useSelector((state) => state.words.adjCase);
-  const pron = useSelector((state) => state.words.pron);
 
   const [randWord, setRandWord] = React.useState(null);
   const [randCase, setRandCase] = React.useState(null);
   const [reverse, setReverse] = React.useState(false);
 
   const changeRandWord = (_) => {
-    setRandWord(
-      verbDeclension[Math.floor(Math.random() * verbDeclension.length)]
-    );
-    const a = wordCase.find((i) => i.name == "accusative");
-    const l = nounCase.filter((i) => i.case == a.id);
-    setRandCase(l[Math.floor(Math.random() * l.length)]);
+    setRandWord(getVerbDeclensionRandom());
+    setRandCase(getNounCaseRandom(null, getCaseRandom("accusative").id));
   };
 
   React.useEffect(
@@ -31,9 +32,8 @@ function Phrase() {
   );
 
   const GetPhrase = (_) => {
-    const p = pron.find((i) => i.id == randWord.pron);
-    const l = adjCase.filter((i) => i.case == randCase.case);
-    const ac = l[Math.floor(Math.random() * l.length)];
+    const p = getPronRandom(randWord.pron);
+    const ac = getAdjCaseRandom(null, randCase.case);
     const wr = (w, r) => w.map((i) => (r ? i.translate : i.word)).join(" ");
     return (
       <div>
