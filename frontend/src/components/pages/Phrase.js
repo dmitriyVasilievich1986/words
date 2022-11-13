@@ -16,6 +16,7 @@ function Phrase() {
   const [randWord, setRandWord] = React.useState(null);
   const [randCase, setRandCase] = React.useState(null);
   const [reverse, setReverse] = React.useState(false);
+  const [show, setShow] = React.useState(false);
 
   const changeRandWord = (_) => {
     setRandWord(getVerbDeclensionRandom());
@@ -36,15 +37,28 @@ function Phrase() {
     const ac = getAdjCaseRandom(null, randCase.case);
     const wr = (w, r) => w.map((i) => (r ? i.translate : i.word)).join(" ");
     return (
-      <div>
-        {wr([p, randWord, ac, randCase], reverse)}
-        <button
-          style={{ margin: "0px 10px" }}
-          onClick={(_) => setReverse(!reverse)}
+      <div style={{ display: "flex" }}>
+        <div
+          style={{
+            backgroundColor: show ? "white" : "black",
+            width: "fit-content",
+            padding: "10px 20px",
+            cursor: "pointer",
+          }}
+          onMouseEnter={(_) => setShow(true)}
+          onMouseLeave={(_) => setShow(false)}
         >
-          r
-        </button>
-        {wr([p, randWord, ac, randCase], !reverse)}
+          {wr([p, randWord, ac, randCase], reverse)}
+        </div>
+        <button onClick={(_) => setReverse(!reverse)}>r</button>
+        <div
+          style={{
+            width: "fit-content",
+            padding: "10px 20px",
+          }}
+        >
+          {wr([p, randWord, ac, randCase], !reverse)}
+        </div>
       </div>
     );
   };
