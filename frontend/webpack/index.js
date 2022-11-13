@@ -1,8 +1,8 @@
 const path = require("path");
 
-module.exports = (dev) => {
+module.exports = (env, argv) => {
   return {
-    devtool: dev ? "source-map" : false,
+    devtool: argv.mode == "development" ? "source-map" : false,
     resolve: require("./resolve.js"),
     output: require("./output.js"),
     entry: require("./entry.js"),

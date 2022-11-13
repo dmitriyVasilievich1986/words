@@ -1,1 +1,1 @@
-module.exports = (env, argv) => require("./webpack")(argv == "development");
+module.exports = require("./webpack");
