@@ -33,7 +33,11 @@ function PhrasePage() {
   return (
     <div>
       <div>
-        <Phrase randVerb={randVerb} randCase={randCase} />
+        <Phrase
+          changeRandWord={changeRandWord}
+          randVerb={randVerb}
+          randCase={randCase}
+        />
       </div>
       <button onClick={changeRandWord}>new</button>
     </div>

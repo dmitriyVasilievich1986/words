@@ -19,8 +19,9 @@ function Phrase(props) {
           padding: "10px 20px",
           cursor: "pointer",
         }}
-        onMouseEnter={(_) => setShow(true)}
         onMouseLeave={(_) => setShow(false)}
+        onMouseEnter={(_) => setShow(true)}
+        onClick={props.changeRandWord}
       >
         {wr([p, props.randVerb, ac, props.randCase], reverse)}
       </div>
@@ -29,7 +30,9 @@ function Phrase(props) {
         style={{
           width: "fit-content",
           padding: "10px 20px",
+          cursor: "pointer",
         }}
+        onClick={props.changeRandWord}
       >
         {wr([p, props.randVerb, ac, props.randCase], !reverse)}
       </div>
