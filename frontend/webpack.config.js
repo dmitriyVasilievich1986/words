@@ -1,4 +1,4 @@
-const webpack = require("webpack");
+const path = require("path");
 
 module.exports = (env, argv) => {
   return {
@@ -7,6 +7,11 @@ module.exports = (env, argv) => {
       filename: "main.js",
     },
     devtool: argv.mode === "development" ? "source-map" : "eval",
+    resolve: {
+      alias: {
+        Reducers: path.resolve(__dirname, "src/reducers/"),
+      },
+    },
     module: {
       rules: [
         {
