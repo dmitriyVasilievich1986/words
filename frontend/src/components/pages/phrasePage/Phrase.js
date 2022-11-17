@@ -12,7 +12,7 @@ function Phrase(props) {
 
   const wr = (w, r) => w.map((i) => (r ? i.translate : i.word)).join(" ");
 
-  const ac = getAdjCaseRandom(null, props.randCase.case);
+  const ac = getAdjCaseRandom(null, props.randCase.case, props.randCase.gender);
   const p = getPronRandom(props.randVerb.pron);
 
   return (

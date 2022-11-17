@@ -17,7 +17,7 @@ function PhrasePage() {
 
   const changeRandWord = (_) => {
     setRandVerb(getVerbDeclensionRandom());
-    setRandCase(getNounCaseRandom(null, getCaseRandom("accusative").id));
+    setRandCase(getNounCaseRandom(null, getCaseRandom("accusative").id), null);
   };
 
   React.useEffect(

@@ -10,23 +10,29 @@ export function getVerbDeclensionRandom(pron = null, verb = null) {
   return vd[Math.floor(Math.random() * vd.length)];
 }
 
-export function getAdjCaseRandom(adjective = null, wordCase = null) {
+export function getAdjCaseRandom(
+  adjective = null,
+  wordCase = null,
+  gender = null
+) {
   let vd = store
     .getState()
     .words.adjCase.filter(
       (i) =>
         (adjective === null || i.adjective == adjective) &&
-        (wordCase === null || i.case == wordCase)
+        (wordCase === null || i.case == wordCase) &&
+        (gender === null || i.gender == gender)
     );
   return vd[Math.floor(Math.random() * vd.length)];
 }
 
-export function getNounCaseRandom(noun = null, wordCase = null) {
+export function getNounCaseRandom(noun = null, wordCase = null, gender = null) {
   let vd = store
     .getState()
     .words.nounCase.filter(
       (i) =>
         (wordCase === null || i.case == wordCase) &&
+        (gender === null || i.gender == gender) &&
         (noun === null || i.noun == noun)
     );
   return vd[Math.floor(Math.random() * vd.length)];
