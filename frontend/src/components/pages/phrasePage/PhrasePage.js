@@ -1,41 +1,45 @@
-import { useSelector } from "react-redux";
-import Phrase from "./Phrase";
+import reverseIcon from "./actualize-arrows-couple-in-circle.png";
+import phraseConstructor, { PHRASES } from "./phraseConstructor";
+import { getRandomWords } from "Reducers/wordRandomizer";
+import className from "classnames";
+import style from "./style.scss";
 import React from "react";
 
-import {
-  getVerbDeclensionRandom,
-  getNounCaseRandom,
-  getCaseRandom,
-} from "Reducers/wordRandomizer";
+const cx = className.bind(style);
+const ph = "he see beuty river";
 
 function PhrasePage() {
-  const verbDeclension = useSelector((state) => state.words.verbDeclension);
-  const nounCase = useSelector((state) => state.words.nounCase);
+  const [reverse, setReverse] = React.useState(false);
+  const [words, setWords] = React.useState(null);
+  const [show, setShow] = React.useState(false);
 
-  const [randVerb, setRandVerb] = React.useState(null);
-  const [randCase, setRandCase] = React.useState(null);
+  React.useEffect((_) => {
+    setWords(getRandomWords(PHRASES[ph].params));
+  }, []);
 
-  const changeRandWord = (_) => {
-    setRandVerb(getVerbDeclensionRandom());
-    setRandCase(getNounCaseRandom(null, getCaseRandom("accusative").id), null);
-  };
-
-  React.useEffect(
-    (_) => {
-      if (verbDeclension.length > 0 && nounCase.length > 0) {
-        changeRandWord();
-      }
-    },
-    [verbDeclension, nounCase]
-  );
-
-  if (randVerb === null) return null;
+  if (words === null) return null;
   return (
-    <Phrase
-      changeRandWord={changeRandWord}
-      randVerb={randVerb}
-      randCase={randCase}
-    />
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <div
+        onClick={(_) => setWords(getRandomWords(PHRASES[ph].params))}
+        className={cx("word", { hide: !show })}
+        onMouseLeave={(_) => setShow(false)}
+        onMouseEnter={(_) => setShow(true)}
+      >
+        {phraseConstructor(words, PHRASES[ph].caseNumber, reverse)}
+      </div>
+      <img
+        src={reverseIcon}
+        onClick={(_) => setReverse(!reverse)}
+        style={{ width: "25px", height: "25px", cursor: "pointer" }}
+      />
+      <div
+        className={cx("word")}
+        onClick={(_) => setWords(getRandomWords(PHRASES[ph].params))}
+      >
+        {phraseConstructor(words, PHRASES[ph].caseNumber, !reverse)}
+      </div>
+    </div>
   );
 }
 

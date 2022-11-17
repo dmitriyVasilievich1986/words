@@ -6,6 +6,7 @@ import axios from "axios";
 
 function App() {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect((_) => {
     Promise.all([
@@ -42,9 +43,11 @@ function App() {
           })
         );
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.log(e))
+      .finally((_) => setIsLoading(false));
   }, []);
 
+  if (isLoading) return <p>loading...</p>;
   return (
     <div style={{ display: "flex" }}>
       <div style={{ flex: "3 300px" }}></div>
