@@ -33,6 +33,10 @@ class NounCase(models.Model):
         to="Case",
     )
 
+    @property
+    def gender(self):
+        return self.noun.gender
+
 
 class AdjCase(models.Model):
     translate = models.CharField(max_length=150, blank=False, null=False)
@@ -48,6 +52,10 @@ class AdjCase(models.Model):
         related_name="adj_case",
         to="Case",
     )
+
+    @property
+    def gender(self):
+        return self.adjective.gender
 
 
 class Pron(models.Model):
@@ -74,16 +82,3 @@ class VerbDeclension(models.Model):
         on_delete=models.CASCADE,
         to="Pron",
     )
-
-
-def i():
-    words = [
-        [
-            {"word": "лепа", "translate": "красивая"},
-            {"word": "лепу", "translate": "красивую"},
-        ],
-    ]
-    for noun, nc in words:
-        n = Adjective(**noun)
-        n.save()
-        AdjCase(adjective=n, case=Case.objects.get(name="accusative"), **nc).save()
