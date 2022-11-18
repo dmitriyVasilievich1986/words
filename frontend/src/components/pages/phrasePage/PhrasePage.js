@@ -31,7 +31,7 @@ function PhrasePage() {
       <img
         src={reverseIcon}
         onClick={(_) => setReverse(!reverse)}
-        style={{ width: "25px", height: "25px", cursor: "pointer" }}
+        className={cx("icon")}
       />
       <div
         className={cx("word")}
