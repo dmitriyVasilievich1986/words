@@ -1,8 +1,10 @@
-import PhrasePage from "./pages/phrasePage/PhrasePage";
 import { setState } from "../reducers/wordReducer";
+import { RouterProvider } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import router from "./router";
 import React from "react";
 import axios from "axios";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -52,8 +54,7 @@ function App() {
     <div style={{ display: "flex" }}>
       <div style={{ flex: "3 300px" }}></div>
       <div style={{ flex: "1 500px" }}>
-        <div style={{ height: "4rem" }}></div>
-        <PhrasePage />
+        <RouterProvider router={router} />
       </div>
       <div style={{ flex: "3 300px" }}></div>
     </div>
