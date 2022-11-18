@@ -3,6 +3,6 @@ from django.shortcuts import render
 
 urlpatterns = [
     path("api/", include("main.urls")),
-    path("<path:resource>", lambda request: render(request, "index.html")),
+    path("<path:resource>", lambda request, *args, **kwargs: render(request, "index.html")),
     path("", lambda request: render(request, "index.html")),
 ]
