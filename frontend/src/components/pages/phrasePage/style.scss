@@ -1,4 +1,27 @@
-.main-module {
+.phrase-main {
+    display: flex;
+}
+
+.phrase-center {
+    flex: 1 700px;
+}
+
+.phrase-side {
+    padding: 4rem 1rem;
+    flex: 3 300px;
+}
+
+.phrase-select {
+    background-color: transparent;
+    padding: 5px 10px;
+    font-size: 14px;
+    max-width: 80%;
+    outline: none;
+    border: none;
+    width: 250px;
+}
+
+.phrase-card {
     box-shadow: 1px 1px 1px 1px #707070;
     background-color: #3F3F3F;
     border: 1px solid #707070;

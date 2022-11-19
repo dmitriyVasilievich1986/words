@@ -2,12 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Navbar, PhrasePage, CreateWordPage } from "./pages";
 import { setState } from "Reducers/wordReducer";
 import { useDispatch } from "react-redux";
-import className from "classnames";
-import style from "./style.scss";
 import React from "react";
 import axios from "axios";
-
-const cx = className.bind(style);
 
 function App() {
   const dispatch = useDispatch();
@@ -57,18 +53,12 @@ function App() {
     <div>
       <BrowserRouter>
         <Navbar />
-        <div className={cx("main")}>
-          <div className={cx("main-side")} />
-          <div className={cx("main-center")}>
-            <Routes>
-              <Route path="/">
-                <Route path="" element={<PhrasePage />} />
-                <Route path="create" element={<CreateWordPage />} />
-              </Route>
-            </Routes>
-          </div>
-          <div className={cx("main-side")} />
-        </div>
+        <Routes>
+          <Route path="/">
+            <Route path="" element={<PhrasePage />} />
+            <Route path="create" element={<CreateWordPage />} />
+          </Route>
+        </Routes>
       </BrowserRouter>
     </div>
   );
