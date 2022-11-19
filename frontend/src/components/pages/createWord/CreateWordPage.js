@@ -1,6 +1,10 @@
+import { useSelector } from "react-redux";
+import className from "classnames";
+import style from "./style.scss";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+
+const cx = className.bind(style);
 
 function CreateWordPage() {
   const pron = useSelector((s) => s.words.pron);
@@ -15,12 +19,16 @@ function CreateWordPage() {
       verb: { word: verbWords[0], translate: verbWords?.[1] || verbWords[0] },
       verb_pron: [],
     };
-    Array.from(divRef.current.children).map((d) => {
-      const words = d.value.split(/ |-|\/|\,/);
-      data.verb_pron.push({
-        pron: d.id,
-        word: words[0],
-        translate: words?.[1] || words[0],
+    Array.from(divRef.current.children).map((x) => {
+      Array.from(x.children).map((d) => {
+        if (d?.id) {
+          const words = d.value.split(/ |-|\/|\,/);
+          data.verb_pron.push({
+            pron: d.id,
+            word: words[0],
+            translate: words?.[1] || words[0],
+          });
+        }
       });
     });
     axios
@@ -30,15 +38,34 @@ function CreateWordPage() {
       })
       .catch((e) => console.log(e));
   };
+
   return (
-    <div>
-      <input value={newVerb} onChange={(e) => setNewVerb(e.target.value)} />
-      <div ref={divRef}>
-        {pron.map((p) => (
-          <input key={p.id} id={p.id} placeholder={p.word} />
-        ))}
+    <div className={cx("phrase-main")}>
+      <div className={cx("phrase-side")} />
+      <div className={cx("phrase-center")}>
+        <div className={cx("empty")} />
+        <div className={cx("create-card")} ref={divRef}>
+          <div className={cx("create-input")}>Глагол со спряжениями:</div>
+          <div className={cx("create-input")}>
+            <input
+              value={newVerb}
+              placeholder="делать"
+              onChange={(e) => setNewVerb(e.target.value)}
+            />
+          </div>
+          {pron.map((p) => (
+            <div key={p.id} className={cx("create-input")}>
+              <input id={p.id} placeholder={p.word} />
+            </div>
+          ))}
+          <div className={cx("create-input")}>
+            <button className={cx("create-button")} onClick={sendHandler}>
+              сохранить
+            </button>
+          </div>
+        </div>
       </div>
-      <button onClick={sendHandler}>asd</button>
+      <div className={cx("phrase-side")} />
     </div>
   );
 }
