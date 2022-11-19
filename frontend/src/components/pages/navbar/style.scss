@@ -1,0 +1,33 @@
+.navbar {
+    display: flex;
+    height: 5rem;
+    width: 100%;
+}
+
+.side {
+    flex: 3 200px;
+}
+
+.center {
+    justify-content: space-between;
+    align-items: flex-end;
+    max-width: 300px;
+    flex: 1 500px;
+    display: flex;
+}
+
+.nav-link {
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    font-weight: 600;
+    color: #283747;
+    font-size: 22px;
+
+    &:hover {
+        color: #932432;
+    }
+
+    &.active {
+        text-decoration: 3px underline;
+    }
+}
