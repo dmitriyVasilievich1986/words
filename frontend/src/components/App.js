@@ -1,8 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import CreateWordPage from "./pages/createWord/CreateWordPage";
-import PhrasePage from "./pages/phrasePage/PhrasePage";
-import { setState } from "../reducers/wordReducer";
-import Navbar from "./pages/navbar/Navbar";
+import { Navbar, PhrasePage, CreateWordPage } from "./pages";
+import { setState } from "Reducers/wordReducer";
 import { useDispatch } from "react-redux";
 import React from "react";
 import axios from "axios";
