@@ -19,25 +19,30 @@ function PhrasePage() {
 
   if (words === null) return null;
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
-      <div
-        onClick={(_) => setWords(getRandomWords(PHRASES[ph].params))}
-        className={cx("word", { hide: !show })}
-        onMouseLeave={(_) => setShow(false)}
-        onMouseEnter={(_) => setShow(true)}
-      >
-        {phraseConstructor(words, PHRASES[ph].caseNumber, reverse)}
-      </div>
-      <img
-        src={reverseIcon}
-        onClick={(_) => setReverse(!reverse)}
-        className={cx("icon")}
-      />
-      <div
-        className={cx("word")}
-        onClick={(_) => setWords(getRandomWords(PHRASES[ph].params))}
-      >
-        {phraseConstructor(words, PHRASES[ph].caseNumber, !reverse)}
+    <div>
+      <div className={cx("empty")} />
+      <div className={cx("main-module")}>
+        <div
+          onClick={(_) => setWords(getRandomWords(PHRASES[ph].params))}
+          onMouseLeave={(_) => setShow(false)}
+          onMouseEnter={(_) => setShow(true)}
+          className={cx("word")}
+        >
+          {show
+            ? phraseConstructor(words, PHRASES[ph].caseNumber, reverse)
+            : "xxxxxxxxxx"}
+        </div>
+        <img
+          src={reverseIcon}
+          onClick={(_) => setReverse(!reverse)}
+          className={cx("icon")}
+        />
+        <div
+          className={cx("word")}
+          onClick={(_) => setWords(getRandomWords(PHRASES[ph].params))}
+        >
+          {phraseConstructor(words, PHRASES[ph].caseNumber, !reverse)}
+        </div>
       </div>
     </div>
   );

@@ -2,8 +2,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Navbar, PhrasePage, CreateWordPage } from "./pages";
 import { setState } from "Reducers/wordReducer";
 import { useDispatch } from "react-redux";
+import className from "classnames";
+import style from "./style.scss";
 import React from "react";
 import axios from "axios";
+
+const cx = className.bind(style);
 
 function App() {
   const dispatch = useDispatch();
@@ -53,9 +57,9 @@ function App() {
     <div>
       <BrowserRouter>
         <Navbar />
-        <div style={{ display: "flex" }}>
-          <div style={{ flex: "3 300px" }}></div>
-          <div style={{ flex: "1 500px" }}>
+        <div className={cx("main")}>
+          <div className={cx("main-side")} />
+          <div className={cx("main-center")}>
             <Routes>
               <Route path="/">
                 <Route path="" element={<PhrasePage />} />
@@ -63,7 +67,7 @@ function App() {
               </Route>
             </Routes>
           </div>
-          <div style={{ flex: "3 300px" }}></div>
+          <div className={cx("main-side")} />
         </div>
       </BrowserRouter>
     </div>
