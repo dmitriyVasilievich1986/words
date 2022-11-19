@@ -1,20 +1,24 @@
 import reverseIcon from "./actualize-arrows-couple-in-circle.png";
-import phraseConstructor, { PHRASES } from "./phraseConstructor";
-import { getRandomWords } from "Reducers/wordRandomizer";
 import className from "classnames";
 import style from "./style.scss";
 import React from "react";
 
+import {
+  phraseConstructor,
+  getAllWords,
+  PHRASE_NAME,
+} from "./phraseConstructor";
+
 const cx = className.bind(style);
-const ph = "he see beuty river";
+const ph = PHRASE_NAME.ja;
 
 function PhrasePage() {
   const [reverse, setReverse] = React.useState(false);
   const [words, setWords] = React.useState(null);
   const [show, setShow] = React.useState(false);
 
-  React.useEffect((_) => {
-    setWords(getRandomWords(PHRASES[ph].params));
+  React.useEffect(() => {
+    setWords(getAllWords(ph));
   }, []);
 
   if (words === null) return null;
@@ -23,25 +27,20 @@ function PhrasePage() {
       <div className={cx("empty")} />
       <div className={cx("main-module")}>
         <div
-          onClick={(_) => setWords(getRandomWords(PHRASES[ph].params))}
-          onMouseLeave={(_) => setShow(false)}
-          onMouseEnter={(_) => setShow(true)}
+          onClick={() => setWords(getAllWords(ph))}
+          onMouseLeave={() => setShow(false)}
+          onMouseEnter={() => setShow(true)}
           className={cx("word")}
         >
-          {show
-            ? phraseConstructor(words, PHRASES[ph].caseNumber, reverse)
-            : "xxxxxxxxxx"}
+          {show ? phraseConstructor(words, ph, reverse) : "xxxxxxxxxx"}
         </div>
         <img
           src={reverseIcon}
-          onClick={(_) => setReverse(!reverse)}
+          onClick={() => setReverse(!reverse)}
           className={cx("icon")}
         />
-        <div
-          className={cx("word")}
-          onClick={(_) => setWords(getRandomWords(PHRASES[ph].params))}
-        >
-          {phraseConstructor(words, PHRASES[ph].caseNumber, !reverse)}
+        <div className={cx("word")} onClick={() => setWords(getAllWords(ph))}>
+          {phraseConstructor(words, ph, !reverse)}
         </div>
       </div>
     </div>
