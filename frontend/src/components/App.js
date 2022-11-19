@@ -1,10 +1,11 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import CreateWordPage from "./pages/createWord/CreateWordPage";
+import PhrasePage from "./pages/phrasePage/PhrasePage";
 import { setState } from "../reducers/wordReducer";
-import { RouterProvider } from "react-router-dom";
+import Navbar from "./pages/navbar/Navbar";
 import { useDispatch } from "react-redux";
-import router from "./router";
 import React from "react";
 import axios from "axios";
-
 
 function App() {
   const dispatch = useDispatch();
@@ -51,12 +52,22 @@ function App() {
 
   if (isLoading) return <p>loading...</p>;
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ flex: "3 300px" }}></div>
-      <div style={{ flex: "1 500px" }}>
-        <RouterProvider router={router} />
-      </div>
-      <div style={{ flex: "3 300px" }}></div>
+    <div>
+      <BrowserRouter>
+        <Navbar />
+        <div style={{ display: "flex" }}>
+          <div style={{ flex: "3 300px" }}></div>
+          <div style={{ flex: "1 500px" }}>
+            <Routes>
+              <Route path="/">
+                <Route path="" element={<PhrasePage />} />
+                <Route path="create" element={<CreateWordPage />} />
+              </Route>
+            </Routes>
+          </div>
+          <div style={{ flex: "3 300px" }}></div>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }
