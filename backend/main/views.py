@@ -19,6 +19,23 @@ class AdjCaseViewSet(ModelViewSet):
     serializer_class = AdjCaseSerializer
     queryset = AdjCase.objects.all()
 
+    @action(detail=False, methods=["POST"])
+    def bulk(self, request, *args, **kwargs):
+        a = AdjectiveSerializer(data=request.data["adjective"])
+        a.is_valid(raise_exception=True)
+        a.save()
+        print(a.data)
+        for x in request.data["case_adj"]:
+            c = Case.objects.get(id=x["case"])
+            c = CaseSerializer(instance=c)
+            vd = AdjCaseSerializer(
+                data={"adjective": a.instance.id, **x, "case": c.instance.id}
+            )
+            vd.is_valid(raise_exception=True)
+            vd.save()
+            print(vd.data)
+        return Response(a.data)
+
 
 class AdjectiveViewSet(ModelViewSet):
     serializer_class = AdjectiveSerializer
