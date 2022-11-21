@@ -1,5 +1,6 @@
 import CreateVerb from "./CreateVerb";
 import CreateNoun from "./CreateNoun";
+import CreateAdj from "./CreateAdj";
 import className from "classnames";
 import style from "./style.scss";
 import React from "react";
@@ -7,6 +8,7 @@ import React from "react";
 const cx = className.bind(style);
 const pages = {
   createNoun: "создать существительное",
+  createAdj: "создать прилагательное",
   createVerb: "создать глагол",
 };
 
@@ -17,6 +19,8 @@ function CreateWordPage() {
     switch (page) {
       case pages.createNoun:
         return <CreateNoun />;
+      case pages.createAdj:
+        return <CreateAdj />;
       case pages.createVerb:
       default:
         return <CreateVerb />;
