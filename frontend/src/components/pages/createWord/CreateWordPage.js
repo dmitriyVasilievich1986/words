@@ -1,69 +1,46 @@
-import { useSelector } from "react-redux";
+import CreateVerb from "./CreateVerb";
+import CreateNoun from "./CreateNoun";
 import className from "classnames";
 import style from "./style.scss";
 import React from "react";
-import axios from "axios";
 
 const cx = className.bind(style);
+const pages = {
+  createNoun: "создать существительное",
+  createVerb: "создать глагол",
+};
 
 function CreateWordPage() {
-  const pron = useSelector((s) => s.words.pron);
-  if (pron.length === 0) return null;
+  const [page, setPage] = React.useState(pages.createNoun);
 
-  const [newVerb, setNewVerb] = React.useState("");
-  const divRef = React.useRef();
-
-  const sendHandler = (_) => {
-    const verbWords = newVerb.split(/ |-|\/|\,/);
-    const data = {
-      verb: { word: verbWords[0], translate: verbWords?.[1] || verbWords[0] },
-      verb_pron: [],
-    };
-    Array.from(divRef.current.children).map((x) => {
-      Array.from(x.children).map((d) => {
-        if (d?.id) {
-          const words = d.value.split(/ |-|\/|\,/);
-          data.verb_pron.push({
-            pron: d.id,
-            word: words[0],
-            translate: words?.[1] || words[0],
-          });
-        }
-      });
-    });
-    axios
-      .post("/api/verbdeclension/bulk/", data)
-      .then((d) => {
-        console.log(d.data);
-      })
-      .catch((e) => console.log(e));
+  const pageName = () => {
+    switch (page) {
+      case pages.createNoun:
+        return <CreateNoun />;
+      case pages.createVerb:
+      default:
+        return <CreateVerb />;
+    }
   };
 
   return (
     <div className={cx("phrase-main")}>
-      <div className={cx("phrase-side")} />
+      <div className={cx("phrase-side")}>
+        <select
+          className={cx("phrase-select")}
+          value={page}
+          onChange={(e) => setPage(e.target.value)}
+        >
+          {Object.values(pages).map((p) => (
+            <option value={p} key={p}>
+              {p}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className={cx("phrase-center")}>
         <div className={cx("empty")} />
-        <div className={cx("create-card")} ref={divRef}>
-          <div className={cx("create-input")}>Глагол со спряжениями:</div>
-          <div className={cx("create-input")}>
-            <input
-              value={newVerb}
-              placeholder="делать"
-              onChange={(e) => setNewVerb(e.target.value)}
-            />
-          </div>
-          {pron.map((p) => (
-            <div key={p.id} className={cx("create-input")}>
-              <input id={p.id} placeholder={p.word} />
-            </div>
-          ))}
-          <div className={cx("create-input")}>
-            <button className={cx("create-button")} onClick={sendHandler}>
-              сохранить
-            </button>
-          </div>
-        </div>
+        {pageName()}
       </div>
       <div className={cx("phrase-side")} />
     </div>
