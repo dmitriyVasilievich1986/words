@@ -39,6 +39,7 @@ class NounCase(models.Model):
 
 
 class AdjCase(models.Model):
+    gender = models.CharField(max_length=150, blank=False, null=False, default="f")
     translate = models.CharField(max_length=150, blank=False, null=False)
     word = models.CharField(max_length=150, blank=False, null=False)
 
@@ -52,10 +53,6 @@ class AdjCase(models.Model):
         related_name="adj_case",
         to="Case",
     )
-
-    @property
-    def gender(self):
-        return self.adjective.gender
 
 
 class Pron(models.Model):

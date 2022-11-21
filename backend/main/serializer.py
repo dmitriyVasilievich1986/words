@@ -5,7 +5,8 @@ from rest_framework.serializers import ModelSerializer
 class AdjCaseSerializer(ModelSerializer):
     class Meta:
         model = AdjCase
-        fields = ["id", "word", "translate", "case", "adjective", "gender"]
+        fields = "__all__"
+        # fields = ["id", "word", "translate", "case", "adjective", "gender"]
 
 
 class AdjectiveSerializer(ModelSerializer):
