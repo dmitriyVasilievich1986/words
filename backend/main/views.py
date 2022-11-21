@@ -29,6 +29,23 @@ class NounCaseViewSet(ModelViewSet):
     serializer_class = NounCaseSerializer
     queryset = NounCase.objects.all()
 
+    @action(detail=False, methods=["POST"])
+    def bulk(self, request, *args, **kwargs):
+        n = NounSerializer(data=request.data["noun"])
+        n.is_valid(raise_exception=True)
+        n.save()
+        print(n.data)
+        for x in request.data["case_noun"]:
+            c = Case.objects.get(id=x["case"])
+            c = CaseSerializer(instance=c)
+            vd = NounCaseSerializer(
+                data={"noun": n.instance.id, **x, "case": c.instance.id}
+            )
+            vd.is_valid(raise_exception=True)
+            vd.save()
+            print(vd.data)
+        return Response(n.data)
+
 
 class CaseViewSet(ModelViewSet):
     serializer_class = CaseSerializer
@@ -69,4 +86,4 @@ class VerbDeclensionViewSet(ModelViewSet):
             vd.is_valid(raise_exception=True)
             vd.save()
             print(vd.data)
-        return Response({"message": "ok"})
+        return Response(v.data)
