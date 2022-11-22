@@ -1,13 +1,25 @@
-from .models import Pron, Verb, VerbDeclension, Noun, Case, NounCase, Adjective, AdjCase
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
+from .models import (
+    VerbDeclension,
+    Adjective,
+    NounCase,
+    AdjCase,
+    Pronoun,
+    Pron,
+    Verb,
+    Noun,
+    Case,
+)
 
 from .serializer import (
     VerbDeclensionSerializer,
     PronSerializer,
     VerbSerializer,
     NounCaseSerializer,
+    PronounSerializer,
     NounSerializer,
     CaseSerializer,
     AdjectiveSerializer,
@@ -40,6 +52,11 @@ class AdjCaseViewSet(ModelViewSet):
 class AdjectiveViewSet(ModelViewSet):
     serializer_class = AdjectiveSerializer
     queryset = Adjective.objects.all()
+
+
+class PronounViewSet(ModelViewSet):
+    serializer_class = PronounSerializer
+    queryset = Pronoun.objects.all()
 
 
 class NounCaseViewSet(ModelViewSet):

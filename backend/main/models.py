@@ -55,6 +55,12 @@ class AdjCase(models.Model):
     )
 
 
+class Pronoun(models.Model):
+    gender = models.CharField(max_length=150, blank=False, null=False, default="f")
+    translate = models.CharField(max_length=150, blank=False, null=False)
+    word = models.CharField(max_length=150, blank=False, null=False)
+
+
 class Pron(models.Model):
     translate = models.CharField(max_length=150, blank=False, null=False)
     word = models.CharField(max_length=150, blank=False, null=False)

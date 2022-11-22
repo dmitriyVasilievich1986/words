@@ -1,5 +1,15 @@
-from .models import Pron, Verb, VerbDeclension, Noun, Case, NounCase, Adjective, AdjCase
 from rest_framework.serializers import ModelSerializer
+from .models import (
+    VerbDeclension,
+    Adjective,
+    NounCase,
+    AdjCase,
+    Pronoun,
+    Pron,
+    Verb,
+    Noun,
+    Case,
+)
 
 
 class AdjCaseSerializer(ModelSerializer):
@@ -12,6 +22,12 @@ class AdjCaseSerializer(ModelSerializer):
 class AdjectiveSerializer(ModelSerializer):
     class Meta:
         model = Adjective
+        fields = "__all__"
+
+
+class PronounSerializer(ModelSerializer):
+    class Meta:
+        model = Pronoun
         fields = "__all__"
 
 

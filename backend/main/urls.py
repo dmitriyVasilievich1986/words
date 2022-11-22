@@ -7,6 +7,7 @@ from .views import (
     NounCaseViewSet,
     CaseViewSet,
     NounViewSet,
+    PronounViewSet,
     AdjectiveViewSet,
     AdjCaseViewSet,
 )
@@ -15,6 +16,7 @@ from .views import (
 router = routers.SimpleRouter()
 
 router.register(r"verbdeclension", VerbDeclensionViewSet)
+router.register(r"pronoun", PronounViewSet)
 router.register(r"pron", PronViewSet)
 router.register(r"verb", VerbViewSet)
 router.register(r"nouncase", NounCaseViewSet)
