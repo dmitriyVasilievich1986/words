@@ -1,8 +1,10 @@
 .phrase-main {
+    flex-wrap: wrap;
     display: flex;
 }
 
 .phrase-center {
+    padding: 0 10px;
     flex: 1 700px;
 }
 
