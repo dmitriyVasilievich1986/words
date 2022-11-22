@@ -19,6 +19,7 @@ function App() {
       axios.get("/api/noun/"),
       axios.get("/api/adjective/"),
       axios.get("/api/adjcase/"),
+      axios.get("/api/pronoun/"),
     ])
       .then((values) => {
         const [
@@ -30,6 +31,7 @@ function App() {
           nounData,
           adjectiveData,
           adjcaseData,
+          pronounData,
         ] = values;
         dispatch(
           setState({
@@ -41,6 +43,7 @@ function App() {
             case: caseData.data,
             adjective: adjectiveData.data,
             adjCase: adjcaseData.data,
+            pronoun: pronounData.data,
           })
         );
       })

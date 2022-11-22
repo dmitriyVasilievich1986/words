@@ -11,6 +11,8 @@ export function getRandomWords(params) {
   const adjective =
     params?.adjective || getAdjectiveRandom(null, gender?.id || gender);
   const noun = params?.noun || getNounRandom(null, gender?.id || gender);
+  const pronoun =
+    params?.pronoun || getPronounRandom(null, gender?.id || gender);
 
   const adjCase = getAdjCaseRandom(
     adjective?.id || adjective,
@@ -33,6 +35,7 @@ export function getRandomWords(params) {
     noun,
     nounCase,
     adjCase,
+    pronoun,
   };
 }
 
@@ -98,6 +101,17 @@ export function getAdjectiveRandom(word = null, gender = null) {
   let vd = store
     .getState()
     .words.adjective.filter(
+      (i) =>
+        (gender === null || i.gender == gender) &&
+        (word === null || i.word == word)
+    );
+  return vd[Math.floor(Math.random() * vd.length)];
+}
+
+export function getPronounRandom(word = null, gender = null) {
+  let vd = store
+    .getState()
+    .words.pronoun.filter(
       (i) =>
         (gender === null || i.gender == gender) &&
         (word === null || i.word == word)
