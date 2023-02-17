@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Navbar, PhrasePage, CreateWordPage } from "./pages";
 import { setState } from "Reducers/wordReducer";
 import { useDispatch } from "react-redux";
+import PAGES from "./pages/Routes";
+import { Navbar } from "./pages";
 import React from "react";
 import axios from "axios";
 
@@ -46,8 +47,9 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/">
-            <Route path="" element={<PhrasePage />} />
-            {/* <Route path="create" element={<CreateWordPage />} /> */}
+            {PAGES.map((p) => (
+              <Route path={p.path} element={<p.element />} />
+            ))}
           </Route>
         </Routes>
       </BrowserRouter>
