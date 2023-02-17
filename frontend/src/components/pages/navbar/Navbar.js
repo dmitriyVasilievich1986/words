@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import className from "classnames";
 import style from "./style.scss";
-import PAGES from "../Routes";
+import PAGES from "Constants";
 import React from "react";
 
 const cx = className.bind(style);
