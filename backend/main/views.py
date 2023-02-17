@@ -1,57 +1,49 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from random import choice
+import json
 
 from .models import (
-    VerbDeclension,
-    Adjective,
-    NounCase,
-    AdjCase,
+    PersonalPronoun,
+    VerbInfinitive,
+    NounInfinitive,
+    Declentions,
     Pronoun,
-    Pron,
+    Gender,
     Verb,
     Noun,
-    Case,
 )
 
 from .serializer import (
-    VerbDeclensionSerializer,
-    PronSerializer,
-    VerbSerializer,
-    NounCaseSerializer,
+    PersonalPronounSerializer,
+    VerbInfinitiveSerializer,
+    NounInfinitiveSerializer,
+    DeclentionsSerializer,
     PronounSerializer,
+    GenderSerializer,
     NounSerializer,
-    CaseSerializer,
-    AdjectiveSerializer,
-    AdjCaseSerializer,
+    VerbSerializer,
 )
 
 
-class AdjCaseViewSet(ModelViewSet):
-    serializer_class = AdjCaseSerializer
-    queryset = AdjCase.objects.all()
+class VerbInfinitiveViewSet(ModelViewSet):
+    serializer_class = VerbInfinitiveSerializer
+    queryset = VerbInfinitive.objects.all()
 
-    @action(detail=False, methods=["POST"])
-    def bulk(self, request, *args, **kwargs):
-        a = AdjectiveSerializer(data=request.data["adjective"])
-        a.is_valid(raise_exception=True)
-        a.save()
-        print(a.data)
-        for x in request.data["case_adj"]:
-            c = Case.objects.get(id=x["case"])
-            c = CaseSerializer(instance=c)
-            vd = AdjCaseSerializer(
-                data={"adjective": a.instance.id, **x, "case": c.instance.id}
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        payload = serializer.data
+        if request.GET:
+            instance = choice(
+                instance.verb.filter(
+                    **{k: request.GET[k] for k, v in dict(request.GET).items()}
+                )
             )
-            vd.is_valid(raise_exception=True)
-            vd.save()
-            print(vd.data)
-        return Response(a.data)
-
-
-class AdjectiveViewSet(ModelViewSet):
-    serializer_class = AdjectiveSerializer
-    queryset = Adjective.objects.all()
+            serializer = VerbSerializer(instance=instance)
+            payload["verb"] = serializer.data
+        return Response(payload)
 
 
 class PronounViewSet(ModelViewSet):
@@ -59,31 +51,9 @@ class PronounViewSet(ModelViewSet):
     queryset = Pronoun.objects.all()
 
 
-class NounCaseViewSet(ModelViewSet):
-    serializer_class = NounCaseSerializer
-    queryset = NounCase.objects.all()
-
-    @action(detail=False, methods=["POST"])
-    def bulk(self, request, *args, **kwargs):
-        n = NounSerializer(data=request.data["noun"])
-        n.is_valid(raise_exception=True)
-        n.save()
-        print(n.data)
-        for x in request.data["case_noun"]:
-            c = Case.objects.get(id=x["case"])
-            c = CaseSerializer(instance=c)
-            vd = NounCaseSerializer(
-                data={"noun": n.instance.id, **x, "case": c.instance.id}
-            )
-            vd.is_valid(raise_exception=True)
-            vd.save()
-            print(vd.data)
-        return Response(n.data)
-
-
-class CaseViewSet(ModelViewSet):
-    serializer_class = CaseSerializer
-    queryset = Case.objects.all()
+class NounInfinitiveViewSet(ModelViewSet):
+    serializer_class = NounInfinitiveSerializer
+    queryset = NounInfinitive.objects.all()
 
 
 class NounViewSet(ModelViewSet):
@@ -91,9 +61,9 @@ class NounViewSet(ModelViewSet):
     queryset = Noun.objects.all()
 
 
-class PronViewSet(ModelViewSet):
-    serializer_class = PronSerializer
-    queryset = Pron.objects.all()
+class PersonalPronounViewSet(ModelViewSet):
+    serializer_class = PersonalPronounSerializer
+    queryset = PersonalPronoun.objects.all()
 
 
 class VerbViewSet(ModelViewSet):
@@ -101,23 +71,11 @@ class VerbViewSet(ModelViewSet):
     queryset = Verb.objects.all()
 
 
-class VerbDeclensionViewSet(ModelViewSet):
-    serializer_class = VerbDeclensionSerializer
-    queryset = VerbDeclension.objects.all()
+class DeclentionsViewSet(ModelViewSet):
+    serializer_class = DeclentionsSerializer
+    queryset = Declentions.objects.all()
 
-    @action(detail=False, methods=["POST"])
-    def bulk(self, request, *args, **kwargs):
-        v = VerbSerializer(data=request.data["verb"])
-        v.is_valid(raise_exception=True)
-        v.save()
-        print(v.data)
-        for x in request.data["verb_pron"]:
-            p = Pron.objects.get(id=x["pron"])
-            p = PronSerializer(instance=p)
-            vd = VerbDeclensionSerializer(
-                data={"verb": v.instance.id, **x, "pron": p.instance.id}
-            )
-            vd.is_valid(raise_exception=True)
-            vd.save()
-            print(vd.data)
-        return Response(v.data)
+
+class GenderViewSet(ModelViewSet):
+    serializer_class = GenderSerializer
+    queryset = Gender.objects.all()
