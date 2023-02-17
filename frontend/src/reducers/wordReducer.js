@@ -3,15 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 export const wordsSlice = createSlice({
   name: "words",
   initialState: {
-    verbDeclension: [],
-    verb: [],
-    pron: [],
-    pronoun: [],
-    nounCase: [],
-    noun: [],
-    case: [],
-    adjective: [],
-    adjCase: [],
+    personalPronoun: [],
+    nounInfinitive: [],
+    verbInfinitive: [],
+    declentions: [],
+    gender: [],
   },
   reducers: {
     setState: (state, action) => {
