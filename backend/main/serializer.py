@@ -1,27 +1,25 @@
 from rest_framework.serializers import ModelSerializer
 from .models import (
-    VerbDeclension,
-    Adjective,
-    NounCase,
-    AdjCase,
+    PersonalPronoun,
+    VerbInfinitive,
+    NounInfinitive,
+    Declentions,
     Pronoun,
-    Pron,
+    Gender,
     Verb,
     Noun,
-    Case,
 )
 
 
-class AdjCaseSerializer(ModelSerializer):
+class VerbInfinitiveSerializer(ModelSerializer):
     class Meta:
-        model = AdjCase
+        model = VerbInfinitive
         fields = "__all__"
-        # fields = ["id", "word", "translate", "case", "adjective", "gender"]
 
 
-class AdjectiveSerializer(ModelSerializer):
+class NounInfinitiveSerializer(ModelSerializer):
     class Meta:
-        model = Adjective
+        model = NounInfinitive
         fields = "__all__"
 
 
@@ -31,17 +29,15 @@ class PronounSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class NounCaseSerializer(ModelSerializer):
+class DeclentionsSerializer(ModelSerializer):
     class Meta:
-        model = NounCase
-        fields = ["id", "word", "translate", "case", "noun", "gender"]
-
-        read_only_fields = ["gender"]
+        model = Declentions
+        fields = "__all__"
 
 
-class CaseSerializer(ModelSerializer):
+class GenderSerializer(ModelSerializer):
     class Meta:
-        model = Case
+        model = Gender
         fields = "__all__"
 
 
@@ -51,19 +47,13 @@ class NounSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class PronSerializer(ModelSerializer):
+class PersonalPronounSerializer(ModelSerializer):
     class Meta:
-        model = Pron
+        model = PersonalPronoun
         fields = "__all__"
 
 
 class VerbSerializer(ModelSerializer):
     class Meta:
         model = Verb
-        fields = "__all__"
-
-
-class VerbDeclensionSerializer(ModelSerializer):
-    class Meta:
-        model = VerbDeclension
         fields = "__all__"
