@@ -1,28 +1,26 @@
 from rest_framework import routers
 
 from .views import (
-    VerbDeclensionViewSet,
-    PronViewSet,
-    VerbViewSet,
-    NounCaseViewSet,
-    CaseViewSet,
-    NounViewSet,
+    PersonalPronounViewSet,
+    NounInfinitiveViewSet,
+    VerbInfinitiveViewSet,
+    DeclentionsViewSet,
     PronounViewSet,
-    AdjectiveViewSet,
-    AdjCaseViewSet,
+    GenderViewSet,
+    NounViewSet,
+    VerbViewSet,
 )
 
 
 router = routers.SimpleRouter()
 
-router.register(r"verbdeclension", VerbDeclensionViewSet)
-router.register(r"pronoun", PronounViewSet)
-router.register(r"pron", PronViewSet)
-router.register(r"verb", VerbViewSet)
-router.register(r"nouncase", NounCaseViewSet)
-router.register(r"case", CaseViewSet)
-router.register(r"noun", NounViewSet)
-router.register(r"adjective", AdjectiveViewSet)
-router.register(r"adjcase", AdjCaseViewSet)
+router.register("PersonalPronoun".lower(), PersonalPronounViewSet)
+router.register("NounInfinitive".lower(), NounInfinitiveViewSet)
+router.register("VerbInfinitive".lower(), VerbInfinitiveViewSet)
+router.register("Declentions".lower(), DeclentionsViewSet)
+router.register("Pronoun".lower(), PronounViewSet)
+router.register("Gender".lower(), GenderViewSet)
+router.register("Noun".lower(), NounViewSet)
+router.register("Verb".lower(), VerbViewSet)
 
 urlpatterns = router.urls
