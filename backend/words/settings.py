@@ -14,7 +14,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "graphene_django",
     "rest_framework",
+    "django_filters",
     "main",
 ]
 
@@ -29,6 +31,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "words.urls"
+
+GRAPHENE = {
+    "SCHEMA": "main.schema.schema",
+}
 
 TEMPLATES = [
     {
