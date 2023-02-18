@@ -6,6 +6,7 @@ export const wordsSlice = createSlice({
     personalPronoun: [],
     nounInfinitive: [],
     verbInfinitive: [],
+    randomChoices: [],
     declentions: [],
     gender: [],
   },

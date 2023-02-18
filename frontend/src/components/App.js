@@ -12,27 +12,20 @@ function App() {
 
   React.useEffect((_) => {
     Promise.all([
-      axios.get("/api/personalpronoun/"),
-      axios.get("/api/nouninfinitive/"),
-      axios.get("/api/verbinfinitive/"),
-      axios.get("/api/declentions/"),
-      axios.get("/api/gender/"),
+      axios.get("/api/personalPronoun/".toLowerCase()),
+      axios.get("/api/nounInfinitive/".toLowerCase()),
+      axios.get("/api/verbInfinitive/".toLowerCase()),
+      axios.get("/api/randomChoices/".toLowerCase()),
     ])
       .then((values) => {
-        const [
-          personalPronoun,
-          nounInfinitive,
-          verbInfinitive,
-          declentions,
-          gender,
-        ] = values;
+        const [personalPronoun, nounInfinitive, verbInfinitive, randomChoices] =
+          values;
         dispatch(
           setState({
             personalPronoun: personalPronoun.data,
             nounInfinitive: nounInfinitive.data,
             verbInfinitive: verbInfinitive.data,
-            declentions: declentions.data,
-            gender: gender.data,
+            randomChoices: randomChoices.data,
           })
         );
       })
