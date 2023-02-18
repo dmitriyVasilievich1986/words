@@ -24,6 +24,13 @@ class VerbInfinitiveSerializer(ModelSerializer):
         model = VerbInfinitive
         fields = "__all__"
 
+    def create(self, validated_data):
+        verbs = validated_data.pop("verbs")
+        verb_infinitive = VerbInfinitive.objects.create(**validated_data)
+        for verb in verbs:
+            Verb.objects.create(infinitive=verb_infinitive, **verb)
+        return verb_infinitive
+
 
 class NounSerializer(ModelSerializer):
     class Meta:
@@ -37,6 +44,13 @@ class NounInfinitiveSerializer(ModelSerializer):
     class Meta:
         model = NounInfinitive
         fields = "__all__"
+
+    def create(self, validated_data):
+        nouns = validated_data.pop("nouns")
+        noun_infinitive = NounInfinitive.objects.create(**validated_data)
+        for noun in nouns:
+            Noun.objects.create(noun=noun_infinitive, **noun)
+        return noun_infinitive
 
 
 class PronounSerializer(ModelSerializer):
