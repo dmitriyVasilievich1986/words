@@ -1,6 +1,6 @@
 from rest_framework.viewsets import GenericViewSet
+from rest_framework import mixins, exceptions
 from rest_framework.response import Response
-from rest_framework import mixins
 
 from .models import (
     PersonalPronoun,
@@ -51,6 +51,8 @@ class SimpleListViewSet(
 
 class RandomChoicesViewSet(GenericViewSet):
     def retrieve(self, request, pk, *args, **kwargs):
+        if int(pk) >= len(RANDOM_CHOICES):
+            raise exceptions.NotFound
         return Response(RANDOM_CHOICES[int(pk)].random())
 
     def list(self, request, *args, **kwargs):
