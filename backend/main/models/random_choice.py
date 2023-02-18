@@ -18,9 +18,12 @@ class RandomChoice:
 
 class Answer(dict):
     def __init__(self, instance: VerbInfinitive = None, hiden=False):
-        self["translate"] = instance.translate if instance else ""
-        self["word"] = instance.word if instance else ""
+        self["translate"] = getattr(instance, "translate", " ")
+        self["word"] = getattr(instance, "word", " ")
         self["hiden"] = hiden
+
+        if hasattr(instance, "base"):
+            self["base"] = instance.base
 
 
 RANDOM_CHOICES = [
