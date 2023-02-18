@@ -7,6 +7,7 @@ from django.db import models
 class VerbInfinitive(models.Model, RandomMixin):
     translate = models.CharField(max_length=150, blank=False, null=False)
     word = models.CharField(max_length=150, blank=False, null=False)
+    base = models.CharField(max_length=150, blank=False, null=False)
 
 
 class Verb(models.Model, RandomMixin):
@@ -32,3 +33,7 @@ class Verb(models.Model, RandomMixin):
         to=PersonalPronoun,
         null=True,
     )
+
+    @property
+    def base(self):
+        return self.infinitive.base
