@@ -41,7 +41,7 @@ function App() {
         <Routes>
           <Route path="/">
             {PAGES.map((p) => (
-              <Route path={p.path} element={<p.element />} />
+              <Route path={p.path} key={p.name} element={<p.element />} />
             ))}
           </Route>
         </Routes>

@@ -12,7 +12,7 @@ function Navbar() {
       <div className={cx("side")} />
       <div className={cx("center")}>
         {PAGES.map((p) => (
-          <NavLink className={cx("nav-link")} to={p.path}>
+          <NavLink className={cx("nav-link")} to={p.path} key={p.name}>
             {p.name}
           </NavLink>
         ))}
