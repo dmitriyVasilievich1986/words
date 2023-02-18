@@ -11,13 +11,29 @@ from .models import (
 )
 
 
+class VerbSerializer(ModelSerializer):
+    class Meta:
+        model = Verb
+        fields = "__all__"
+
+
 class VerbInfinitiveSerializer(ModelSerializer):
+    verb = VerbSerializer(many=True, read_only=True)
+
     class Meta:
         model = VerbInfinitive
         fields = "__all__"
 
 
+class NounSerializer(ModelSerializer):
+    class Meta:
+        model = Noun
+        fields = "__all__"
+
+
 class NounInfinitiveSerializer(ModelSerializer):
+    noun = NounSerializer(many=True, read_only=True)
+
     class Meta:
         model = NounInfinitive
         fields = "__all__"
@@ -41,19 +57,7 @@ class GenderSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class NounSerializer(ModelSerializer):
-    class Meta:
-        model = Noun
-        fields = "__all__"
-
-
 class PersonalPronounSerializer(ModelSerializer):
     class Meta:
         model = PersonalPronoun
-        fields = "__all__"
-
-
-class VerbSerializer(ModelSerializer):
-    class Meta:
-        model = Verb
         fields = "__all__"
