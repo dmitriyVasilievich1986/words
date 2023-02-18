@@ -6,6 +6,7 @@ from .models import (
     PersonalPronoun,
     VerbInfinitive,
     NounInfinitive,
+    RANDOM_CHOICES,
     Declentions,
     Pronoun,
     Gender,
@@ -46,6 +47,14 @@ class SimpleListViewSet(
             for x in serializer.data
         ]
         return Response(payload)
+
+
+class RandomChoicesViewSet(GenericViewSet):
+    def retrieve(self, request, pk, *args, **kwargs):
+        return Response(RANDOM_CHOICES[int(pk)].random())
+
+    def list(self, request, *args, **kwargs):
+        return Response([x.json() for x in RANDOM_CHOICES])
 
 
 class VerbInfinitiveViewSet(SimpleListViewSet):

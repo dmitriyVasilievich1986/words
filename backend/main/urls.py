@@ -4,6 +4,7 @@ from .views import (
     PersonalPronounViewSet,
     NounInfinitiveViewSet,
     VerbInfinitiveViewSet,
+    RandomChoicesViewSet,
     DeclentionsViewSet,
     PronounViewSet,
     GenderViewSet,
@@ -14,6 +15,9 @@ from .views import (
 
 router = routers.SimpleRouter()
 
+router.register(
+    "RandomChoices".lower(), RandomChoicesViewSet, basename="random_choices"
+)
 router.register("PersonalPronoun".lower(), PersonalPronounViewSet)
 router.register("NounInfinitive".lower(), NounInfinitiveViewSet)
 router.register("VerbInfinitive".lower(), VerbInfinitiveViewSet)
