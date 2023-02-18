@@ -1,8 +1,6 @@
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.decorators import action
+from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
-from random import choice
-import json
+from rest_framework import mixins
 
 from .models import (
     PersonalPronoun,
@@ -27,55 +25,64 @@ from .serializer import (
 )
 
 
-class VerbInfinitiveViewSet(ModelViewSet):
-    serializer_class = VerbInfinitiveSerializer
-    queryset = VerbInfinitive.objects.all()
+class SimpleListViewSet(
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericViewSet,
+):
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        payload = serializer.data
-        if request.GET:
-            instance = choice(
-                instance.verb.filter(
-                    **{k: request.GET[k] for k, v in dict(request.GET).items()}
-                )
-            )
-            serializer = VerbSerializer(instance=instance)
-            payload["verb"] = serializer.data
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        payload = [
+            {k: v for k, v in x.items() if not isinstance(v, list)}
+            for x in serializer.data
+        ]
         return Response(payload)
 
 
-class PronounViewSet(ModelViewSet):
+class VerbInfinitiveViewSet(SimpleListViewSet):
+    serializer_class = VerbInfinitiveSerializer
+    queryset = VerbInfinitive.objects.all()
+
+
+class PronounViewSet(SimpleListViewSet):
     serializer_class = PronounSerializer
     queryset = Pronoun.objects.all()
 
 
-class NounInfinitiveViewSet(ModelViewSet):
+class NounInfinitiveViewSet(SimpleListViewSet):
     serializer_class = NounInfinitiveSerializer
     queryset = NounInfinitive.objects.all()
 
 
-class NounViewSet(ModelViewSet):
+class NounViewSet(SimpleListViewSet):
     serializer_class = NounSerializer
     queryset = Noun.objects.all()
 
 
-class PersonalPronounViewSet(ModelViewSet):
+class PersonalPronounViewSet(SimpleListViewSet):
     serializer_class = PersonalPronounSerializer
     queryset = PersonalPronoun.objects.all()
 
 
-class VerbViewSet(ModelViewSet):
+class VerbViewSet(SimpleListViewSet):
     serializer_class = VerbSerializer
     queryset = Verb.objects.all()
 
 
-class DeclentionsViewSet(ModelViewSet):
+class DeclentionsViewSet(SimpleListViewSet):
     serializer_class = DeclentionsSerializer
     queryset = Declentions.objects.all()
 
 
-class GenderViewSet(ModelViewSet):
+class GenderViewSet(SimpleListViewSet):
     serializer_class = GenderSerializer
     queryset = Gender.objects.all()
