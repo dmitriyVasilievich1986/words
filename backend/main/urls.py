@@ -10,6 +10,7 @@ from .views import (
     GenderViewSet,
     NounViewSet,
     VerbViewSet,
+    TimeViewSet,
 )
 
 
@@ -26,5 +27,6 @@ router.register("Pronoun".lower(), PronounViewSet)
 router.register("Gender".lower(), GenderViewSet)
 router.register("Noun".lower(), NounViewSet)
 router.register("Verb".lower(), VerbViewSet)
+router.register("Time".lower(), TimeViewSet)
 
 urlpatterns = router.urls

@@ -4,3 +4,4 @@ from .noun_models import NounInfinitive, Noun
 from .declentions_models import Declentions
 from .random_choice import RANDOM_CHOICES
 from .gender_models import Gender
+from .time_models import Time

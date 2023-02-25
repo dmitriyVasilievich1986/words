@@ -30,7 +30,8 @@ class Answer(dict):
 def personal_pron_verb(**kwargs):
     pp = PersonalPronoun._random()
     vi = VerbInfinitive._random()
-    v = vi.verb.get(pronoun=pp.id)
+    t = kwargs.pop("time", 1)
+    v = vi.verb.get(pronoun=pp.id, time=t)
     return [
         Answer(pp, hiden=True),
         Answer(),

@@ -12,6 +12,7 @@ from .models import (
     Gender,
     Verb,
     Noun,
+    Time,
 )
 
 from .serializer import (
@@ -23,6 +24,7 @@ from .serializer import (
     GenderSerializer,
     NounSerializer,
     VerbSerializer,
+    TimeSerializer,
 )
 
 
@@ -53,7 +55,11 @@ class RandomChoicesViewSet(GenericViewSet):
     def retrieve(self, request, pk, *args, **kwargs):
         if int(pk) >= len(RANDOM_CHOICES):
             raise exceptions.NotFound
-        return Response(RANDOM_CHOICES[int(pk)].random())
+        return Response(
+            RANDOM_CHOICES[int(pk)].random(
+                **{k: request.GET[k] for k, v in dict(request.GET).items()}
+            )
+        )
 
     def list(self, request, *args, **kwargs):
         return Response([x.json() for x in RANDOM_CHOICES])
@@ -97,3 +103,8 @@ class DeclentionsViewSet(SimpleListViewSet):
 class GenderViewSet(SimpleListViewSet):
     serializer_class = GenderSerializer
     queryset = Gender.objects.all()
+
+
+class TimeViewSet(SimpleListViewSet):
+    serializer_class = TimeSerializer
+    queryset = Time.objects.all()

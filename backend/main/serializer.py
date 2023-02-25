@@ -8,6 +8,7 @@ from .models import (
     Gender,
     Verb,
     Noun,
+    Time,
 )
 
 
@@ -18,14 +19,15 @@ class VerbSerializer(ModelSerializer):
 
 
 class VerbInfinitiveSerializer(ModelSerializer):
-    verb = VerbSerializer(many=True, read_only=True)
+    verb = VerbSerializer(many=True)
 
     class Meta:
         model = VerbInfinitive
         fields = "__all__"
 
     def create(self, validated_data):
-        verbs = validated_data.pop("verbs")
+        print(validated_data)
+        verbs = validated_data.pop("verb")
         verb_infinitive = VerbInfinitive.objects.create(**validated_data)
         for verb in verbs:
             Verb.objects.create(infinitive=verb_infinitive, **verb)
@@ -74,4 +76,10 @@ class GenderSerializer(ModelSerializer):
 class PersonalPronounSerializer(ModelSerializer):
     class Meta:
         model = PersonalPronoun
+        fields = "__all__"
+
+
+class TimeSerializer(ModelSerializer):
+    class Meta:
+        model = Time
         fields = "__all__"
