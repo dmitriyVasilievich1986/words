@@ -17,6 +17,7 @@ function App() {
       axios.get("/api/verbInfinitive/".toLowerCase()),
       axios.get("/api/randomChoices/".toLowerCase()),
       axios.get("/api/declentions/".toLowerCase()),
+      axios.get("/api/gender/".toLowerCase()),
       axios.get("/api/time/".toLowerCase()),
     ])
       .then((values) => {
@@ -26,6 +27,7 @@ function App() {
           verbInfinitive,
           randomChoices,
           declentions,
+          gender,
           time,
         ] = values;
 
@@ -36,6 +38,7 @@ function App() {
             verbInfinitive: verbInfinitive.data,
             randomChoices: randomChoices.data,
             declentions: declentions.data,
+            gender: gender.data,
             time: time.data,
           })
         );
