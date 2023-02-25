@@ -12,6 +12,9 @@ const cx = className.bind(style);
 function CreateWordPage(props) {
   const [data, setData] = React.useState(getInitState(WORDS.verbInfinitive));
   const [word, setWord] = React.useState(WORDS.verbInfinitive);
+  const [selectedWord, setSelectedWord] = React.useState(
+    props[WORDS.verbInfinitive][0].id
+  );
 
   const dispatch = useDispatch();
 
@@ -19,6 +22,18 @@ function CreateWordPage(props) {
     const newValue = e.target.value;
     setData(getInitState(newValue));
     setWord(newValue);
+  };
+
+  const wordSelectHandler = (e) => {
+    const newID = e.target.value;
+    axios
+      .get(`/api/${word.toLowerCase()}/${newID}/`)
+      .then((data) => {
+        setData(getInitState(word, data.data));
+        setSelectedWord(e.target.value);
+        console.log(data.data);
+      })
+      .catch((e) => console.log(e));
   };
 
   const clickHandler = (_) => {
@@ -63,7 +78,17 @@ function CreateWordPage(props) {
           </div>
         </div>
       </div>
-      <div className={cx("side")} />
+      <div className={cx("side")}>
+        <div>
+          <select value={selectedWord} onChange={wordSelectHandler}>
+            {props[word].map((w) => (
+              <option value={w.id} key={w.id}>
+                {w.word}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
     </div>
   );
 }
