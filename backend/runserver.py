@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 class Modes(Enum):
     migration = "migration"
     runserver = "runserver"
+    shell = "shell"
 
 
 def parse_args(*args, **kwargs) -> Namespace:
@@ -70,7 +71,9 @@ if __name__ == "__main__":
     load_enviroments()
     check_connection()
 
-    if Modes[namespace.mode] is Modes.migration:
+    if Modes[namespace.mode] is Modes.shell:
+        execute_from_command_line([__name__, "shell"])
+    elif Modes[namespace.mode] is Modes.migration:
         execute_migrations()
-    elif Modes[namespace.mode] is Modes.runserver:
+    else:
         execute_runserver()

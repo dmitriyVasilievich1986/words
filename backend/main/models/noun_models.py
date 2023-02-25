@@ -1,28 +1,39 @@
-from .case_models import Case
+from .declentions_models import Declentions
+from .random_mixin import RandomMixin
+from .gender_models import Gender
 from django.db import models
 
 
-class Noun(models.Model):
-    gender = models.CharField(max_length=150, blank=False, null=False, default="f")
+class NounInfinitive(models.Model, RandomMixin):
     translate = models.CharField(max_length=150, blank=False, null=False)
     word = models.CharField(max_length=150, blank=False, null=False)
+    base = models.CharField(max_length=150, blank=False, null=False)
 
 
-class NounCase(models.Model):
+class Noun(models.Model, RandomMixin):
     translate = models.CharField(max_length=150, blank=False, null=False)
     word = models.CharField(max_length=150, blank=False, null=False)
+    plural = models.BooleanField(default=False)
 
-    noun = models.ForeignKey(
-        related_name="noun_case",
+    infinitive = models.ForeignKey(
         on_delete=models.CASCADE,
-        to=Noun,
+        related_name="noun",
+        to=NounInfinitive,
+        null=True,
     )
-    case = models.ForeignKey(
-        related_name="noun_case",
+    declention = models.ForeignKey(
         on_delete=models.CASCADE,
-        to=Case,
+        related_name="noun",
+        to=Declentions,
+        null=True,
+    )
+    gender = models.ForeignKey(
+        on_delete=models.CASCADE,
+        related_name="noun",
+        to=Gender,
+        null=True,
     )
 
     @property
-    def gender(self):
-        return self.noun.gender
+    def base(self):
+        return self.infinitive.base

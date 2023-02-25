@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Navbar, PhrasePage, CreateWordPage } from "./pages";
 import { setState } from "Reducers/wordReducer";
 import { useDispatch } from "react-redux";
+import { Navbar } from "./pages";
+import PAGES from "Pages";
 import React from "react";
 import axios from "axios";
 
@@ -11,39 +12,34 @@ function App() {
 
   React.useEffect((_) => {
     Promise.all([
-      axios.get("/api/verbdeclension/"),
-      axios.get("/api/verb/"),
-      axios.get("/api/pron/"),
-      axios.get("/api/nouncase/"),
-      axios.get("/api/case/"),
-      axios.get("/api/noun/"),
-      axios.get("/api/adjective/"),
-      axios.get("/api/adjcase/"),
-      axios.get("/api/pronoun/"),
+      axios.get("/api/personalPronoun/".toLowerCase()),
+      axios.get("/api/nounInfinitive/".toLowerCase()),
+      axios.get("/api/verbInfinitive/".toLowerCase()),
+      axios.get("/api/randomChoices/".toLowerCase()),
+      axios.get("/api/declentions/".toLowerCase()),
+      axios.get("/api/gender/".toLowerCase()),
+      axios.get("/api/time/".toLowerCase()),
     ])
       .then((values) => {
         const [
-          verbdeclensionData,
-          verbData,
-          pronData,
-          nounCaseData,
-          caseData,
-          nounData,
-          adjectiveData,
-          adjcaseData,
-          pronounData,
+          personalPronoun,
+          nounInfinitive,
+          verbInfinitive,
+          randomChoices,
+          declentions,
+          gender,
+          time,
         ] = values;
+
         dispatch(
           setState({
-            verbDeclension: verbdeclensionData.data,
-            verb: verbData.data,
-            pron: pronData.data,
-            nounCase: nounCaseData.data,
-            noun: nounData.data,
-            case: caseData.data,
-            adjective: adjectiveData.data,
-            adjCase: adjcaseData.data,
-            pronoun: pronounData.data,
+            personalPronoun: personalPronoun.data,
+            nounInfinitive: nounInfinitive.data,
+            verbInfinitive: verbInfinitive.data,
+            randomChoices: randomChoices.data,
+            declentions: declentions.data,
+            gender: gender.data,
+            time: time.data,
           })
         );
       })
@@ -58,8 +54,9 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/">
-            <Route path="" element={<PhrasePage />} />
-            <Route path="create" element={<CreateWordPage />} />
+            {PAGES.map((p) => (
+              <Route path={p.path} key={p.name} element={<p.element />} />
+            ))}
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,37 +1,44 @@
-.create-card {
-    border: 1px solid black;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    flex-direction: row;
-    padding: 3rem 1rem;
+.create-page-card {
     flex-wrap: wrap;
     display: flex;
-}
 
-.create-input {
-    justify-content: center;
-    display: flex;
-    width: 80%;
-    
-    & input {
-        border-right: none;
-        border-left: none;
-        border-top: none;
-        margin: 10px 0;
-        width: 100%;
+    > .side {
+        justify-content: center;
+        margin: 2rem 0;
+        flex: 1 300px;
+        display: flex;
+
+        > div {
+            width: 250px;
+
+            > select {
+                width: 100%;
+            }
+        }
     }
 
-    & .create-button {
-        background-color: #3F3F3F;
-        border-radius: 10px;
-        padding: 10px 2rem;
-        font-weight: 400;
-        margin-top: 1rem;
-        min-width: 150px;
-        color: #FFDf6C;
-        font-size: 16px;
-        cursor: pointer;
-        border: none;
+    > .center {
+        justify-content: center;
+        margin-top: 2rem;
+        flex: 3 700px;
+        display: flex;
+
+        > div {
+            max-width: 700px;
+            width: 100vw;
+
+            > .button-wrapper {
+                justify-content: center;
+                display: flex;
+
+                > button {
+                    border-radius: 10px;
+                    padding: 10px 2rem;
+                    margin-top: 2rem;
+                    cursor: pointer;
+                    border: none;
+                }
+            }
+        }
     }
 }

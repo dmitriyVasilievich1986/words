@@ -1,23 +1,38 @@
-from .pron_models import Pron
+from .pronoun_models import PersonalPronoun
+from .random_mixin import RandomMixin
+from .time_models import Time
 from django.db import models
 
 
-class Verb(models.Model):
+class VerbInfinitive(models.Model, RandomMixin):
+    translate = models.CharField(max_length=150, blank=False, null=False)
+    word = models.CharField(max_length=150, blank=False, null=False)
+    base = models.CharField(max_length=150, blank=False, null=False)
+
+
+class Verb(models.Model, RandomMixin):
     translate = models.CharField(max_length=150, blank=False, null=False)
     word = models.CharField(max_length=150, blank=False, null=False)
 
-
-class VerbDeclension(models.Model):
-    translate = models.CharField(max_length=150, blank=False, null=False)
-    word = models.CharField(max_length=150, blank=False, null=False)
-
-    verb = models.ForeignKey(
-        related_name="verb_declentions",
+    infinitive = models.ForeignKey(
         on_delete=models.CASCADE,
-        to=Verb,
+        related_name="verb",
+        to=VerbInfinitive,
+        null=True,
     )
-    pron = models.ForeignKey(
-        related_name="verb_declentions",
+    time = models.ForeignKey(
         on_delete=models.CASCADE,
-        to=Pron,
+        related_name="verb",
+        null=True,
+        to=Time,
     )
+    pronoun = models.ForeignKey(
+        on_delete=models.CASCADE,
+        related_name="verb",
+        to=PersonalPronoun,
+        null=True,
+    )
+
+    @property
+    def base(self):
+        return self.infinitive.base
