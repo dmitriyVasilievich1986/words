@@ -32,9 +32,9 @@ export function getInitState(word) {
         const newData = store.getState().words.personalPronoun.map((pp) => ({
           translateText: pp.translate,
           wordText: pp.word,
-          declention: d.id,
           pronoun: pp.id,
           translate: "",
+          time: d.id,
           word: "",
         }));
         payload[d.word] = newData;
@@ -47,7 +47,7 @@ export function getInitState(word) {
           translateText: pp.translate,
           wordText: pp.word,
           declention: d.id,
-          pronoun: pp.id,
+          gender: pp.id,
           translate: "",
           word: "",
         }));

@@ -10,10 +10,10 @@ export function getRequest(word, data) {
       verbsKeys.map((k) => {
         data[k].map((d) => {
           verbs.push({
-            declention: d.declention,
             translate: d.translate,
             pronoun: d.pronoun,
             word: d.word,
+            time: d.time,
           });
         });
       });
