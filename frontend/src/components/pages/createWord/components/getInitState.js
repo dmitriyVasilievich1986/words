@@ -7,6 +7,7 @@ const infinitivePayload = (props) => ({
       translate: props?.translate || "",
       translateText: "Перевод",
       word: props?.word || "",
+      id: props?.id || null,
       wordText: "Глагол",
     },
   ],
