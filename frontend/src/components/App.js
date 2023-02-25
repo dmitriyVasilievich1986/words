@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { setState } from "Reducers/wordReducer";
 import { useDispatch } from "react-redux";
 import { Navbar } from "./pages";
-import PAGES from "Constants";
+import PAGES from "Pages";
 import React from "react";
 import axios from "axios";
 
