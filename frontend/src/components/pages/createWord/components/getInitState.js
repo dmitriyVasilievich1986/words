@@ -11,7 +11,7 @@ const infinitivePayload = {
     },
   ],
 };
-const withBaseInfinitive = {
+const basePayload = {
   Base: [
     {
       translateText: "Перевод",
@@ -20,14 +20,13 @@ const withBaseInfinitive = {
       word: "",
     },
   ],
-  ...infinitivePayload,
 };
 
 export function getInitState(word) {
   let payload = {};
   switch (word) {
     case WORDS.Verb:
-      payload = { ...withBaseInfinitive };
+      payload = { ...basePayload, ...infinitivePayload };
       store.getState().words.time.map((d) => {
         const newData = store.getState().words.personalPronoun.map((pp) => ({
           translateText: pp.translate,
@@ -41,7 +40,7 @@ export function getInitState(word) {
       });
       break;
     case WORDS.Noun:
-      payload = { ...withBaseInfinitive };
+      payload = { ...basePayload, ...infinitivePayload };
       store.getState().words.declentions.map((d) => {
         const newData = store.getState().words.gender.map((pp) => ({
           translateText: pp.translate,
