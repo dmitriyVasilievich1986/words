@@ -18,9 +18,10 @@
     }
 
     > .center {
+        justify-content: center;
+        margin-top: 2rem;
         flex: 3 700px;
         display: flex;
-        justify-content: center;
 
         > div {
             max-width: 700px;
