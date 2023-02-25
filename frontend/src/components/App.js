@@ -16,16 +16,27 @@ function App() {
       axios.get("/api/nounInfinitive/".toLowerCase()),
       axios.get("/api/verbInfinitive/".toLowerCase()),
       axios.get("/api/randomChoices/".toLowerCase()),
+      axios.get("/api/declentions/".toLowerCase()),
+      axios.get("/api/time/".toLowerCase()),
     ])
       .then((values) => {
-        const [personalPronoun, nounInfinitive, verbInfinitive, randomChoices] =
-          values;
+        const [
+          personalPronoun,
+          nounInfinitive,
+          verbInfinitive,
+          randomChoices,
+          declentions,
+          time,
+        ] = values;
+
         dispatch(
           setState({
             personalPronoun: personalPronoun.data,
             nounInfinitive: nounInfinitive.data,
             verbInfinitive: verbInfinitive.data,
             randomChoices: randomChoices.data,
+            declentions: declentions.data,
+            time: time.data,
           })
         );
       })
