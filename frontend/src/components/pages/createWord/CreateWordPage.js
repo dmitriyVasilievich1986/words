@@ -1,179 +1,9 @@
+import { getInitState, InputParagraph, getRequest } from "./components";
 import { useSelector, useDispatch } from "react-redux";
 import { setState } from "Reducers/wordReducer";
-import store from "Reducers/store";
 import { WORDS } from "Constants";
 import React from "react";
 import axios from "axios";
-
-function InputFields(params) {
-  const changeHandler = (e) => {
-    if (params.name === "Base") {
-      const newData = {};
-      Object.keys(params.data).map((k) => {
-        newData[k] = params.data[k].map((d) => ({
-          ...d,
-          [e.target.name]: e.target.value,
-        }));
-      });
-      params.setData(newData);
-    } else {
-      const newList = params.data[params.name].map((d, i) => {
-        if (i === params.i) return { ...d, [e.target.name]: e.target.value };
-        return d;
-      });
-      params.setData({ ...params.data, [params.name]: newList });
-    }
-  };
-
-  return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        justifyContent: "space-evenly",
-        margin: "10px 0",
-      }}
-    >
-      <div
-        style={{
-          width: "40%",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        {params.wordText}
-        <input
-          value={params.word}
-          style={{ width: "150px" }}
-          name="word"
-          onChange={changeHandler}
-        />
-      </div>
-      <div
-        style={{
-          width: "40%",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        {params.translateText}
-        <input
-          style={{ width: "150px" }}
-          value={params.translate}
-          onChange={changeHandler}
-          name="translate"
-        />
-      </div>
-    </div>
-  );
-}
-
-function MyInput(params) {
-  const [show, setShow] = React.useState(true);
-
-  return (
-    <div>
-      <div style={{ display: "flex", width: "100%" }}>
-        <div style={{ textAlign: "center", width: "100%" }}>{params.name}</div>
-        <button
-          style={{ width: "25px", cursor: "pointer" }}
-          tabIndex="-1"
-          onClick={() => setShow(!show)}
-        >
-          {show ? "-" : "+"}
-        </button>
-      </div>
-      <div style={{ display: show ? "block" : "none" }}>
-        {params.list.map((l, i) => (
-          <InputFields {...params} {...l} key={i} i={i} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function getInitState(word) {
-  const infinitivePayload = {
-    Infinitive: [
-      {
-        translateText: "Перевод",
-        wordText: "Глагол",
-        translate: "",
-        word: "",
-      },
-    ],
-  };
-  const withBaseInfinitive = {
-    Base: [
-      {
-        translateText: "Перевод",
-        wordText: "Основа",
-        translate: "",
-        word: "",
-      },
-    ],
-    ...infinitivePayload,
-  };
-  let payload = {};
-  switch (word) {
-    case WORDS.Verb:
-      payload = { ...withBaseInfinitive };
-      store.getState().words.time.map((d) => {
-        const newData = store.getState().words.personalPronoun.map((pp) => ({
-          translateText: pp.translate,
-          wordText: pp.word,
-          declention: d.id,
-          pronoun: pp.id,
-          translate: "",
-          word: "",
-        }));
-        payload[d.word] = newData;
-      });
-      return payload;
-    case WORDS.Noun:
-      payload = { ...withBaseInfinitive };
-      store.getState().words.declentions.map((d) => {
-        const newData = store.getState().words.gender.map((pp) => ({
-          translateText: pp.translate,
-          wordText: pp.word,
-          declention: d.id,
-          pronoun: pp.id,
-          translate: "",
-          word: "",
-        }));
-        payload[d.word] = newData;
-      });
-      return payload;
-    default:
-      return payload;
-  }
-}
-
-function getRequest(word, data) {
-  switch (word) {
-    case WORDS.Verb:
-      const verbsKeys = Object.keys(data).filter((k) => k !== "Infinitive");
-      const verbs = [];
-      verbsKeys.map((k) => {
-        data[k].map((d) => {
-          verbs.push({
-            declention: d.declention,
-            translate: d.translate,
-            pronoun: d.pronoun,
-            word: d.word,
-          });
-        });
-      });
-      return {
-        translate: data.Infinitive[0].translate,
-        word: data.Infinitive[0].word,
-        base: data.Infinitive[1].word,
-        verb: verbs,
-      };
-    default:
-      break;
-  }
-}
 
 function CreateWordPage() {
   const verbInfinitive = useSelector((state) => state.words.verbInfinitive);
@@ -191,6 +21,7 @@ function CreateWordPage() {
   const clickHandler = (_) => {
     const payload = getRequest(word, data);
     console.log(payload);
+    return;
     axios
       .post("/api/verbinfinitive/", payload)
       .then((data) => {
@@ -234,7 +65,7 @@ function CreateWordPage() {
         <div style={{ width: "100vw", maxWidth: "700px" }}>
           <div>
             {Object.keys(data).map((k) => (
-              <MyInput
+              <InputParagraph
                 setData={setData}
                 list={data[k]}
                 data={data}
