@@ -25,7 +25,7 @@ const basePayload = {
 export function getInitState(word) {
   let payload = {};
   switch (word) {
-    case WORDS.Verb:
+    case WORDS.verbInfinitive:
       payload = { ...basePayload, ...infinitivePayload };
       store.getState().words.time.map((d) => {
         const newData = store.getState().words.personalPronoun.map((pp) => ({
@@ -39,7 +39,7 @@ export function getInitState(word) {
         payload[d.word] = newData;
       });
       break;
-    case WORDS.Noun:
+    case WORDS.nounInfinitive:
       payload = { ...basePayload, ...infinitivePayload };
       store.getState().words.declentions.map((d) => {
         const newData = [

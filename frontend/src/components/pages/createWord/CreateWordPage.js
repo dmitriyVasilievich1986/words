@@ -1,5 +1,5 @@
 import { getInitState, InputParagraph, getRequest } from "./components";
-import { useSelector, useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { setState } from "Reducers/wordReducer";
 import className from "classnames";
 import { WORDS } from "Constants";
@@ -9,12 +9,11 @@ import axios from "axios";
 
 const cx = className.bind(style);
 
-function CreateWordPage() {
-  const verbInfinitive = useSelector((state) => state.words.verbInfinitive);
-  const dispatch = useDispatch();
+function CreateWordPage(props) {
+  const [data, setData] = React.useState(getInitState(WORDS.verbInfinitive));
+  const [word, setWord] = React.useState(WORDS.verbInfinitive);
 
-  const [data, setData] = React.useState(getInitState(WORDS.Verb));
-  const [word, setWord] = React.useState(WORDS.Verb);
+  const dispatch = useDispatch();
 
   const changeHanler = (e) => {
     const newValue = e.target.value;
@@ -69,4 +68,9 @@ function CreateWordPage() {
   );
 }
 
-export default CreateWordPage;
+const mapStateToProps = (state) => ({
+  verbInfinitive: state.words.verbInfinitive,
+  nounInfinitive: state.words.nounInfinitive,
+});
+
+export default connect(mapStateToProps)(CreateWordPage);

@@ -2,7 +2,7 @@ import { WORDS } from "Constants";
 
 export function getRequest(word, data) {
   switch (word) {
-    case WORDS.Verb:
+    case WORDS.verbInfinitive:
       const verbsKeys = Object.keys(data).filter(
         (k) => k !== "Infinitive" && k !== "Base"
       );
@@ -23,7 +23,7 @@ export function getRequest(word, data) {
         base: data.Base[0].word,
         verb: verbs,
       };
-    case WORDS.Noun:
+    case WORDS.nounInfinitive:
       const nounKeys = Object.keys(data).filter(
         (k) => k !== "Infinitive" && k !== "Base"
       );

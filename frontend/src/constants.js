@@ -1,4 +1,4 @@
 export const WORDS = {
-  Verb: "Verb",
-  Noun: "Noun",
+  nounInfinitive: "nounInfinitive",
+  verbInfinitive: "verbInfinitive",
 };
