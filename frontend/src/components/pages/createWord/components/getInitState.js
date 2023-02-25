@@ -42,14 +42,26 @@ export function getInitState(word) {
     case WORDS.Noun:
       payload = { ...basePayload, ...infinitivePayload };
       store.getState().words.declentions.map((d) => {
-        const newData = store.getState().words.gender.map((pp) => ({
-          translateText: pp.translate,
-          wordText: pp.word,
-          declention: d.id,
-          gender: pp.id,
-          translate: "",
-          word: "",
-        }));
+        const newData = [
+          ...store.getState().words.gender.map((pp) => ({
+            translateText: `${pp.translate} ед.`,
+            wordText: `${pp.word} sing.`,
+            declention: d.id,
+            gender: pp.id,
+            plural: false,
+            translate: "",
+            word: "",
+          })),
+          ...store.getState().words.gender.map((pp) => ({
+            translateText: `${pp.translate} мн.`,
+            wordText: `${pp.word} plur.`,
+            declention: d.id,
+            gender: pp.id,
+            translate: "",
+            plural: true,
+            word: "",
+          })),
+        ];
         payload[d.word] = newData;
       });
       break;

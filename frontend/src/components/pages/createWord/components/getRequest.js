@@ -34,6 +34,7 @@ export function getRequest(word, data) {
             translate: d.translate,
             pronoun: d.pronoun,
             gender: d.gender,
+            plural: d.plural,
             word: d.word,
           });
         });
