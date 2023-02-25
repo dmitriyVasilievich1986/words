@@ -12,9 +12,7 @@ const cx = className.bind(style);
 function CreateWordPage(props) {
   const [data, setData] = React.useState(getInitState(WORDS.verbInfinitive));
   const [word, setWord] = React.useState(WORDS.verbInfinitive);
-  const [selectedWord, setSelectedWord] = React.useState(
-    props[WORDS.verbInfinitive][0].id
-  );
+  const [selectedWord, setSelectedWord] = React.useState(0);
 
   const dispatch = useDispatch();
 
@@ -31,20 +29,41 @@ function CreateWordPage(props) {
       .then((data) => {
         setData(getInitState(word, data.data));
         setSelectedWord(e.target.value);
-        console.log(data.data);
       })
       .catch((e) => console.log(e));
   };
 
   const clickHandler = (_) => {
     const payload = getRequest(word, data);
-    console.log(payload);
-    return;
+    if (payload?.id) {
+      updateWord(payload);
+    } else {
+      createWord(payload);
+    }
+  };
+
+  const createWord = (params) => {
     axios
-      .post("/api/verbinfinitive/", payload)
+      .post(`/api/${word.toLowerCase()}/`, params)
       .then((data) => {
-        dispatch(setState({ verbInfinitive: [...verbInfinitive, data.data] }));
-        console.log(data.data);
+        dispatch(
+          setState({
+            [word]: [...props[word], data.data],
+          })
+        );
+      })
+      .catch((e) => console.log(e));
+  };
+
+  const updateWord = (params) => {
+    axios
+      .put(`/api/${word.toLowerCase()}/${params.id}/`, params)
+      .then((data) => {
+        dispatch(
+          setState({
+            [word]: props[word].map((w) => (w.id == params.id ? data.data : w)),
+          })
+        );
       })
       .catch((e) => console.log(e));
   };
@@ -81,6 +100,7 @@ function CreateWordPage(props) {
       <div className={cx("side")}>
         <div>
           <select value={selectedWord} onChange={wordSelectHandler}>
+            <option value={0} key={0}></option>
             {props[word].map((w) => (
               <option value={w.id} key={w.id}>
                 {w.word}
