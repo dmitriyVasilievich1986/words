@@ -32,6 +32,15 @@ class VerbInfinitiveSerializer(ModelSerializer):
             Verb.objects.create(infinitive=verb_infinitive, **verb)
         return verb_infinitive
 
+    def update(self, instance, validated_data):
+        verbs = validated_data.pop("verb")
+        VerbInfinitive.objects.filter(id=instance.id).update(**validated_data)
+        for verb in verbs:
+            instance.verb.filter(time=verb["time"], pronoun=verb["pronoun"]).update(
+                **verb
+            )
+        return instance
+
 
 class NounSerializer(ModelSerializer):
     class Meta:
@@ -52,6 +61,17 @@ class NounInfinitiveSerializer(ModelSerializer):
         for noun in nouns:
             Noun.objects.create(noun=noun_infinitive, **noun)
         return noun_infinitive
+
+    def update(self, instance, validated_data):
+        nouns = validated_data.pop("noun")
+        NounInfinitive.objects.filter(id=instance.id).update(**validated_data)
+        for noun in nouns:
+            instance.noun.filter(
+                declention=noun["declention"],
+                gender=noun["gender"],
+                plural=noun["plural"],
+            ).update(**noun)
+        return instance
 
 
 class PronounSerializer(ModelSerializer):
