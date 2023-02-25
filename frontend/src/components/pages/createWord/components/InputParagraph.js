@@ -1,22 +1,22 @@
 import InputFields from "./InputFields";
+import className from "classnames";
+import style from "./style.scss";
 import React from "react";
+
+const cx = className.bind(style);
 
 function InputParagraph(params) {
   const [show, setShow] = React.useState(true);
 
   return (
-    <div>
-      <div style={{ display: "flex", width: "100%" }}>
-        <div style={{ textAlign: "center", width: "100%" }}>{params.name}</div>
-        <button
-          style={{ width: "25px", cursor: "pointer" }}
-          tabIndex="-1"
-          onClick={() => setShow(!show)}
-        >
+    <div className={cx("input-paragraph-card")}>
+      <div className={cx("head")}>
+        <div>{params.name}</div>
+        <button tabIndex="-1" onClick={() => setShow(!show)}>
           {show ? "-" : "+"}
         </button>
       </div>
-      <div style={{ display: show ? "block" : "none" }}>
+      <div className={cx("body", { show })}>
         {params.list.map((l, i) => (
           <InputFields {...params} {...l} key={i} i={i} />
         ))}

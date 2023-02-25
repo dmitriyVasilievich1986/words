@@ -1,4 +1,8 @@
+import className from "classnames";
+import style from "./style.scss";
 import React from "react";
+
+const cx = className.bind(style);
 
 function InputFields(params) {
   const changeHandler = (e) => {
@@ -21,39 +25,14 @@ function InputFields(params) {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        justifyContent: "space-evenly",
-        margin: "10px 0",
-      }}
-    >
-      <div
-        style={{
-          width: "40%",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
+    <div className={cx("input-field-card")}>
+      <div>
         {params.wordText}
-        <input
-          value={params.word}
-          style={{ width: "150px" }}
-          name="word"
-          onChange={changeHandler}
-        />
+        <input onChange={changeHandler} value={params.word} name="word" />
       </div>
-      <div
-        style={{
-          width: "40%",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
+      <div>
         {params.translateText}
         <input
-          style={{ width: "150px" }}
           value={params.translate}
           onChange={changeHandler}
           name="translate"
