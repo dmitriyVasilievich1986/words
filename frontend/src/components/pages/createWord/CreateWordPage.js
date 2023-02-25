@@ -1,9 +1,13 @@
 import { getInitState, InputParagraph, getRequest } from "./components";
 import { useSelector, useDispatch } from "react-redux";
 import { setState } from "Reducers/wordReducer";
+import className from "classnames";
 import { WORDS } from "Constants";
+import style from "./style.scss";
 import React from "react";
 import axios from "axios";
+
+const cx = className.bind(style);
 
 function CreateWordPage() {
   const verbInfinitive = useSelector((state) => state.words.verbInfinitive);
@@ -32,21 +36,10 @@ function CreateWordPage() {
   };
 
   return (
-    <div style={{ display: "flex", flexWrap: "wrap" }}>
-      <div
-        style={{
-          flex: "1 300px",
-          display: "flex",
-          justifyContent: "center",
-          margin: "2rem 0",
-        }}
-      >
-        <div style={{ width: "250px" }}>
-          <select
-            value={word}
-            onChange={changeHanler}
-            style={{ width: "100%" }}
-          >
+    <div className={cx("create-page-card")}>
+      <div className={cx("side")}>
+        <div>
+          <select value={word} onChange={changeHanler}>
             {Object.keys(WORDS).map((w) => (
               <option value={w} key={w}>
                 {w}
@@ -55,43 +48,23 @@ function CreateWordPage() {
           </select>
         </div>
       </div>
-      <div
-        style={{
-          flex: "3 700px",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <div style={{ width: "100vw", maxWidth: "700px" }}>
-          <div>
-            {Object.keys(data).map((k) => (
-              <InputParagraph
-                setData={setData}
-                list={data[k]}
-                data={data}
-                name={k}
-                key={k}
-              />
-            ))}
-          </div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <button
-              onClick={clickHandler}
-              style={{
-                border: "none",
-                cursor: "pointer",
-                width: "150px",
-                marginTop: "2rem",
-                padding: "10px 1rem",
-                borderRadius: "10px",
-              }}
-            >
-              send
-            </button>
+      <div className={cx("center")}>
+        <div>
+          {Object.keys(data).map((k) => (
+            <InputParagraph
+              setData={setData}
+              list={data[k]}
+              data={data}
+              name={k}
+              key={k}
+            />
+          ))}
+          <div className={cx("button-wrapper")}>
+            <button onClick={clickHandler}>send</button>
           </div>
         </div>
       </div>
-      <div style={{ flex: "1 300px" }} />
+      <div className={cx("side")} />
     </div>
   );
 }
