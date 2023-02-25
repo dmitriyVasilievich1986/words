@@ -26,7 +26,6 @@ class VerbInfinitiveSerializer(ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-        print(validated_data)
         verbs = validated_data.pop("verb")
         verb_infinitive = VerbInfinitive.objects.create(**validated_data)
         for verb in verbs:
@@ -48,7 +47,7 @@ class NounInfinitiveSerializer(ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-        nouns = validated_data.pop("nouns")
+        nouns = validated_data.pop("noun")
         noun_infinitive = NounInfinitive.objects.create(**validated_data)
         for noun in nouns:
             Noun.objects.create(noun=noun_infinitive, **noun)
