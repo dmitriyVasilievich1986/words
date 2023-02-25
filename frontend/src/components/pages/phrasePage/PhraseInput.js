@@ -7,19 +7,20 @@ function PhraseInput(props) {
     setValue("");
   }, [props.word]);
 
+  React.useEffect(() => {
+    if (props.show) setValue(props.word);
+  }, [props.show]);
+
   const changeHandler = (e) => {
     const v = e.target.value;
     if (v.length >= props.word.length + 1) {
       return;
     }
     setValue(v);
-    setFinish(v === props.word);
   };
 
   if (!props.hiden) {
-    return (
-      <div style={{ width: "fit-content", minWidth: "1rem" }}>{props.word}</div>
-    );
+    return <div>{props.word}</div>;
   }
   return (
     <input
