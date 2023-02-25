@@ -60,8 +60,12 @@ WSGI_APPLICATION = "words.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / environ.get("DB_NAME", "test_db.sqlite"),
+        "ENGINE": "django.db.backends.postgresql",
+        "PASSWORD": environ.get("DB_PASSWORD", "root"),
+        "HOST": environ.get("DB_HOST", "localhost"),
+        "NAME": environ.get("DB_NAME", "testdb"),
+        "USER": environ.get("DB_USER", "root"),
+        "PORT": environ.get("DB_PORT", "5432"),
     }
 }
 
