@@ -1,6 +1,5 @@
 .phrase-page-card {
     flex-wrap: wrap;
-    flex-flow: row;
     display: flex;
 
     > .side {
@@ -26,6 +25,7 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            font-size: 16px;
             display: flex;
 
             > img {
@@ -40,7 +40,11 @@
             }
 
             > input {
+                -webkit-border-radius:0px;
+                -webkit-appearance: none;
                 text-align: center;
+                border-radius: 0;
+                font-size: 16px;
                 outline: none;
                 border: none;
 
