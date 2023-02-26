@@ -50,12 +50,22 @@ def personal_pron_verb(**kwargs):
             Answer(v, hiden=False, base=True),
             Answer(v, hiden=True, end=True),
         ]
-    else:
+    ch = randint(1, 3)
+    return [
+        Answer(pp, hiden=bool(ch & 1)),
+        Answer(),
+        Answer(v, hiden=bool(ch & 2)),
+    ]
+
+
+def noun_plural(**kwargs):
+    n = NounInfinitive._random(**kwargs).noun.get(plural=True)
+    if randint(0, 1):
         return [
-            Answer(pp, hiden=bool(randint(0, 1))),
-            Answer(),
-            Answer(v, hiden=bool(randint(0, 1))),
+            Answer(n, hiden=False, base=True),
+            Answer(n, hiden=True, end=True),
         ]
+    return [Answer(n, hiden=True)]
 
 
 RANDOM_CHOICES = [
@@ -75,8 +85,8 @@ RANDOM_CHOICES = [
         name="Существительное",
     ),
     RandomChoice(
-        random=lambda **k: [Answer(hiden=True, instance=Noun._random(plural=True))],
         description="Существительное множественное число",
         name="Существительное мн.ч.",
+        random=noun_plural,
     ),
 ]
