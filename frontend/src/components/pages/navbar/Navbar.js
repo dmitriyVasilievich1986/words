@@ -11,7 +11,7 @@ function Navbar() {
     <div className={cx("navbar")}>
       <div className={cx("side")} />
       <div className={cx("center")}>
-        {PAGES.map((p) => (
+        {PAGES.filter((p) => !p.hiden).map((p) => (
           <NavLink className={cx("nav-link")} to={p.path} key={p.name}>
             {p.name}
           </NavLink>
