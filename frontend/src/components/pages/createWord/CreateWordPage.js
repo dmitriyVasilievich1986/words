@@ -11,6 +11,7 @@ const cx = className.bind(style);
 
 function CreateWordPage(props) {
   const [data, setData] = React.useState(getInitState(WORDS.verbInfinitive));
+  const [gender, setGender] = React.useState(props.gender[0].id);
   const [word, setWord] = React.useState(WORDS.verbInfinitive);
   const [selectedWord, setSelectedWord] = React.useState(0);
 
@@ -19,22 +20,31 @@ function CreateWordPage(props) {
   const changeHanler = (e) => {
     const newValue = e.target.value;
     setData(getInitState(newValue));
+    setSelectedWord(0);
     setWord(newValue);
   };
 
   const wordSelectHandler = (e) => {
     const newID = e.target.value;
+    setSelectedWord(newID);
+    if (newID == 0) {
+      setData(getInitState(word));
+      return;
+    }
     axios
       .get(`/api/${word.toLowerCase()}/${newID}/`)
       .then((data) => {
         setData(getInitState(word, data.data));
-        setSelectedWord(e.target.value);
+        if (data.data?.gender) {
+          setGender(data.data.gender);
+        }
       })
       .catch((e) => console.log(e));
   };
 
   const clickHandler = (_) => {
     const payload = getRequest(word, data);
+    payload.gender = gender;
     if (payload?.id) {
       updateWord(payload);
     } else {
@@ -83,6 +93,15 @@ function CreateWordPage(props) {
       </div>
       <div className={cx("center")}>
         <div>
+          <div className={cx("select-wrapper")}>
+            <select value={gender} onChange={(e) => setGender(e.target.value)}>
+              {props.gender.map((g) => (
+                <option value={g.id} key={g.id}>
+                  {g.word}
+                </option>
+              ))}
+            </select>
+          </div>
           {Object.keys(data).map((k) => (
             <InputParagraph
               setData={setData}
@@ -116,6 +135,7 @@ function CreateWordPage(props) {
 const mapStateToProps = (state) => ({
   verbInfinitive: state.words.verbInfinitive,
   nounInfinitive: state.words.nounInfinitive,
+  gender: state.words.gender,
 });
 
 export default connect(mapStateToProps)(CreateWordPage);

@@ -8,7 +8,7 @@ const infinitivePayload = (props) => ({
       translateText: "Перевод",
       word: props?.word || "",
       id: props?.id || null,
-      wordText: "Глагол",
+      wordText: "Слово",
     },
   ],
 });
@@ -57,40 +57,31 @@ const getVerbData = (props) => {
 };
 const nounPayload = (data) => {
   const payload = {};
-  store.getState().words.declentions.map((d) => {
+  store.getState().words.declentions.map((decl) => {
     const newData = data
-      .filter((nd) => nd.declention === d.id)
-      .map((nd) => {
-        const g = store
-          .getState()
-          .words.gender.find((gn) => gn.id === nd.gender);
-        return {
-          ...nd,
-          translateText: `${g.translate} ${nd.plural ? "мн." : "ед."}`,
-          wordText: `${g.word} ${nd.plural ? "plur." : "sing."}`,
-        };
-      });
-    payload[d.word] = newData;
+      .filter((d) => d.declention == decl.id)
+      .map((d) => ({
+        ...d,
+        translateText: d.plural ? "мн." : "ед.",
+        wordText: d.plural ? "plur." : "sing.",
+      }));
+    payload[decl.word] = newData;
   });
   return payload;
 };
 const getNounData = (props) => {
   if (props?.noun) return props.noun;
-  const payload = [];
-  store.getState().words.declentions.map((d) =>
-    store.getState().words.gender.map((g) =>
-      [true, false].map((p) => {
-        payload.push({
-          declention: d.id,
-          translate: "",
-          gender: g.id,
-          plural: p,
-          word: "",
-        });
-      })
-    )
-  );
-  return payload;
+  return store
+    .getState()
+    .words.declentions.map((d) => {
+      return [false, true].map((p) => ({
+        declention: d.id,
+        translate: "",
+        plural: p,
+        word: "",
+      }));
+    })
+    .flat();
 };
 
 export function getInitState(word, props) {

@@ -3,7 +3,8 @@ import { WORDS } from "Constants";
 const getFlatenData = (data) => {
   return Object.keys(data)
     .map((k) => (["Infinitive", "Base"].includes(k) ? [] : data[k]))
-    .flat();
+    .flat()
+    .filter((w) => w.word !== "" && w.translate !== "");
 };
 
 export function getRequest(word, data) {
