@@ -12,7 +12,7 @@ function PhraseInput(props) {
   }, [props.show]);
 
   const changeHandler = (e) => {
-    const v = e.target.value;
+    const v = e.target.value.toLocaleLowerCase();
     if (v.length >= props.word.length + 1) {
       return;
     }
