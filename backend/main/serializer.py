@@ -49,7 +49,7 @@ class NounSerializer(ModelSerializer):
 
 
 class NounInfinitiveSerializer(ModelSerializer):
-    noun = NounSerializer(many=True, read_only=True)
+    noun = NounSerializer(many=True)
 
     class Meta:
         model = NounInfinitive
@@ -59,7 +59,7 @@ class NounInfinitiveSerializer(ModelSerializer):
         nouns = validated_data.pop("noun")
         noun_infinitive = NounInfinitive.objects.create(**validated_data)
         for noun in nouns:
-            Noun.objects.create(noun=noun_infinitive, **noun)
+            Noun.objects.create(infinitive=noun_infinitive, **noun)
         return noun_infinitive
 
     def update(self, instance, validated_data):
