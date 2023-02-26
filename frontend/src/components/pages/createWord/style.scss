@@ -19,7 +19,6 @@
 
     > .center {
         justify-content: center;
-        margin-top: 2rem;
         flex: 3 700px;
         display: flex;
 
@@ -27,14 +26,19 @@
             max-width: 700px;
             width: 100vw;
 
-            > .button-wrapper {
+            > .button-wrapper,
+            .select-wrapper {
                 justify-content: center;
+                margin: 2rem 0;
                 display: flex;
+
+                > select {
+                    width: 250px;
+                }
 
                 > button {
                     border-radius: 10px;
                     padding: 10px 2rem;
-                    margin-top: 2rem;
                     cursor: pointer;
                     border: none;
                 }
