@@ -9,6 +9,13 @@ class NounInfinitive(models.Model, RandomMixin):
     word = models.CharField(max_length=150, blank=False, null=False)
     base = models.CharField(max_length=150, blank=False, null=False)
 
+    gender = models.ForeignKey(
+        on_delete=models.CASCADE,
+        related_name="noun",
+        to=Gender,
+        null=True,
+    )
+
 
 class Noun(models.Model, RandomMixin):
     translate = models.CharField(max_length=150, blank=False, null=False)
@@ -25,12 +32,6 @@ class Noun(models.Model, RandomMixin):
         on_delete=models.CASCADE,
         related_name="noun",
         to=Declentions,
-        null=True,
-    )
-    gender = models.ForeignKey(
-        on_delete=models.CASCADE,
-        related_name="noun",
-        to=Gender,
         null=True,
     )
 
