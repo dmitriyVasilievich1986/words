@@ -1,5 +1,6 @@
-from .verb_models import VerbInfinitive, Verb
+from .noun_models import NounInfinitive, Noun
 from .pronoun_models import PersonalPronoun
+from .verb_models import VerbInfinitive
 from dataclasses import dataclass
 from .time_models import Time
 from random import randint
@@ -67,5 +68,15 @@ RANDOM_CHOICES = [
         name="Личное местоимение + Глагол",
         description="Только глагол",
         random=personal_pron_verb,
+    ),
+    RandomChoice(
+        description="Существительное",
+        random=lambda **k: [Answer(hiden=True, instance=NounInfinitive._random(**k))],
+        name="Существительное",
+    ),
+    RandomChoice(
+        random=lambda **k: [Answer(hiden=True, instance=Noun._random(plural=True))],
+        description="Существительное множественное число",
+        name="Существительное мн.ч.",
     ),
 ]
