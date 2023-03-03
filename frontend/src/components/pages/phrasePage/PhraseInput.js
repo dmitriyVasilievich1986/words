@@ -24,7 +24,7 @@ function PhraseInput(props) {
   }
   return (
     <input
-      style={{ width: `${props.word.length * 10}px` }}
+      style={{ width: `${props.word.length * 13}px` }}
       disabled={value === props.word}
       onChange={changeHandler}
       value={value}
