@@ -1,6 +1,7 @@
+from .pronoun_models import PersonalPronoun, Pronoun
 from .noun_models import NounInfinitive, Noun
-from .pronoun_models import PersonalPronoun
 from .verb_models import VerbInfinitive
+from .gender_models import Gender
 from dataclasses import dataclass
 from .time_models import Time
 from enum import Enum, auto
@@ -80,6 +81,24 @@ def noun_plural(**kwargs):
     return [Answer(n, hiden=True)]
 
 
+def pron_noun(**kwargs):
+    g = Gender._random()
+    p = Pronoun._random(gender=g.id, **kwargs)
+    n = NounInfinitive._random(gender=g.id, **kwargs)
+    if randint(0, 1):
+        ch = randint(1, 3)
+        return [
+            Answer(p, hiden=bool(ch & 1)),
+            Answer(),
+            Answer(n, hiden=bool(ch & 2)),
+        ]
+    return [
+        Answer(p),
+        Answer(),
+        *get_base_postfix(n),
+    ]
+
+
 RANDOM_CHOICES = [
     RandomChoice(
         random=lambda **k: [Answer(hiden=True, instance=VerbInfinitive._random(**k))],
@@ -100,5 +119,10 @@ RANDOM_CHOICES = [
         description="Существительное множественное число",
         name="Существительное мн.ч.",
         random=noun_plural,
+    ),
+    RandomChoice(
+        description="Местоимение + существительное",
+        name="Местоимение + существительное",
+        random=pron_noun,
     ),
 ]
