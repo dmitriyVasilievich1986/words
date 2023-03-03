@@ -22,6 +22,7 @@ function PhrasePage() {
   };
 
   React.useEffect(() => {
+    setShow(false);
     sendAPIRequest();
   }, [randomChoices, selectValue]);
 
