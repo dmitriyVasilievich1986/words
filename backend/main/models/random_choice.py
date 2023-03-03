@@ -3,6 +3,7 @@ from .pronoun_models import PersonalPronoun
 from .verb_models import VerbInfinitive
 from dataclasses import dataclass
 from .time_models import Time
+from enum import Enum, auto
 from random import randint
 from typing import Any
 import re
@@ -21,21 +22,36 @@ class RandomChoice:
         }
 
 
+class WordPart(Enum):
+    postfix = auto()
+    full = auto()
+    base = auto()
+
+
 class Answer(dict):
     def __init__(
-        self, instance: VerbInfinitive = None, hiden=False, base=False, end=False
+        self, instance: VerbInfinitive = None, hiden=False, part=WordPart.full
     ):
-        if base:
+        if part is WordPart.base:
+            self["hiden"] = False
             self["word"] = getattr(instance, "base", " ")
             self["translate"] = getattr(instance, "translate", " ")
-        elif end:
+        elif part is WordPart.postfix:
+            self["hiden"] = True
             self["translate"] = ""
             b = getattr(instance, "base", "")
             self["word"] = re.sub(r"^" + b, "", getattr(instance, "word", ""))
         else:
+            self["hiden"] = hiden
             self["word"] = getattr(instance, "word", " ")
             self["translate"] = getattr(instance, "translate", " ")
-        self["hiden"] = hiden
+
+
+def get_base_postfix(word):
+    return [
+        Answer(instance=word, part=WordPart.base),
+        Answer(instance=word, part=WordPart.postfix),
+    ]
 
 
 def personal_pron_verb(**kwargs):
@@ -45,10 +61,9 @@ def personal_pron_verb(**kwargs):
     v = vi.verb.get(pronoun=pp.id, time=t)
     if randint(0, 1):
         return [
-            Answer(pp, hiden=bool(randint(0, 1))),
+            Answer(pp, hiden=False),
             Answer(),
-            Answer(v, hiden=False, base=True),
-            Answer(v, hiden=True, end=True),
+            *get_base_postfix(v),
         ]
     ch = randint(1, 3)
     return [
@@ -61,10 +76,7 @@ def personal_pron_verb(**kwargs):
 def noun_plural(**kwargs):
     n = NounInfinitive._random(**kwargs).noun.get(plural=True)
     if randint(0, 1):
-        return [
-            Answer(n, hiden=False, base=True),
-            Answer(n, hiden=True, end=True),
-        ]
+        return get_base_postfix(n)
     return [Answer(n, hiden=True)]
 
 
