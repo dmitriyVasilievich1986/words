@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from .time_models import Time
 from random import randint
 from typing import Any
+import re
 
 
 @dataclass
@@ -25,16 +26,15 @@ class Answer(dict):
         self, instance: VerbInfinitive = None, hiden=False, base=False, end=False
     ):
         if base:
-            self["translate"] = getattr(instance, "translate", " ")
             self["word"] = getattr(instance, "base", " ")
-        elif end:
-            self["word"] = getattr(instance, "word", "").lstrip(
-                getattr(instance, "base", "")
-            )
-            self["translate"] = ""
-        else:
             self["translate"] = getattr(instance, "translate", " ")
+        elif end:
+            self["translate"] = ""
+            b = getattr(instance, "base", "")
+            self["word"] = re.sub(r"^" + b, "", getattr(instance, "word", ""))
+        else:
             self["word"] = getattr(instance, "word", " ")
+            self["translate"] = getattr(instance, "translate", " ")
         self["hiden"] = hiden
 
 
