@@ -1,11 +1,12 @@
 from .pronoun_models import PersonalPronoun, Pronoun
 from .noun_models import NounInfinitive, Noun
+from .declentions_models import Declentions
 from .verb_models import VerbInfinitive
+from random import randint, choice
 from .gender_models import Gender
 from dataclasses import dataclass
 from .time_models import Time
 from enum import Enum, auto
-from random import randint
 from typing import Any
 import re
 
@@ -83,8 +84,11 @@ def noun_plural(**kwargs):
 
 def pron_noun(**kwargs):
     g = Gender._random()
-    p = Pronoun._random(gender=g.id, **kwargs)
-    n = NounInfinitive._random(gender=g.id, **kwargs)
+    pl = bool(randint(0, 1))
+    d = Declentions._random()
+    p = Pronoun._random(gender=g.id, plural=pl, declentions=d, **kwargs)
+    n = NounInfinitive._random(gender=g.id).noun.get(plural=pl, declention=d, **kwargs)
+
     if randint(0, 1):
         ch = randint(1, 3)
         return [
