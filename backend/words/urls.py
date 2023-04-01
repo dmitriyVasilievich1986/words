@@ -1,13 +1,12 @@
-from graphene_django.views import GraphQLView
 from django.urls import path, include
-from django.shortcuts import render
+from main.views import index_view
 
 urlpatterns = [
+    path("api/", include("random_generator.urls")),
+    path("api/", include("pronoun.urls")),
     path("api/", include("main.urls")),
-    path("graphql", GraphQLView.as_view(graphiql=True)),
-    path(
-        "<path:resource>",
-        lambda request, *args, **kwargs: render(request, "index.html"),
-    ),
-    path("", lambda request: render(request, "index.html")),
+    path("api/", include("verb.urls")),
+    path("api/", include("noun.urls")),
+    path("<path:resource>", index_view),
+    path("", index_view),
 ]
