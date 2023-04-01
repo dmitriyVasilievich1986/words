@@ -11,40 +11,17 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect((_) => {
-    Promise.all([
-      axios.get("/api/personalPronoun/".toLowerCase()),
-      axios.get("/api/nounInfinitive/".toLowerCase()),
-      axios.get("/api/verbInfinitive/".toLowerCase()),
-      axios.get("/api/randomChoices/".toLowerCase()),
-      axios.get("/api/declentions/".toLowerCase()),
-      axios.get("/api/gender/".toLowerCase()),
-      axios.get("/api/time/".toLowerCase()),
-    ])
-      .then((values) => {
-        const [
-          personalPronoun,
-          nounInfinitive,
-          verbInfinitive,
-          randomChoices,
-          declentions,
-          gender,
-          time,
-        ] = values;
-
-        dispatch(
-          setState({
-            personalPronoun: personalPronoun.data,
-            nounInfinitive: nounInfinitive.data,
-            verbInfinitive: verbInfinitive.data,
-            randomChoices: randomChoices.data,
-            declentions: declentions.data,
-            gender: gender.data,
-            time: time.data,
-          })
-        );
+    axios
+      .get("/api/randomChoices/".toLowerCase())
+      .then((data) => {
+        dispatch(setState({ randomChoices: data.data }));
       })
-      .catch((e) => console.log(e))
-      .finally((_) => setIsLoading(false));
+      .catch((e) => {
+        console.log(e);
+      })
+      .finally((_) => {
+        setIsLoading(false);
+      });
   }, []);
 
   if (isLoading) return <p>loading...</p>;
