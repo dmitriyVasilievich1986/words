@@ -4,7 +4,7 @@ from .models import Declentions, Gender, Time
 from django.shortcuts import render
 
 
-def index_view(request, pk=None):
+def index_view(request, *args, **kwargs):
     return render(request, "index.html")
 
 
