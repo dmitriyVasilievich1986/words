@@ -1,0 +1,58 @@
+version: "3.7"
+services:
+  db:
+    image: postgres:14
+    container_name: db
+    restart: unless-stopped
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+    networks:
+      - words_network
+
+  words:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: words
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app/backend
+    environment:
+      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_USER: ${DB_USER}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+      DB_HOST: ${DB_HOST}
+      SECRET: ${SECRET}
+      DEBUG: "True"
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    networks:
+      - words_network
+
+  front:
+    image: node:14
+    command: ["/bin/bash", "/app/frontend/run_dev.sh"]
+    volumes:
+      - ./frontend:/app/frontend
+      - ./backend:/app/backend
+    networks:
+      - words_network
+
+networks:
+  words_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.228.0/24"
+
+volumes:
+  static:
+    external: false
