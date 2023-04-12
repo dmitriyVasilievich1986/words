@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_filters",
     "random_generator",
+    "preposition",
     "pronoun",
     "models",
     "main",

@@ -6,6 +6,8 @@ class Command(BaseCommand):
     help = f"Fill all tables with static values"
 
     def handle(self, *args, **kwargs):
+        print("***Prepositions***")
+        management.call_command("fill_preposition_table")
         print("***Declentions***")
         management.call_command("fill_declentions_table")
         print("***Pronoun***")

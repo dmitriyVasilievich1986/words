@@ -3,6 +3,7 @@ from main.views import index_view
 
 urlpatterns = [
     path("api/", include("random_generator.urls")),
+    path("api/", include("preposition.urls")),
     path("api/", include("pronoun.urls")),
     path("api/", include("models.urls")),
     path("api/", include("main.urls")),
