@@ -1,5 +1,6 @@
 from main.support_mixin import RandomMixin, RepresentationBaseClass
 from main.models import Declentions, Gender
+from preposition.models import Preposition
 from django.db import models
 
 
@@ -9,6 +10,12 @@ class Noun(RepresentationBaseClass, models.Model, RandomMixin):
     base = models.CharField(max_length=50, blank=False, null=True)
     plural = models.BooleanField(default=False)
 
+    preposition = models.ForeignKey(
+        on_delete=models.CASCADE,
+        related_name="noun",
+        to=Preposition,
+        null=True,
+    )
     declention = models.ForeignKey(
         on_delete=models.CASCADE,
         related_name="noun",
@@ -26,4 +33,5 @@ class Noun(RepresentationBaseClass, models.Model, RandomMixin):
         plural = f"Plural: {self.plural}"
         gender = self.gender and f"Gender: <<{self.gender}>>"
         declention = self.declention and f"Declention: <<{self.declention}>>"
-        return super().__repr__(plural, gender, declention)
+        preposition = self.preposition and f"Preposition: <<{self.preposition}>>"
+        return super().__repr__(plural, gender, declention, preposition)
