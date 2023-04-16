@@ -1,3 +1,4 @@
+import { Select } from "../mainComponents";
 import { useSelector } from "react-redux";
 import arrowPNG from "./circleArrow.png";
 import PhraseInput from "./PhraseInput";
@@ -10,21 +11,22 @@ const cx = className.bind(style);
 
 function PhrasePage() {
   const randomChoices = useSelector((state) => state.words.randomChoices);
-  const [selectValue, setSelectValue] = React.useState(0);
+  const [choices, setChoices] = React.useState([{ id: 0 }]);
   const [phrase, setPhrase] = React.useState(null);
   const [show, setShow] = React.useState(false);
 
   const sendAPIRequest = () => {
+    setShow(false);
+    const id = choices[Math.floor(Math.random() * choices.length)].id;
     axios
-      .get(`/api/randomchoices/${selectValue}/`)
+      .get(`/api/randomchoices/${id}/`)
       .then((data) => setPhrase(data.data))
       .catch((e) => console.log(e));
   };
 
   React.useEffect(() => {
-    setShow(false);
     sendAPIRequest();
-  }, [randomChoices, selectValue]);
+  }, [choices]);
 
   const clickHandler = (e) => {
     if (e.target.type === "text") return;
@@ -43,18 +45,12 @@ function PhrasePage() {
   return (
     <div className={cx("phrase-page-card")}>
       <div className={cx("side")}>
-        <div>
-          <select
-            value={selectValue}
-            onChange={(e) => setSelectValue(e.target.value)}
-          >
-            {randomChoices.map((p, i) => (
-              <option value={i} key={i}>
-                {p.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Select
+          multiple={true}
+          alwaysFilled={true}
+          value={randomChoices}
+          onChange={setChoices}
+        />
       </div>
       <div className={cx("center")}>
         <div className={cx("phrase-row")} onClick={clickHandler} id="phrase">
