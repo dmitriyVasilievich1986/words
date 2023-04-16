@@ -10,10 +10,10 @@ class Noun(RepresentationBaseClass, models.Model, RandomMixin):
     base = models.CharField(max_length=50, blank=False, null=True)
     plural = models.BooleanField(default=False)
 
-    preposition = models.ForeignKey(
-        on_delete=models.CASCADE,
+    prepositions = models.ManyToManyField(
         related_name="noun",
         to=Preposition,
+        blank=True,
         null=True,
     )
     declention = models.ForeignKey(
@@ -33,5 +33,7 @@ class Noun(RepresentationBaseClass, models.Model, RandomMixin):
         plural = f"Plural: {self.plural}"
         gender = self.gender and f"Gender: <<{self.gender}>>"
         declention = self.declention and f"Declention: <<{self.declention}>>"
-        preposition = self.preposition and f"Preposition: <<{self.preposition}>>"
+        preposition = (
+            self.prepositions and f"Prepositions: <<{self.prepositions.all()}>>"
+        )
         return super().__repr__(plural, gender, declention, preposition)
