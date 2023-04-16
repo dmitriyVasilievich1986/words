@@ -51,7 +51,7 @@ class Random:
     name: str
 
     def json(self) -> dict:
-        return {"name": self.name}
+        return {"name": self.name, "word": self.name}
 
     def __call__(self) -> AnswerList:
         return self.func()
