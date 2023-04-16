@@ -6,6 +6,14 @@ class TextInput(dict):
         self["data"] = ""
 
 
+class BoolInput(dict):
+    def __init__(self, name, text=None):
+        self["component"] = "boolInput"
+        self["data"] = False
+        self["text"] = text
+        self["name"] = name
+
+
 class ChoiceInput(dict):
     def __init__(self, name, value, text=None, multiple=False):
         self["component"] = "choiceInput"
