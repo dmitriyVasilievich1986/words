@@ -2,7 +2,7 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
 from .models import WordModel
 
-MODELS = [WordModel(name="Глагол", url="/api/verb/model/")]
+MODELS = [WordModel(word="Глагол", url="/api/verb/")]
 
 
 class ModelViewSet(GenericViewSet):

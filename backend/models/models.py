@@ -25,6 +25,6 @@ class ChoiceInput(dict):
 
 
 class WordModel(dict):
-    def __init__(self, name, url):
-        self["name"] = name
+    def __init__(self, word, url):
+        self["word"] = word
         self["url"] = url
