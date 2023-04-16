@@ -7,14 +7,26 @@ const cx = className.bind(style);
 
 function Select(props) {
   const [show, setShow] = React.useState(false);
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState(null);
   const windowRef = React.useRef();
 
-  React.useEffect(() => {
+  const setDataToDefault = () => {
     if (Array.isArray(props.default) && props.default.length > 0)
       setData(props.default);
-    else setData(props.multiple ? [] : [props.value[0].id]);
+    else if (props.multiple && !props.alwaysFilled) setData([]);
+    else setData([props.value[0].id]);
+  };
+
+  React.useEffect(() => {
+    if (props.value.length > 0) setDataToDefault();
   }, [props.value]);
+
+  React.useEffect(() => {
+    if (props.onChange && data !== null) {
+      const values = props.value.filter((v) => data.includes(v.id));
+      props.onChange(values);
+    }
+  }, [data]);
 
   React.useEffect(() => {
     function handleClickOutside(event) {
@@ -32,7 +44,10 @@ function Select(props) {
     let newData = [];
     if (props.multiple) {
       if (data.includes(ID)) {
-        newData = data.filter((d) => d !== ID);
+        newData =
+          props.alwaysFilled && data.length == 1
+            ? data
+            : data.filter((d) => d !== ID);
       } else {
         newData = [...data, ID];
       }
@@ -41,12 +56,9 @@ function Select(props) {
     }
     setData(newData);
     if (!props.multiple) setShow(false);
-    if (props.onChange) {
-      const values = props.value.filter((v) => newData.includes(v.id));
-      props.onChange(values);
-    }
   };
 
+  if (data === null) return null;
   return (
     <div className={cx("field")}>
       {props.text && <div className={cx("label")}>{props.text}</div>}
@@ -72,7 +84,7 @@ function Select(props) {
         </div>
         <input hidden={true} name={props.name} defaultValue={data} />
       </div>
-      {props.multiple && <img src={picture} onClick={() => setData([])} />}
+      {props.multiple && <img src={picture} onClick={setDataToDefault} />}
     </div>
   );
 }
