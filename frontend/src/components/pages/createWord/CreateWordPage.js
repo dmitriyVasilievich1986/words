@@ -1,43 +1,15 @@
+import { TextInput, BoolInput, Select, Button } from "../mainComponents";
+import className from "classnames";
+import style from "./style.scss";
 import React from "react";
 import axios from "axios";
 
-const WordConstructor = (props) => {
-  const [data, setData] = props.dataHandler;
-  const changeHandler = (e) => {
-    setData(
-      data.map((d) => {
-        if (d.name === props.name) {
-          return { ...d, data: e.target.value };
-        } else {
-          return d;
-        }
-      })
-    );
-  };
-  if (props.component === "textInput") {
-    return (
-      <React.Fragment>
-        <p>{props.text}</p>
-        <input type="text" onChange={changeHandler} value={props.data} />
-      </React.Fragment>
-    );
-  } else if (props.component === "choiceInput") {
-    return (
-      <React.Fragment>
-        <p>{props.text}</p>
-        <select onChange={changeHandler} value={props.data}>
-          {props.value.map((v) => (
-            <option key={v.id} value={v.id}>
-              {v.word}
-            </option>
-          ))}
-        </select>
-      </React.Fragment>
-    );
-  }
-};
+const cx = className.bind(style);
+const initialWord = { id: 0, word: "new word", translate: "", base: "" };
 
 function CreateWordPage() {
+  const [wordList, setWordList] = React.useState([initialWord]);
+  const [newWord, setNewWord] = React.useState(initialWord);
   const [models, setModels] = React.useState(null);
   const [word, setWord] = React.useState(null);
   const [data, setData] = React.useState([]);
@@ -54,39 +26,88 @@ function CreateWordPage() {
 
   React.useEffect(() => {
     if (word === null) return;
+    setNewWord(initialWord);
     axios
-      .get(models[word].url)
+      .get(`${models[word].url}model/`)
       .then((data) => {
         setData(data.data);
       })
       .catch((e) => console.log(e));
+    axios
+      .get(`${models[word].url}`)
+      .then((data) => {
+        setWordList([newWord, ...data.data]);
+      })
+      .catch((e) => console.log(e));
   }, [word]);
 
-  const clickHandler = (e) => {
-    const payload = {};
-    data.map((d) => {
-      payload[d.name] = d.data;
+  const postData = (submitData) => {
+    axios
+      .post(models[word].url, submitData)
+      .then((data) => {
+        setWordList([...wordList, data.data]);
+        setNewWord(initialWord);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const patchData = (submitData) => {
+    axios
+      .patch(`${models[word].url}${newWord.id}/`, submitData)
+      .then((data) => {
+        setWordList(wordList.map((w) => (w.id == newWord.id ? data.data : w)));
+        setNewWord(initialWord);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const submitHandler = (e) => {
+    const getValue = (v) => {
+      if (v.includes(",")) return v.split(",").map((x) => Number(x));
+      else if (["false", "true"].includes(v)) return v == "true";
+      else if (!isNaN(v)) return Number(v) || [];
+      return v;
+    };
+    e.preventDefault();
+    const submitData = {};
+    Array.from(e.target.getElementsByTagName("input")).map((i) => {
+      submitData[i.name] = getValue(i.value);
     });
-    console.log(payload);
+    if (newWord.id == 0) postData(submitData);
+    else patchData(submitData);
+  };
+
+  const WordConstructor = (props) => {
+    switch (props.component) {
+      case "choiceInput":
+        return <Select {...props} default={newWord[props.name]} />;
+      case "boolInput":
+        return <BoolInput {...props} default={newWord[props.name]} />;
+      default:
+        return <TextInput {...props} default={newWord[props.name]} />;
+    }
   };
 
   if (models === null) return null;
   return (
-    <div>
-      <select value={word} onChange={(e) => setWord(e.target.value)}>
-        {models.map((m) => (
-          <option key={m.id} value={m.id}>
-            {m.name}
-          </option>
-        ))}
-      </select>
-      <div>New word:</div>
-      <div>
-        {data.map((d, i) => (
-          <WordConstructor key={i} {...d} dataHandler={[data, setData]} />
-        ))}
+    <div className={cx("create-word-window")}>
+      <div className={cx("wrapper")}>
+        <Select value={models} onChange={(e) => setWord(e[0].id)} />
+        <form onSubmit={submitHandler}>
+          <div style={{ textAlign: "center" }}>"{newWord.word}"</div>
+          <div>
+            {data.map((d, i) => (
+              <WordConstructor key={i} {...d} />
+            ))}
+          </div>
+          <Button text={newWord.id == 0 ? "Send" : "Update"} />
+        </form>
+        <Select value={wordList} onChange={(v) => setNewWord(v[0])} />
       </div>
-      <button onClick={clickHandler}>send</button>
     </div>
   );
 }
