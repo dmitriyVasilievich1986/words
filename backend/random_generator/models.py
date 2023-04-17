@@ -1,60 +1,9 @@
-from dataclasses import dataclass
-from typing import Callable
-from random import randint
-import re
-
+from .support_classes import Answer, AnswerList, Word, Empty, Base, Random
 from main.models import Time, Declentions
 from pronoun.models import Pronoun
 from verb.models import Verb
 from noun.models import Noun
-
-
-class Answer(dict):
-    def __init__(self, word, translate="", hiden=False):
-        self["translate"] = translate
-        self["hiden"] = hiden
-        self["word"] = word
-
-
-class Word(list):
-    def __init__(self, instance, hiden=False):
-        self.append(
-            Answer(word=instance.word, translate=instance.translate, hiden=hiden)
-        )
-
-
-class Empty(list):
-    def __init__(self):
-        self.append(Answer(word=" ", translate=" "))
-
-
-class Base(list):
-    def __init__(self, instance):
-        base = instance.base
-        word = re.sub(r"^" + base, "", instance.word)
-
-        self.append(Answer(word=base, translate=instance.translate))
-        self.append(Answer(word=word, hiden=True))
-
-
-class AnswerList(list):
-    def __init__(self, *args):
-        for index, answer in enumerate(args, start=1):
-            self.extend(answer)
-            if len(args) > index:
-                self.extend(Empty())
-
-
-@dataclass
-class Random:
-    func: Callable
-    name: str
-
-    def json(self) -> dict:
-        return {"name": self.name, "word": self.name}
-
-    def __call__(self) -> AnswerList:
-        return self.func()
+from random import randint
 
 
 def _get_rand_from_three():
@@ -62,7 +11,7 @@ def _get_rand_from_three():
     return bool(ch & 1), bool(ch & 2)
 
 
-def _get_verb():
+def _get_verb_declentions():
     declention = Declentions.objects.get(word="Nominative").id
     time = Time.objects.get(word="Present").id
     pronoun = Pronoun.random(declention=declention)
@@ -84,7 +33,25 @@ def _get_noun():
     return AnswerList(Word(instance=noun, hiden=True))
 
 
+def _get_verb():
+    verb = Verb.random(pronoun=None, time=None)
+    return AnswerList(Word(instance=verb, hiden=True))
+
+
 RANDOM_CHOICES = [
-    Random(name="Глагол", func=_get_verb),
-    Random(name="Существительное", func=_get_noun),
+    Random(
+        func=_get_verb,
+        name="Глагол",
+        description="Переведите глагол:",
+    ),
+    Random(
+        name="Склонения глагола",
+        func=_get_verb_declentions,
+        description="Поставьте глагол в нужное склонение:",
+    ),
+    Random(
+        func=_get_noun,
+        name="Существительное",
+        description="Переведите существительное:",
+    ),
 ]
