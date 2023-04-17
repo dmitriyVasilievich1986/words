@@ -30,4 +30,4 @@ class Verb(RepresentationBaseClass, models.Model, RandomMixin):
 
     @classmethod
     def _get_objects(cls):
-        return cls.objects.filter(~Q(base=None))
+        return cls.objects.filter(~Q(base=""))
