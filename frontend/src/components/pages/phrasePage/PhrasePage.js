@@ -1,6 +1,5 @@
 import { Select } from "../mainComponents";
 import { useSelector } from "react-redux";
-import arrowPNG from "./circleArrow.png";
 import PhraseInput from "./PhraseInput";
 import className from "classnames";
 import style from "./style.scss";
@@ -11,15 +10,17 @@ const cx = className.bind(style);
 
 function PhrasePage() {
   const randomChoices = useSelector((state) => state.words.randomChoices);
+  const [selectedChoice, setSelectedChoice] = React.useState(null);
   const [choices, setChoices] = React.useState([{ id: 0 }]);
   const [phrase, setPhrase] = React.useState(null);
   const [show, setShow] = React.useState(false);
 
   const sendAPIRequest = () => {
     setShow(false);
-    const id = choices[Math.floor(Math.random() * choices.length)].id;
+    const newChoice = choices[Math.floor(Math.random() * choices.length)];
+    setSelectedChoice(newChoice);
     axios
-      .get(`/api/randomchoices/${id}/`)
+      .get(`/api/randomchoices/${newChoice.id}/`)
       .then((data) => setPhrase(data.data))
       .catch((e) => console.log(e));
   };
@@ -45,22 +46,28 @@ function PhrasePage() {
   return (
     <div className={cx("phrase-page-card")}>
       <div className={cx("side")}>
-        <Select
-          multiple={true}
-          alwaysFilled={true}
-          value={randomChoices}
-          onChange={setChoices}
-        />
-      </div>
-      <div className={cx("center")}>
-        <div className={cx("phrase-row")} onClick={clickHandler} id="phrase">
-          {phrase.map((w, i) => (
-            <PhraseInput {...w} key={i} show={show} />
-          ))}
-          <img src={arrowPNG} />
-          {phrase.map((w) => w.translate)}
+        <div>
+          <Select
+            multiple={true}
+            alwaysFilled={true}
+            value={randomChoices}
+            onChange={setChoices}
+          />
         </div>
       </div>
+
+      <div className={cx("center")}>
+        <div className={cx("wrapper")} onClick={clickHandler}>
+          <div>{selectedChoice?.description || ""}</div>
+          <div>"{phrase.map((w) => w.translate)}"</div>
+          <div className={cx("phrase-row")} id="phrase">
+            {phrase.map((w, i) => (
+              <PhraseInput {...w} key={i} show={show} />
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className={cx("side")} />
     </div>
   );
