@@ -131,6 +131,65 @@ class Command(BaseCommand):
                 word="волети",
                 base="вол",
             ),
+            cls(
+                translate="видеть",
+                word="видети",
+                base="вид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ја"),
+                time=Time.objects.get(word="Present"),
+                translate="вижу",
+                word="волим",
+                base="вид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ти"),
+                time=Time.objects.get(word="Present"),
+                translate="видишь",
+                word="видиш",
+                base="вид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="он"),
+                time=Time.objects.get(word="Present"),
+                translate="видит",
+                word="види",
+                base="вид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ви"),
+                time=Time.objects.get(word="Present"),
+                translate="видите",
+                word="видите",
+                base="вид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ми"),
+                time=Time.objects.get(word="Present"),
+                translate="видим",
+                word="видимо",
+                base="вид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="они"),
+                time=Time.objects.get(word="Present"),
+                translate="видят",
+                word="виде",
+                base="вид",
+            ),
+            cls(
+                time=Time.objects.get(word="Past"),
+                translate="видети",
+                word="видео",
+                base="вид",
+            ),
+            cls(
+                time=Time.objects.get(word="Future"),
+                translate="видети",
+                word="видети",
+                base="вид",
+            ),
         ]
 
         print(f"Clear {table} table")
