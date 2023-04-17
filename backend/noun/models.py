@@ -14,7 +14,6 @@ class Noun(RepresentationBaseClass, models.Model, RandomMixin):
         related_name="noun",
         to=Preposition,
         blank=True,
-        null=True,
     )
     declention = models.ForeignKey(
         on_delete=models.CASCADE,
