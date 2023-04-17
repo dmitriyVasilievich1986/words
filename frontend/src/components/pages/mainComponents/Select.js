@@ -67,7 +67,7 @@ function Select(props) {
           {props.value
             .filter((v) => data.includes(v.id))
             .map((v) => v.word)
-            .join() || "empty"}
+            .join(", ") || "empty"}
         </div>
         <div className={cx("options-window", { show })}>
           <div className={cx("innner-space")}>
