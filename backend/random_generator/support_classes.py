@@ -1,6 +1,12 @@
 from dataclasses import dataclass
 from typing import Callable
+from random import randint
 import re
+
+
+def _get_rand_from_three():
+    ch = randint(1, 3)
+    return bool(ch & 1), bool(ch & 2)
 
 
 class Answer(dict):
@@ -15,6 +21,11 @@ class Word(list):
         self.append(
             Answer(word=instance.word, translate=instance.translate, hiden=hiden)
         )
+
+
+class WordWithoutTranslate(list):
+    def __init__(self, instance, hiden=False):
+        self.append(Answer(word=instance.word, translate=instance.word, hiden=hiden))
 
 
 class Empty(list):
@@ -37,6 +48,26 @@ class AnswerList(list):
             self.extend(answer)
             if len(args) > index:
                 self.extend(Empty())
+
+
+class WordMainSecondary(AnswerList):
+    def __init__(self, main, secondary):
+        first, second = _get_rand_from_three()
+        super().__init__(
+            Word(instance=main, hiden=first),
+            Word(instance=secondary, hiden=second),
+        )
+
+
+class WordBaseAnswerList(AnswerList):
+    def __init__(self, main, secondary):
+        if randint(0, 1):
+            super().__init__(
+                Word(instance=main),
+                Base(instance=secondary),
+            )
+        else:
+            self.extend(WordMainSecondary(main, secondary))
 
 
 @dataclass
