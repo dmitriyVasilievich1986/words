@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     "django_filters",
     "random_generator",
     "preposition",
+    "adjective",
     "pronoun",
     "models",
     "main",
