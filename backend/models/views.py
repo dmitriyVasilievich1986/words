@@ -5,6 +5,7 @@ from .models import WordModel
 MODELS = [
     WordModel(word="Глагол", url="/api/verb/"),
     WordModel(word="Существительное", url="/api/noun/"),
+    WordModel(word="Прилагательное", url="/api/adjective/"),
 ]
 
 
