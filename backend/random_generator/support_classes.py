@@ -45,6 +45,8 @@ class Base(list):
 class AnswerList(list):
     def __init__(self, *args):
         for index, answer in enumerate(args, start=1):
+            if answer is None or isinstance(answer, Empty):
+                continue
             self.extend(answer)
             if len(args) > index:
                 self.extend(Empty())
