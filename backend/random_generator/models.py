@@ -1,8 +1,9 @@
-from main.models import Time, Declentions
+from main.models import Time, Declentions, Gender
+from adjective.models import Adjective
+from random import randint, choice
 from pronoun.models import Pronoun
 from verb.models import Verb
 from noun.models import Noun
-from random import randint
 
 from .support_classes import (
     _get_rand_from_three,
@@ -51,6 +52,24 @@ def _get_noun_plural():
     return AnswerList(Word(instance=noun, hiden=True))
 
 
+def _get_noun_dative():
+    declention = Declentions.objects.get(word="Dative").id
+    gender = Gender.random().id
+    plural = bool(randint(0, 1))
+    adjective = Adjective.random(declention=declention, gender=gender, plural=plural)
+    noun = Noun.random(declention=declention, gender=gender, plural=plural)
+    preposition = (
+        Word(choice(noun.prepositions.all())) if noun.prepositions.count() else None
+    )
+    return AnswerList(
+        preposition,
+        Base(instance=adjective)
+        if randint(0, 1)
+        else Word(instance=adjective, hiden=True),
+        Base(instance=noun) if randint(0, 1) else Word(instance=noun, hiden=True),
+    )
+
+
 def _get_verb():
     verb = Verb.random(pronoun=None, time=None)
     return AnswerList(Word(instance=verb, hiden=True))
@@ -86,5 +105,10 @@ RANDOM_CHOICES = [
         func=_get_noun_plural,
         name="Существительное мн.ч.",
         description="Поставьте существительное во множественное число:",
+    ),
+    Random(
+        func=_get_noun_dative,
+        name="Дательный падеж",
+        description="Поставьте существительное в дательный падеж:",
     ),
 ]
