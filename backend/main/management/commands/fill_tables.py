@@ -16,6 +16,9 @@ class Command(BaseCommand):
         management.call_command("fill_gender_table")
         print("***Time***")
         management.call_command("fill_time_table")
+
+        print("***Adjective***")
+        management.call_command("fill_adjective_table")
         print("***Verb***")
         management.call_command("fill_verb_table")
         print("***Noun***")
