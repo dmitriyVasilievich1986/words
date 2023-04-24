@@ -10,6 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         objects = [
+            cls(word="Instrumental", translate="Инструментальный"),
             cls(word="Nominative", translate="Именительный"),
             cls(word="Locative", translate="Местный"),
             cls(word="Dative", translate="Дательный"),

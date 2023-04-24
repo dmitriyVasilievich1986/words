@@ -52,8 +52,8 @@ def _get_noun_plural():
     return AnswerList(Word(instance=noun, hiden=True))
 
 
-def _get_noun_dative():
-    declention = Declentions.objects.get(word="Dative").id
+def _all_noun_declentions(name):
+    declention = Declentions.objects.get(word=name).id
     gender = Gender.random().id
     plural = bool(randint(0, 1))
     adjective = Adjective.random(declention=declention, gender=gender, plural=plural)
@@ -68,6 +68,10 @@ def _get_noun_dative():
         else Word(instance=adjective, hiden=True),
         Base(instance=noun) if randint(0, 1) else Word(instance=noun, hiden=True),
     )
+
+
+def _get_noun_dative():
+    return _all_noun_declentions("Dative")
 
 
 def _get_verb():
@@ -107,8 +111,18 @@ RANDOM_CHOICES = [
         description="Поставьте существительное во множественное число:",
     ),
     Random(
-        func=_get_noun_dative,
         name="Дательный падеж",
+        func=lambda: _all_noun_declentions("Dative"),
         description="Поставьте существительное и прилагательное в дательный падеж:",
+    ),
+    Random(
+        name="Местный падеж",
+        func=lambda: _all_noun_declentions("Locative"),
+        description="Поставьте существительное и прилагательное в местный падеж:",
+    ),
+    Random(
+        name="Инструментальный падеж",
+        func=lambda: _all_noun_declentions("Instrumental"),
+        description="Поставьте существительное и прилагательное в инструментальный падеж:",
     ),
 ]
