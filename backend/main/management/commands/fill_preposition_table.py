@@ -12,6 +12,9 @@ class Command(BaseCommand):
         objects = [
             cls(translate="на", word="на"),
             cls(translate="в", word="у"),
+            cls(translate="к", word="к"),
+            cls(translate="ка", word="ка"),
+            cls(translate="према", word="према"),
             cls(translate="по", word="по"),
             cls(translate="с", word="о"),
             cls(translate="при", word="при"),
