@@ -15,3 +15,8 @@ class Gender(RepresentationClass, models.Model, RandomMixin):
 class Time(RepresentationClass, models.Model, RandomMixin):
     translate = models.CharField(max_length=150, blank=False, null=False)
     word = models.CharField(max_length=150, blank=False, null=False)
+
+
+class Preposition(RepresentationClass, models.Model, RandomMixin):
+    translate = models.CharField(max_length=50, blank=False, null=False)
+    word = models.CharField(max_length=50, blank=False, null=False)

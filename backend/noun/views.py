@@ -2,9 +2,8 @@ from models.models import TextInput, ChoiceInput, BoolInput
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from preposition.models import Preposition
+from main.models import Gender, Preposition
 from .serializer import NounSerializer
-from main.models import Gender
 from .models import Noun
 
 

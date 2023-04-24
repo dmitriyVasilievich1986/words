@@ -1,6 +1,5 @@
 from main.support_mixin import RandomMixin, RepresentationBaseClass
-from main.models import Declentions, Gender
-from preposition.models import Preposition
+from main.models import Declentions, Gender, Preposition
 from django.db import models
 
 
