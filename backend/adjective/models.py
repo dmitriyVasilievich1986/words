@@ -1,5 +1,5 @@
 from main.support_mixin import RandomMixin, RepresentationBaseClass
-from main.models import Declentions, Gender
+from main.models import Declentions, Gender, Tags
 from django.db import models
 
 
@@ -9,6 +9,11 @@ class Adjective(RepresentationBaseClass, models.Model, RandomMixin):
     base = models.CharField(max_length=50, blank=False, null=True)
     plural = models.BooleanField(default=False)
 
+    tags = models.ManyToManyField(
+        related_name="adjective",
+        blank=True,
+        to=Tags,
+    )
     declention = models.ForeignKey(
         on_delete=models.CASCADE,
         related_name="adjective",

@@ -1,10 +1,16 @@
-from .models import Declentions, Gender, Time, Preposition
+from .models import Declentions, Gender, Time, Preposition, Tags
 from rest_framework.serializers import ModelSerializer
 
 
 class PrepositionSerializer(ModelSerializer):
     class Meta:
         model = Preposition
+        fields = "__all__"
+
+
+class TagsSerializer(ModelSerializer):
+    class Meta:
+        model = Tags
         fields = "__all__"
 
 

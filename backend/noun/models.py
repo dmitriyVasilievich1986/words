@@ -1,5 +1,5 @@
 from main.support_mixin import RandomMixin, RepresentationBaseClass
-from main.models import Declentions, Gender, Preposition
+from main.models import Declentions, Gender, Preposition, Tags
 from django.db import models
 
 
@@ -9,6 +9,11 @@ class Noun(RepresentationBaseClass, models.Model, RandomMixin):
     base = models.CharField(max_length=50, blank=False, null=True)
     plural = models.BooleanField(default=False)
 
+    tags = models.ManyToManyField(
+        related_name="noun",
+        blank=True,
+        to=Tags,
+    )
     prepositions = models.ManyToManyField(
         related_name="noun",
         to=Preposition,

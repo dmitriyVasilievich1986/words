@@ -1,4 +1,4 @@
-from .models import Declentions, Gender, Time, Preposition
+from .models import Declentions, Gender, Time, Preposition, Tags
 from rest_framework.viewsets import ModelViewSet
 from django.shortcuts import render
 
@@ -7,6 +7,7 @@ from .serializer import (
     DeclentionsSerializer,
     GenderSerializer,
     TimeSerializer,
+    TagsSerializer,
 )
 
 
@@ -17,6 +18,11 @@ def index_view(request, *args, **kwargs):
 class PrepositionViewSet(ModelViewSet):
     serializer_class = PrepositionSerializer
     queryset = Preposition.objects.all()
+
+
+class TagsViewSet(ModelViewSet):
+    serializer_class = TagsSerializer
+    queryset = Tags.objects.all()
 
 
 class DeclentionsViewSet(ModelViewSet):

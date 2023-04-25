@@ -5,6 +5,7 @@ from .views import (
     PrepositionViewSet,
     GenderViewSet,
     TimeViewSet,
+    TagsViewSet,
 )
 
 
@@ -14,5 +15,6 @@ router.register("Declentions".lower(), DeclentionsViewSet)
 router.register("Preposition".lower(), PrepositionViewSet)
 router.register("Gender".lower(), GenderViewSet)
 router.register("Time".lower(), TimeViewSet)
+router.register("Tags".lower(), TagsViewSet)
 
 urlpatterns = router.urls
