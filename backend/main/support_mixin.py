@@ -9,8 +9,8 @@ class RepresentationClass:
 
     def __repr__(self, *args) -> str:
         id_ = f"ID: {self.id}"
-        word = f"ID: {self.word}"
-        translate = f"ID: {self.translate}"
+        word = f"Word: {self.word}"
+        translate = f"Translate: {self.translate}"
         return ", ".join(filter(bool, (id_, word, translate, *args)))
 
     def __str__(self) -> str:
