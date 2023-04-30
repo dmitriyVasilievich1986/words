@@ -12,6 +12,8 @@ class Command(BaseCommand):
         objects = [
             cls(word="Instrumental", translate="Инструментальный"),
             cls(word="Nominative", translate="Именительный"),
+            cls(word="Accusative", translate="Винительный"),
+            cls(word="Genitive", translate="Родительный"),
             cls(word="Locative", translate="Местный"),
             cls(word="Dative", translate="Дательный"),
         ]

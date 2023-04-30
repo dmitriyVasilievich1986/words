@@ -10,9 +10,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         objects = [
-            cls(word="instrumental"),
-            cls(word="locative"),
-            cls(word="dative"),
+            cls(word="Instrumental"),
+            cls(word="Accusative"),
+            cls(word="Genitive"),
+            cls(word="Locative"),
+            cls(word="Dative"),
         ]
 
         print(f"Clear {table} table")

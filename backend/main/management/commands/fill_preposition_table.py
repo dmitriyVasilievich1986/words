@@ -11,21 +11,24 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         objects = [
             cls(translate="на", word="на"),
-            cls(translate="в", word="у"),
+            cls(translate="у", word="у"),
             cls(translate="к", word="к"),
             cls(translate="ка", word="ка"),
             cls(translate="према", word="према"),
             cls(translate="по", word="по"),
-            cls(translate="с", word="о"),
+            cls(translate="о", word="о"),
             cls(translate="при", word="при"),
             cls(translate="са", word="са"),
             cls(translate="над", word="над"),
             cls(translate="под", word="под"),
-            cls(translate="перед", word="пред"),
-            cls(translate="от", word="од"),
+            cls(translate="пред", word="пред"),
+            cls(translate="од", word="од"),
             cls(translate="до", word="до"),
             cls(translate="из", word="из"),
-            cls(translate="перед", word="испред"),
+            cls(translate="испред", word="испред"),
+            cls(translate="близу", word="близу"),
+            cls(translate="испод", word="испод"),
+            cls(translate="изнад", word="изнад"),
         ]
 
         print(f"Clear {table} table")

@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
+from main.models import Time, Tags, Preposition
 from pronoun.models import Pronoun
-from main.models import Time
 from ...models import Verb
 
 cls = Verb
@@ -11,6 +11,8 @@ class Command(BaseCommand):
     help = f"Fill {table} table with static values"
 
     def handle(self, *args, **kwargs):
+        # region General Verbes
+
         objects = [
             cls(
                 pronoun=Pronoun.objects.get(word="ја"),
@@ -120,9 +122,45 @@ class Command(BaseCommand):
                 base="вол",
             ),
             cls(
+                pronoun=Pronoun.objects.get(word="ја"),
                 time=Time.objects.get(word="Past"),
                 translate="волети",
                 word="волео",
+                base="вол",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ти"),
+                time=Time.objects.get(word="Past"),
+                translate="волети",
+                word="волео",
+                base="вол",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="он"),
+                time=Time.objects.get(word="Past"),
+                translate="волети",
+                word="волео",
+                base="вол",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="они"),
+                time=Time.objects.get(word="Past"),
+                translate="волети",
+                word="волели",
+                base="вол",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ми"),
+                time=Time.objects.get(word="Past"),
+                translate="волети",
+                word="волели",
+                base="вол",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ви"),
+                time=Time.objects.get(word="Past"),
+                translate="волети",
+                word="волели",
                 base="вол",
             ),
             cls(
@@ -179,9 +217,45 @@ class Command(BaseCommand):
                 base="вид",
             ),
             cls(
+                pronoun=Pronoun.objects.get(word="ја"),
                 time=Time.objects.get(word="Past"),
                 translate="видети",
                 word="видео",
+                base="вид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ти"),
+                time=Time.objects.get(word="Past"),
+                translate="видети",
+                word="видео",
+                base="вид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="он"),
+                time=Time.objects.get(word="Past"),
+                translate="видети",
+                word="видео",
+                base="вид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="они"),
+                time=Time.objects.get(word="Past"),
+                translate="видети",
+                word="видели",
+                base="вид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ми"),
+                time=Time.objects.get(word="Past"),
+                translate="видети",
+                word="видели",
+                base="вид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ви"),
+                time=Time.objects.get(word="Past"),
+                translate="видети",
+                word="видели",
                 base="вид",
             ),
             cls(
@@ -200,3 +274,584 @@ class Command(BaseCommand):
         for obj in objects:
             obj.save()
             print(f"\t{obj}")
+
+        # endregion
+
+        # region Dative
+
+        objects = [
+            cls(
+                translate="идти",
+                word="ићи",
+                base="ид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ја"),
+                time=Time.objects.get(word="Present"),
+                translate="иду",
+                word="идем",
+                base="ид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ти"),
+                time=Time.objects.get(word="Present"),
+                translate="идешь",
+                word="идеш",
+                base="ид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="он"),
+                time=Time.objects.get(word="Present"),
+                translate="идет",
+                word="иде",
+                base="ид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ви"),
+                time=Time.objects.get(word="Present"),
+                translate="идете",
+                word="идете",
+                base="ид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ми"),
+                time=Time.objects.get(word="Present"),
+                translate="идем",
+                word="идемо",
+                base="ид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="они"),
+                time=Time.objects.get(word="Present"),
+                translate="идут",
+                word="иду",
+                base="ид",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ја"),
+                time=Time.objects.get(word="Past"),
+                translate="ићи",
+                word="ишао",
+                base="иш",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ти"),
+                time=Time.objects.get(word="Past"),
+                translate="ићи",
+                word="ишао",
+                base="иш",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="он"),
+                time=Time.objects.get(word="Past"),
+                translate="ићи",
+                word="ишао",
+                base="иш",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ви"),
+                time=Time.objects.get(word="Past"),
+                translate="ићи",
+                word="ишли",
+                base="иш",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ми"),
+                time=Time.objects.get(word="Past"),
+                translate="ићи",
+                word="ишли",
+                base="иш",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="они"),
+                time=Time.objects.get(word="Past"),
+                translate="ићи",
+                word="ишли",
+                base="иш",
+            ),
+            cls(
+                time=Time.objects.get(word="Future"),
+                translate="ићи",
+                word="ићи",
+                base="ид",
+            ),
+        ]
+
+        tags = [
+            Tags.objects.get(word="Dative"),
+        ]
+        dative_prepositions = [
+            Preposition.objects.get(word="према"),
+            Preposition.objects.get(word="ка"),
+        ]
+
+        for obj in objects:
+            obj.save()
+            obj.preposition.add(*dative_prepositions)
+            obj.tags.add(*tags)
+            obj.save()
+            print(f"\t{obj}")
+
+        # endregion
+
+        # region Locative
+
+        objects = [
+            cls(
+                translate="говорить",
+                word="говорити",
+                base="говор",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ја"),
+                time=Time.objects.get(word="Present"),
+                translate="говорю",
+                word="говорим",
+                base="говор",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ти"),
+                time=Time.objects.get(word="Present"),
+                translate="говоришь",
+                word="говориш",
+                base="говор",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="он"),
+                time=Time.objects.get(word="Present"),
+                translate="говорит",
+                word="говори",
+                base="говор",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ви"),
+                time=Time.objects.get(word="Present"),
+                translate="говорите",
+                word="говорите",
+                base="говор",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ми"),
+                time=Time.objects.get(word="Present"),
+                translate="говорим",
+                word="говоримо",
+                base="говор",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="они"),
+                time=Time.objects.get(word="Present"),
+                translate="говорят",
+                word="говору",
+                base="говор",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ја"),
+                time=Time.objects.get(word="Past"),
+                translate="говорити",
+                word="говорио",
+                base="говор",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ти"),
+                time=Time.objects.get(word="Past"),
+                translate="говорити",
+                word="говорио",
+                base="говор",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="он"),
+                time=Time.objects.get(word="Past"),
+                translate="говорити",
+                word="говорио",
+                base="говор",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ви"),
+                time=Time.objects.get(word="Past"),
+                translate="говорити",
+                word="говорили",
+                base="говор",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ми"),
+                time=Time.objects.get(word="Past"),
+                translate="говорити",
+                word="говорили",
+                base="говор",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="они"),
+                time=Time.objects.get(word="Past"),
+                translate="говорити",
+                word="говорили",
+                base="говор",
+            ),
+            cls(
+                time=Time.objects.get(word="Future"),
+                translate="говорити",
+                word="говорити",
+                base="говор",
+            ),
+        ]
+
+        tags = [
+            Tags.objects.get(word="Locative"),
+        ]
+        lokative_prepositions = [
+            Preposition.objects.get(word="о"),
+        ]
+
+        for obj in objects:
+            obj.save()
+            obj.preposition.add(*lokative_prepositions)
+            obj.tags.add(*tags)
+            obj.save()
+            print(f"\t{obj}")
+
+        # endregion
+
+        # region Instrumental
+
+        objects = [
+            cls(
+                translate="путешествовать",
+                word="путовати",
+                base="пут",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ја"),
+                time=Time.objects.get(word="Present"),
+                translate="путешествую",
+                word="путујем",
+                base="пут",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ти"),
+                time=Time.objects.get(word="Present"),
+                translate="путешествуешь",
+                word="путујеш",
+                base="пут",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="он"),
+                time=Time.objects.get(word="Present"),
+                translate="путешествует",
+                word="путује",
+                base="пут",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ви"),
+                time=Time.objects.get(word="Present"),
+                translate="путешествуете",
+                word="путујете",
+                base="пут",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ми"),
+                time=Time.objects.get(word="Present"),
+                translate="путешествуем",
+                word="путујемо",
+                base="пут",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="они"),
+                time=Time.objects.get(word="Present"),
+                translate="путешествуют",
+                word="путујеју",
+                base="пут",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ја"),
+                time=Time.objects.get(word="Past"),
+                translate="путовати",
+                word="путовао",
+                base="пут",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ти"),
+                time=Time.objects.get(word="Past"),
+                translate="путовати",
+                word="путовао",
+                base="пут",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="он"),
+                time=Time.objects.get(word="Past"),
+                translate="путовати",
+                word="путовао",
+                base="пут",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ви"),
+                time=Time.objects.get(word="Past"),
+                translate="путовати",
+                word="путовали",
+                base="пут",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ми"),
+                time=Time.objects.get(word="Past"),
+                translate="путовати",
+                word="путовали",
+                base="пут",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="они"),
+                time=Time.objects.get(word="Past"),
+                translate="путовати",
+                word="путовали",
+                base="пут",
+            ),
+            cls(
+                time=Time.objects.get(word="Future"),
+                translate="путовати",
+                word="путовати",
+                base="пут",
+            ),
+        ]
+
+        tags = [
+            Tags.objects.get(word="Instrumental"),
+        ]
+        lokative_prepositions = [
+            Preposition.objects.get(word="са"),
+        ]
+
+        for obj in objects:
+            obj.save()
+            obj.preposition.add(*lokative_prepositions)
+            obj.tags.add(*tags)
+            obj.save()
+            print(f"\t{obj}")
+
+        # endregion
+
+        # region Accusative
+
+        objects = [
+            cls(
+                translate="ждать",
+                word="чекати",
+                base="чек",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ја"),
+                time=Time.objects.get(word="Present"),
+                translate="жду",
+                word="чекам",
+                base="чек",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ти"),
+                time=Time.objects.get(word="Present"),
+                translate="ждешь",
+                word="чекаш",
+                base="чек",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="он"),
+                time=Time.objects.get(word="Present"),
+                translate="ждет",
+                word="чека",
+                base="чек",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ви"),
+                time=Time.objects.get(word="Present"),
+                translate="ждете",
+                word="чекате",
+                base="чек",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ми"),
+                time=Time.objects.get(word="Present"),
+                translate="ждем",
+                word="чекамо",
+                base="чек",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="они"),
+                time=Time.objects.get(word="Present"),
+                translate="ждут",
+                word="чекају",
+                base="чек",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ја"),
+                time=Time.objects.get(word="Past"),
+                translate="чекати",
+                word="чекао",
+                base="чек",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ти"),
+                time=Time.objects.get(word="Past"),
+                translate="чекати",
+                word="чекао",
+                base="чек",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="он"),
+                time=Time.objects.get(word="Past"),
+                translate="чекати",
+                word="чекао",
+                base="чек",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ви"),
+                time=Time.objects.get(word="Past"),
+                translate="чекати",
+                word="чекали",
+                base="чек",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ми"),
+                time=Time.objects.get(word="Past"),
+                translate="чекати",
+                word="чекали",
+                base="чек",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="они"),
+                time=Time.objects.get(word="Past"),
+                translate="чекати",
+                word="чекали",
+                base="чек",
+            ),
+            cls(
+                time=Time.objects.get(word="Future"),
+                translate="чекати",
+                word="чекати",
+                base="чек",
+            ),
+        ]
+
+        tags = [
+            Tags.objects.get(word="Accusative"),
+        ]
+
+        for obj in objects:
+            obj.save()
+            obj.tags.add(*tags)
+            obj.save()
+            print(f"\t{obj}")
+
+        # endregion
+
+        # region Genitive
+
+        objects = [
+            cls(
+                translate="снимать",
+                word="становати",
+                base="стан",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ја"),
+                time=Time.objects.get(word="Present"),
+                translate="снимаю",
+                word="станујем",
+                base="стан",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ти"),
+                time=Time.objects.get(word="Present"),
+                translate="снимаешь",
+                word="станујеш",
+                base="стан",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="он"),
+                time=Time.objects.get(word="Present"),
+                translate="снимает",
+                word="станује",
+                base="стан",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ви"),
+                time=Time.objects.get(word="Present"),
+                translate="снимаете",
+                word="станујете",
+                base="стан",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ми"),
+                time=Time.objects.get(word="Present"),
+                translate="снимаем",
+                word="станујемо",
+                base="стан",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="они"),
+                time=Time.objects.get(word="Present"),
+                translate="снимауют",
+                word="станујеју",
+                base="стан",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ја"),
+                time=Time.objects.get(word="Past"),
+                translate="становати",
+                word="становао",
+                base="стан",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ти"),
+                time=Time.objects.get(word="Past"),
+                translate="становати",
+                word="становао",
+                base="стан",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="он"),
+                time=Time.objects.get(word="Past"),
+                translate="становати",
+                word="становао",
+                base="стан",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ви"),
+                time=Time.objects.get(word="Past"),
+                translate="становати",
+                word="становали",
+                base="стан",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="ми"),
+                time=Time.objects.get(word="Past"),
+                translate="становати",
+                word="становали",
+                base="стан",
+            ),
+            cls(
+                pronoun=Pronoun.objects.get(word="они"),
+                time=Time.objects.get(word="Past"),
+                translate="становати",
+                word="становали",
+                base="стан",
+            ),
+            cls(
+                time=Time.objects.get(word="Future"),
+                translate="становати",
+                word="становати",
+                base="стан",
+            ),
+        ]
+
+        tags = [
+            Tags.objects.get(word="Genitive"),
+        ]
+        genitive_prepositions = [
+            Preposition.objects.get(word="близу"),
+            Preposition.objects.get(word="испод"),
+            Preposition.objects.get(word="изнад"),
+        ]
+
+        for obj in objects:
+            obj.save()
+            obj.preposition.add(*genitive_prepositions)
+            obj.tags.add(*tags)
+            obj.save()
+            print(f"\t{obj}")
+
+        # endregion
