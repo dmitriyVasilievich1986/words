@@ -30,5 +30,6 @@ class Adjective(RepresentationBaseClass, models.Model, RandomMixin):
     def __repr__(self) -> str:
         plural = f"Plural: {self.plural}"
         gender = self.gender and f"Gender: <<{self.gender}>>"
+        tags = f"Tags: <<{[str(x) for x in self.tags.all()]}>>"
         declention = self.declention and f"Declention: <<{self.declention}>>"
-        return super().__repr__(plural, gender, declention)
+        return super().__repr__(plural, gender, declention, tags)
