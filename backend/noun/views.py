@@ -2,8 +2,8 @@ from models.models import TextInput, ChoiceInput, BoolInput
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from main.models import Gender, Preposition
 from .serializer import NounSerializer
+from main.models import Gender, Tags
 from .models import Noun
 
 
@@ -13,16 +13,15 @@ class NounViewSet(ModelViewSet):
 
     @action(detail=False, methods=["get"])
     def model(self, *args, **kwargs):
-        p = [{"id": x.id, "word": x.word} for x in Preposition.objects.all()]
+        tags = [{"id": x.id, "word": x.word} for x in Tags.objects.all()]
         g = [{"id": x.id, "word": x.word} for x in Gender.objects.all()]
+
         payload = [
             TextInput(name="base", text="base"),
             TextInput(name="word", text="word"),
             TextInput(name="translate", text="translate"),
             BoolInput(name="plural", text="plural"),
             ChoiceInput(name="gender", text="gender", value=g),
-            ChoiceInput(
-                name="prepositions", text="prepositions", value=p, multiple=True
-            ),
+            ChoiceInput(name="tags", text="tags", value=tags, multiple=True),
         ]
         return Response(payload)
