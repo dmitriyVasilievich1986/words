@@ -13,13 +13,15 @@ function Select(props) {
   const setDataToDefault = () => {
     if (Array.isArray(props.default) && props.default.length > 0)
       setData(props.default);
+    else if (props.default === null) setData([-1]);
+    else if (!isNaN(props.default)) setData([Number(props.default)]);
     else if (props.multiple && !props.alwaysFilled) setData([]);
     else setData([props.value[0].id]);
   };
 
   React.useEffect(() => {
     if (props.value.length > 0) setDataToDefault();
-  }, [props.value]);
+  }, [props.value, props.default]);
 
   React.useEffect(() => {
     if (props.onChange && data !== null) {
