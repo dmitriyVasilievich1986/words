@@ -19,7 +19,9 @@ class VerbViewSet(ModelViewSet):
         tags = [RDict(x) for x in Tags.objects.all()]
         d = Declentions.objects.get(word="Nominative")
         preposition = [RDict(x) for x in Preposition.objects.all()]
-        pronoun = [RDict(x) for x in Pronoun.objects.filter(declention=d)]
+        pronoun = [{"id": -1, "word": "empty"}] + [
+            RDict(x) for x in Pronoun.objects.filter(declention=d)
+        ]
 
         payload = [
             TextInput(name="word", text="word"),

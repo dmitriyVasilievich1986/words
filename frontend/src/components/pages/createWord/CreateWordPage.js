@@ -69,6 +69,7 @@ function CreateWordPage() {
     const getValue = (v) => {
       if (v.includes(",")) return v.split(",").map((x) => Number(x));
       else if (["false", "true"].includes(v)) return v == "true";
+      else if (v == -1) return null;
       else if (!isNaN(v)) return Number(v) || [];
       return v;
     };
