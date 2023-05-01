@@ -4,6 +4,7 @@ from models.models import TextInput, ChoiceInput
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .serializer import VerbSerializer
+from main.support_mixin import RDict
 from pronoun.models import Pronoun
 from .models import Verb
 
@@ -14,13 +15,11 @@ class VerbViewSet(ModelViewSet):
 
     @action(detail=False, methods=["get"])
     def model(self, *args, **kwargs):
-        time = [{"id": x.id, "word": x.word} for x in Time.objects.all()]
-        tags = [{"id": x.id, "word": x.word} for x in Tags.objects.all()]
+        time = [RDict(x) for x in Time.objects.all()]
+        tags = [RDict(x) for x in Tags.objects.all()]
         d = Declentions.objects.get(word="Nominative")
-        preposition = [{"id": x.id, "word": x.word} for x in Preposition.objects.all()]
-        pronoun = [
-            {"id": x.id, "word": x.word} for x in Pronoun.objects.filter(declention=d)
-        ]
+        preposition = [RDict(x) for x in Preposition.objects.all()]
+        pronoun = [RDict(x) for x in Pronoun.objects.filter(declention=d)]
 
         payload = [
             TextInput(name="word", text="word"),

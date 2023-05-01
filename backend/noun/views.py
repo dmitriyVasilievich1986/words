@@ -3,6 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .serializer import NounSerializer
+from main.support_mixin import RDict
 from main.models import Gender, Tags
 from .models import Noun
 
@@ -13,8 +14,8 @@ class NounViewSet(ModelViewSet):
 
     @action(detail=False, methods=["get"])
     def model(self, *args, **kwargs):
-        tags = [{"id": x.id, "word": x.word} for x in Tags.objects.all()]
-        g = [{"id": x.id, "word": x.word} for x in Gender.objects.all()]
+        tags = [RDict(x) for x in Tags.objects.all()]
+        g = [RDict(x) for x in Gender.objects.all()]
 
         payload = [
             TextInput(name="base", text="base"),

@@ -2,6 +2,12 @@ from django.db.models import Q
 from random import choice
 
 
+class RDict(dict):
+    def __init__(self, params):
+        self["id"] = params.id
+        self["word"] = params.word
+
+
 class RepresentationClass:
     translate = None
     word = None
