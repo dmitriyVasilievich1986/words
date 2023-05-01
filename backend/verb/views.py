@@ -14,18 +14,20 @@ class VerbViewSet(ModelViewSet):
 
     @action(detail=False, methods=["get"])
     def model(self, *args, **kwargs):
-        p = [{"id": x.id, "word": x.word} for x in Pronoun.objects.filter(declention=d)]
-        preposition = [{"id": x.id, "word": x.word} for x in Preposition.objects.all()]
+        time = [{"id": x.id, "word": x.word} for x in Time.objects.all()]
         tags = [{"id": x.id, "word": x.word} for x in Tags.objects.all()]
-        t = [{"id": x.id, "word": x.word} for x in Time.objects.all()]
-        d = Declentions.objects.get(word="Nominative").id
+        d = Declentions.objects.get(word="Nominative")
+        preposition = [{"id": x.id, "word": x.word} for x in Preposition.objects.all()]
+        pronoun = [
+            {"id": x.id, "word": x.word} for x in Pronoun.objects.filter(declention=d)
+        ]
 
         payload = [
             TextInput(name="word", text="word"),
             TextInput(name="base", text="base"),
             TextInput(name="translate", text="translate"),
-            ChoiceInput(name="time", text="time", value=t),
-            ChoiceInput(name="pronoun", text="pronoun", value=p),
+            ChoiceInput(name="time", text="time", value=time),
+            ChoiceInput(name="pronoun", text="pronoun", value=pronoun),
             ChoiceInput(name="tags", text="tags", value=tags, multiple=True),
             ChoiceInput(
                 name="prepositions",
