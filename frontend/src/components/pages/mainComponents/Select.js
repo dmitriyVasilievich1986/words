@@ -1,92 +1,98 @@
 import className from "classnames";
 import style from "./style.scss";
-import picture from "./bin.png";
 import React from "react";
 
 const cx = className.bind(style);
 
-function Select(props) {
-  const [show, setShow] = React.useState(false);
-  const [data, setData] = React.useState(null);
-  const windowRef = React.useRef();
-
-  const setDataToDefault = () => {
-    if (Array.isArray(props.default) && props.default.length > 0)
-      setData(props.default);
-    else if (props.default === null) setData([-1]);
-    else if (!isNaN(props.default)) setData([Number(props.default)]);
-    else if (props.multiple && !props.alwaysFilled) setData([]);
-    else setData([props.value[0].id]);
-  };
+function Select({ multiple, value, onChange, options }) {
+  const [highlightedIndex, setHighlightedIndex] = React.useState(0);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   React.useEffect(() => {
-    if (props.value.length > 0) setDataToDefault();
-  }, [props.value, props.default]);
+    if (!isOpen) setHighlightedIndex(0);
+  }, [isOpen]);
 
-  React.useEffect(() => {
-    if (props.onChange && data !== null) {
-      const values = props.value.filter((v) => data.includes(v.id));
-      props.onChange(values);
-    }
-  }, [data]);
+  function clearOptions() {
+    multiple ? onChange([]) : onChange(null);
+  }
 
-  React.useEffect(() => {
-    function handleClickOutside(event) {
-      if (windowRef.current && !windowRef.current.contains(event.target)) {
-        setShow(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [windowRef]);
+  function isOptionSelected(option) {
+    return multiple ? value.includes(option.id) : option.id === value;
+  }
 
-  const clickHandler = (ID) => {
-    let newData = [];
-    if (props.multiple) {
-      if (data.includes(ID)) {
-        newData =
-          props.alwaysFilled && data.length == 1
-            ? data
-            : data.filter((d) => d !== ID);
-      } else {
-        newData = [...data, ID];
-      }
+  function selectOption(option) {
+    if (multiple) {
+      onChange(
+        value.includes(option.id)
+          ? value.filter((v) => v !== option.id)
+          : [...value, option.id]
+      );
     } else {
-      newData = [ID];
+      if (option.id !== value) onChange(option.id);
     }
-    setData(newData);
-    if (!props.multiple) setShow(false);
-  };
+  }
 
-  if (data === null) return null;
+  if (options === null || options?.length === 0) return null;
   return (
-    <div className={cx("field")}>
-      {props.text && <div className={cx("label")}>{props.text}</div>}
-      <div className={cx("select-window", "input")} ref={windowRef}>
-        <div className={cx("head")} onClick={() => setShow(!show)}>
-          {props.value
-            .filter((v) => data.includes(v.id))
-            .map((v) => v.word)
-            .join(", ") || "empty"}
-        </div>
-        <div className={cx("options-window", { show })}>
-          <div className={cx("innner-space")}>
-            {props.value.map((d) => (
-              <div
-                className={cx({ active: data.includes(d.id) })}
-                onClick={() => clickHandler(d.id)}
-                key={d.id}
-              >
-                {d.word}
-              </div>
-            ))}
-          </div>
-        </div>
-        <input hidden={true} name={props.name} defaultValue={data} />
-      </div>
-      {props.multiple && <img src={picture} onClick={setDataToDefault} />}
+    <div
+      onClick={() => setIsOpen((prev) => !prev)}
+      className={cx("select-container")}
+      onBlur={() => setIsOpen(false)}
+      tabIndex={0}
+    >
+      <span className={cx("value")}>
+        {multiple
+          ? options
+              .filter((o) => value.includes(o.id))
+              .map((v) => (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    selectOption(v);
+                  }}
+                  className={cx("option-badge")}
+                  key={v.id}
+                >
+                  {v.word}
+                  <span>&times;</span>
+                </button>
+              ))
+          : options.find((o) => o.id === value)?.word}
+      </span>
+
+      <button
+        className={cx("clear-btn")}
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          clearOptions();
+        }}
+      >
+        &times;
+      </button>
+
+      <div className={cx("divider")}></div>
+      <div className={cx("caret")}></div>
+
+      <ul className={cx("options", { isOpen })}>
+        {options.map((option, index) => (
+          <li
+            onClick={(e) => {
+              e.stopPropagation();
+              selectOption(option);
+              setIsOpen(false);
+            }}
+            className={cx("option", {
+              selected: isOptionSelected(option),
+              highlighted: index === highlightedIndex,
+            })}
+            onMouseEnter={() => setHighlightedIndex(index)}
+            key={option.id}
+          >
+            {option.word}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

@@ -10,24 +10,25 @@ const cx = className.bind(style);
 
 function PhrasePage() {
   const randomChoices = useSelector((state) => state.words.randomChoices);
-  const [selectedChoice, setSelectedChoice] = React.useState(null);
-  const [choices, setChoices] = React.useState([{ id: 0 }]);
-  const [phrase, setPhrase] = React.useState(null);
+  const [choices, setChoices] = React.useState([]);
+  const [phrase, setPhrase] = React.useState([]);
   const [show, setShow] = React.useState(false);
+  const currentChoice = React.useRef(null);
 
   const sendAPIRequest = () => {
+    if (choices.length === 0) return;
     setShow(false);
-    const newChoice = choices[Math.floor(Math.random() * choices.length)];
-    setSelectedChoice(newChoice);
+    const newChoiceID = choices[Math.floor(Math.random() * choices.length)];
+    currentChoice.current = randomChoices.find((cc) => cc.id === newChoiceID);
     axios
-      .get(`/api/randomchoices/${newChoice.id}/`)
+      .get(`/api/randomchoices/${newChoiceID}/`)
       .then((data) => setPhrase(data.data))
       .catch((e) => console.log(e));
   };
 
   React.useEffect(() => {
     sendAPIRequest();
-  }, [choices]);
+  }, [randomChoices, choices]);
 
   const clickHandler = (e) => {
     if (e.target.type === "text") return;
@@ -42,30 +43,32 @@ function PhrasePage() {
     }
   };
 
-  if (randomChoices.length === 0 || phrase === null) return null;
+  if (randomChoices.length === 0) return null;
   return (
     <div className={cx("phrase-page-card")}>
       <div className={cx("side")}>
         <div>
           <Select
+            onChange={(v) => setChoices(v)}
+            options={randomChoices}
+            value={choices}
             multiple={true}
-            alwaysFilled={true}
-            value={randomChoices}
-            onChange={setChoices}
           />
         </div>
       </div>
 
       <div className={cx("center")}>
-        <div className={cx("wrapper")} onClick={clickHandler}>
-          <div>{selectedChoice?.description || ""}</div>
-          <div>"{phrase.map((w) => w.translate)}"</div>
-          <div className={cx("phrase-row")} id="phrase">
-            {phrase.map((w, i) => (
-              <PhraseInput {...w} key={i} show={show} />
-            ))}
+        {choices.length > 0 && phrase.length > 0 && (
+          <div className={cx("wrapper")} onClick={clickHandler}>
+            <div>{currentChoice.current?.description || ""}</div>
+            <div>"{phrase.map((w) => w.translate)}"</div>
+            <div className={cx("phrase-row")} id="phrase">
+              {phrase.map((w, i) => (
+                <PhraseInput {...w} key={i} show={show} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className={cx("side")} />

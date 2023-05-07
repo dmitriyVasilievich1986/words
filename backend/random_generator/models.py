@@ -24,7 +24,10 @@ def _get_verb_declentions():
 
 
 def _get_past_future_verb(word):
-    verb_preposition, verb, pronoun = Verb.get_preposition(word)
+    time = Time.objects.get(word=word)
+    verb = Verb.random(time=time)
+    pronoun = verb.pronoun or Pronoun.random()
+    verb_preposition = Verb.objects.get(time=time, base="", pronoun=pronoun)
     return AnswerList(
         WordWithoutTranslate(instance=pronoun),
         WordBaseAnswerList(main=verb_preposition, secondary=verb),
