@@ -84,8 +84,6 @@ function CreateWordPage() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (selectedWord?.id) sendPatchRequest();
-    else sendPostRequest();
   };
 
   if (!selectedPartOfSpeech) return null;
@@ -176,7 +174,14 @@ function CreateWordPage() {
               }
             })}
           </div>
-          <Button text={selectedWord?.id ? "Update" : "Send"} />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button text={"Send"} clickHandler={sendPostRequest} />
+            <Button
+              text={"Update"}
+              clickHandler={sendPatchRequest}
+              disabled={selectedWord?.id === undefined}
+            />
+          </div>
         </form>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Select
