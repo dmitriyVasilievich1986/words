@@ -19,9 +19,7 @@ class VerbViewSet(ModelViewSet):
         tags = [RDict(x) for x in Tags.objects.all()]
         d = Declentions.objects.get(word="Nominative")
         preposition = [RDict(x) for x in Preposition.objects.all()]
-        pronoun = [{"id": -1, "word": "empty"}] + [
-            RDict(x) for x in Pronoun.objects.filter(declention=d)
-        ]
+        pronoun = [RDict(x) for x in Pronoun.objects.filter(declention=d)]
 
         payload = [
             TextInput(name="word", text="word"),
@@ -31,8 +29,8 @@ class VerbViewSet(ModelViewSet):
             ChoiceInput(name="pronoun", text="pronoun", value=pronoun),
             ChoiceInput(name="tags", text="tags", value=tags, multiple=True),
             ChoiceInput(
-                name="prepositions",
-                text="prepositions",
+                name="preposition",
+                text="preposition",
                 value=preposition,
                 multiple=True,
             ),
