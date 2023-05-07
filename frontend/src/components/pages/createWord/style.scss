@@ -29,3 +29,26 @@
         }
     }
 }
+
+.field-row {
+    align-items: center;
+    margin: 0.6em 0;
+    display: flex;
+
+    > span {
+        width: 30%;
+    }
+}
+
+.input {
+    border: .05em solid #777;
+    border-radius: .25em;
+    font-size: 16px;
+    padding: .5em;
+    outline: none;
+    width: 20em;
+
+    &:focus {
+        border-color: #90e0ef;
+    }
+}
