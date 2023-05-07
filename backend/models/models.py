@@ -16,8 +16,8 @@ class BoolInput(dict):
 
 class ChoiceInput(dict):
     def __init__(self, name, value, text=None, multiple=False):
+        self["data"] = [] if multiple else value[0]["id"]
         self["component"] = "choiceInput"
-        self["data"] = value[0]["id"]
         self["multiple"] = multiple
         self["value"] = value
         self["name"] = name
