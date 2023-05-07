@@ -13,14 +13,17 @@ function Button(props) {
       setDisabled(true);
       setTimeout(() => setDisabled(false), 1000);
     }
+    if (props?.clickHandler) props.clickHandler();
   };
 
   return (
-    <div className={cx("button-wrapper")}>
-      <button className={cx({ disabled })} onClick={clickHandler}>
-        {props.text}
-      </button>
-    </div>
+    <button
+      className={cx("button", { disabled })}
+      disabled={props?.disabled}
+      onClick={clickHandler}
+    >
+      {props.text}
+    </button>
   );
 }
 
