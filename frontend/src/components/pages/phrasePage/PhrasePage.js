@@ -47,14 +47,12 @@ function PhrasePage() {
   return (
     <div className={cx("phrase-page-card")}>
       <div className={cx("side")}>
-        <div>
-          <Select
-            onChange={(v) => setChoices(v)}
-            options={randomChoices}
-            value={choices}
-            multiple={true}
-          />
-        </div>
+        <Select
+          onChange={(v) => setChoices(v)}
+          options={randomChoices}
+          value={choices}
+          multiple={true}
+        />
       </div>
 
       <div className={cx("center")}>
