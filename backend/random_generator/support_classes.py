@@ -75,6 +75,7 @@ class WordBaseAnswerList(AnswerList):
 @dataclass
 class Random:
     name: str
+    tags: Callable
     func: Callable
     description: str = ""
 
@@ -85,5 +86,5 @@ class Random:
             "description": self.description,
         }
 
-    def __call__(self) -> AnswerList:
-        return self.func()
+    def __call__(self, **kwargs) -> AnswerList:
+        return self.func(**kwargs)
