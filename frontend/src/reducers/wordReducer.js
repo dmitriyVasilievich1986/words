@@ -9,6 +9,7 @@ export const wordsSlice = createSlice({
     randomChoices: [],
     declentions: [],
     gender: [],
+    tags: [],
     time: [],
   },
   reducers: {

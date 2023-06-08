@@ -10,25 +10,36 @@ const cx = className.bind(style);
 
 function PhrasePage() {
   const randomChoices = useSelector((state) => state.words.randomChoices);
+
+  const [selectedTags, setSelectedTags] = React.useState([]);
   const [choices, setChoices] = React.useState([]);
   const [phrase, setPhrase] = React.useState([]);
+  const [tags, setTags] = React.useState([]);
+
   const [show, setShow] = React.useState(false);
   const currentChoice = React.useRef(null);
 
   const sendAPIRequest = () => {
     if (choices.length === 0) return;
     setShow(false);
-    const newChoiceID = choices[Math.floor(Math.random() * choices.length)];
-    currentChoice.current = randomChoices.find((cc) => cc.id === newChoiceID);
+    const postData = {
+      random_choices: choices,
+      params: {
+        tags: selectedTags,
+      },
+    };
     axios
-      .get(`/api/randomchoices/${newChoiceID}/`)
-      .then((data) => setPhrase(data.data))
+      .post("/api/randomchoices/", postData)
+      .then((data) => {
+        setPhrase(data.data.answer_list);
+        setTags(data.data.tags);
+      })
       .catch((e) => console.log(e));
   };
 
   React.useEffect(() => {
     sendAPIRequest();
-  }, [randomChoices, choices]);
+  }, [randomChoices, choices, selectedTags]);
 
   const clickHandler = (e) => {
     if (e.target.type === "text") return;
@@ -54,6 +65,16 @@ function PhrasePage() {
             value={choices}
             multiple={true}
           />
+        </div>
+        <div>
+          {tags.length > 0 && (
+            <Select
+              onChange={(v) => setSelectedTags(v)}
+              value={selectedTags}
+              multiple={true}
+              options={tags}
+            />
+          )}
         </div>
       </div>
 
