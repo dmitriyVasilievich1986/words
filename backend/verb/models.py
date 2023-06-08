@@ -3,6 +3,7 @@ from main.models import Time, Tags, Preposition
 from pronoun.models import Pronoun
 from django.db.models import Q
 from django.db import models
+from functools import reduce
 
 
 class Verb(RepresentationBaseClass, models.Model, RandomMixin):
@@ -40,5 +41,8 @@ class Verb(RepresentationBaseClass, models.Model, RandomMixin):
         return super().__repr__(time, pronoun)
 
     @classmethod
-    def _get_objects(cls):
-        return cls.objects.filter(~Q(base=""))
+    def _get_objects(cls, tags=None):
+        tags = tags or list()
+        return cls.objects.filter(
+            reduce(lambda a, b: a | Q(tags=b), [Q(), *tags])
+        ).filter(~Q(base=""))

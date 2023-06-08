@@ -2,8 +2,10 @@ from main.models import Time, Declentions, Gender, Tags
 from adjective.models import Adjective
 from random import randint, choice
 from pronoun.models import Pronoun
+from django.db.models import Q
 from verb.models import Verb
 from noun.models import Noun
+from typing import List
 
 from .support_classes import (
     WordWithoutTranslate,
@@ -15,7 +17,7 @@ from .support_classes import (
 )
 
 
-def _get_verb_declentions():
+def _get_verb_declentions(tags=None):
     declention = Declentions.objects.get(word="Nominative").id
     time = Time.objects.get(word="Present").id
     pronoun = Pronoun.random(declention=declention)
@@ -23,7 +25,7 @@ def _get_verb_declentions():
     return WordBaseAnswerList(main=pronoun, secondary=verb)
 
 
-def _get_past_future_verb(word):
+def _get_past_future_verb(word, tags=None):
     time = Time.objects.get(word=word)
     verb = Verb.random(time=time)
     pronoun = verb.pronoun or Pronoun.random()
@@ -34,13 +36,13 @@ def _get_past_future_verb(word):
     )
 
 
-def _get_noun():
+def _get_noun(tags=None):
     declention = Declentions.objects.get(word="Nominative").id
     noun = Noun.random(declention=declention, plural=False)
     return AnswerList(Word(instance=noun, hiden=True))
 
 
-def _get_noun_plural():
+def _get_noun_plural(tags=None):
     declention = Declentions.objects.get(word="Nominative").id
     noun = Noun.random(declention=declention, plural=True)
     if randint(0, 1):
@@ -48,7 +50,7 @@ def _get_noun_plural():
     return AnswerList(Word(instance=noun, hiden=True))
 
 
-def _all_noun_declentions(name):
+def _all_noun_declentions(name, tags=None):
     verb = choice(
         Tags.objects.get(word=name).verb.filter(time=Time.objects.get(word="Present"))
     )
@@ -73,65 +75,76 @@ def _all_noun_declentions(name):
     )
 
 
-def _get_verb():
-    verb = Verb.random(pronoun=None, time=None)
+def _get_verb(**kwargs):
+    verb = Verb.random(pronoun=None, time=None, **kwargs)
     return AnswerList(Word(instance=verb, hiden=True))
 
 
-RANDOM_CHOICES = [
+RANDOM_CHOICES: List[Random] = [
     Random(
-        func=_get_verb,
         name="Глагол",
+        func=_get_verb,
         description="Переведите глагол:",
+        tags=lambda: Q(verb__in=Verb.objects.filter(pronoun=None, time=None)),
     ),
     Random(
         name="Склонения глагола",
         func=_get_verb_declentions,
         description="Поставьте глагол в нужное склонение:",
+        tags=lambda: Q(pk=None),
     ),
     Random(
         name="Глагол в прошедшем времени",
         func=lambda: _get_past_future_verb("Past"),
         description="Поставьте глагол в прошедшее время:",
+        tags=lambda: Q(pk=None),
     ),
     Random(
         name="Глагол в будущем времени",
         func=lambda: _get_past_future_verb("Future"),
         description="Поставьте глагол в будущее время:",
+        tags=lambda: Q(pk=None),
     ),
     Random(
         func=_get_noun,
         name="Существительное",
         description="Переведите существительное:",
+        tags=lambda: Q(pk=None),
     ),
     Random(
         func=_get_noun_plural,
         name="Существительное мн.ч.",
         description="Поставьте существительное во множественное число:",
+        tags=lambda: Q(pk=None),
     ),
     Random(
         name="Дательный падеж",
         func=lambda: _all_noun_declentions("Dative"),
         description="Поставьте существительное и прилагательное в дательный падеж (Коме? Чему?):",
+        tags=lambda: Q(pk=None),
     ),
     Random(
         name="Местный падеж",
         func=lambda: _all_noun_declentions("Locative"),
         description="Поставьте существительное и прилагательное в местный падеж (О коме? О чему?):",
+        tags=lambda: Q(pk=None),
     ),
     Random(
         name="Родительный падеж",
         func=lambda: _all_noun_declentions("Genitive"),
         description="Поставьте существительное и прилагательное в родительный падеж (Кога? Чега?):",
+        tags=lambda: Q(pk=None),
     ),
     Random(
         name="Винительный падеж",
         func=lambda: _all_noun_declentions("Accusative"),
         description="Поставьте существительное и прилагательное в винительный падеж (Кога? Шта?):",
+        tags=lambda: Q(pk=None),
     ),
     Random(
         name="Инструментальный падеж",
         func=lambda: _all_noun_declentions("Instrumental"),
         description="Поставьте существительное и прилагательное в инструментальный падеж (С ким? Чиме?):",
+        tags=lambda: Q(pk=None),
     ),
 ]

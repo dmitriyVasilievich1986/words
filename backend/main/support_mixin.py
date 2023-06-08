@@ -33,8 +33,8 @@ class RepresentationBaseClass(RepresentationClass):
 
 class RandomMixin:
     @classmethod
-    def random(cls, cache={}, **kwargs):
-        objects = cls._get_objects().filter(**kwargs)
+    def random(cls, cache={}, tags=None, **kwargs):
+        objects = cls._get_objects(tags=tags).filter(**kwargs)
         if objects.count() <= 1:
             cache[cls.__name__] = None
             return objects.first()
@@ -43,5 +43,5 @@ class RandomMixin:
         return instance
 
     @classmethod
-    def _get_objects(cls):
+    def _get_objects(cls, **kwargs):
         return cls.objects.all()
