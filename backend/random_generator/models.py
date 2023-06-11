@@ -25,9 +25,9 @@ def _get_verb_declentions(**kwargs):
     return WordBaseAnswerList(main=pronoun, secondary=verb)
 
 
-def _get_past_future_verb(word, tags=None):
+def _get_past_future_verb(word, **kwargs):
     time = Time.objects.get(word=word)
-    verb = Verb.random(time=time)
+    verb = Verb.random(time=time, **kwargs)
     pronoun = verb.pronoun or Pronoun.random()
     verb_preposition = Verb.objects.get(time=time, base="", pronoun=pronoun)
     return AnswerList(
@@ -97,13 +97,13 @@ RANDOM_CHOICES: List[Random] = [
         name="Глагол в прошедшем времени",
         func=lambda **kwargs: _get_past_future_verb("Past"),
         description="Поставьте глагол в прошедшее время:",
-        tags=lambda: Q(pk=None),
+        tags=lambda: Q(verb__in=Verb.objects.all()),
     ),
     Random(
         name="Глагол в будущем времени",
         func=lambda **kwargs: _get_past_future_verb("Future"),
         description="Поставьте глагол в будущее время:",
-        tags=lambda: Q(pk=None),
+        tags=lambda: Q(verb__in=Verb.objects.all()),
     ),
     Random(
         func=_get_noun,
