@@ -1,6 +1,8 @@
 from main.support_mixin import RandomMixin, RepresentationBaseClass
-from main.models import Declentions, Gender, Preposition, Tags
+from main.models import Declentions, Gender, Tags
+from django.db.models import Q
 from django.db import models
+from functools import reduce
 
 
 class Noun(RepresentationBaseClass, models.Model, RandomMixin):
@@ -33,3 +35,10 @@ class Noun(RepresentationBaseClass, models.Model, RandomMixin):
         tags = f"Tags: <<{[str(x) for x in self.tags.all()]}>>"
         declention = self.declention and f"Declention: <<{self.declention}>>"
         return super().__repr__(plural, gender, declention, tags)
+
+    @classmethod
+    def _get_objects(cls, tags=None):
+        tags = tags or list()
+        return cls.objects.filter(
+            reduce(lambda a, b: a | Q(tags=b), [Q(), *tags])
+        ).filter(~Q(base=""))

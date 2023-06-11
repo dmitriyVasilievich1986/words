@@ -36,9 +36,9 @@ def _get_past_future_verb(word, tags=None):
     )
 
 
-def _get_noun(tags=None):
+def _get_noun(**kwargs):
     declention = Declentions.objects.get(word="Nominative").id
-    noun = Noun.random(declention=declention, plural=False)
+    noun = Noun.random(declention=declention, plural=False, **kwargs)
     return AnswerList(Word(instance=noun, hiden=True))
 
 
