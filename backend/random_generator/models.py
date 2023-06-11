@@ -42,9 +42,9 @@ def _get_noun(**kwargs):
     return AnswerList(Word(instance=noun, hiden=True))
 
 
-def _get_noun_plural(tags=None):
+def _get_noun_plural(**kwargs):
     declention = Declentions.objects.get(word="Nominative").id
-    noun = Noun.random(declention=declention, plural=True)
+    noun = Noun.random(declention=declention, plural=True, **kwargs)
     if randint(0, 1):
         return AnswerList(Base(instance=noun))
     return AnswerList(Word(instance=noun, hiden=True))
@@ -115,7 +115,7 @@ RANDOM_CHOICES: List[Random] = [
         func=_get_noun_plural,
         name="Существительное мн.ч.",
         description="Поставьте существительное во множественное число:",
-        tags=lambda: Q(pk=None),
+        tags=lambda: Q(noun__in=Noun.objects.all()),
     ),
     Random(
         name="Дательный падеж",
