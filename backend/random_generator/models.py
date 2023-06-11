@@ -91,7 +91,7 @@ RANDOM_CHOICES: List[Random] = [
         name="Склонения глагола",
         func=_get_verb_declentions,
         description="Поставьте глагол в нужное склонение:",
-        tags=lambda: Q(pk=None),
+        tags=lambda: Q(verb__in=Verb.objects.all()),
     ),
     Random(
         name="Глагол в прошедшем времени",
@@ -109,7 +109,7 @@ RANDOM_CHOICES: List[Random] = [
         func=_get_noun,
         name="Существительное",
         description="Переведите существительное:",
-        tags=lambda: Q(pk=None),
+        tags=lambda: Q(noun__in=Noun.objects.all()),
     ),
     Random(
         func=_get_noun_plural,
