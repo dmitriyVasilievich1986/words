@@ -1,3 +1,4 @@
+#### firstly creating frontend bundle ####
 FROM node:14 AS node_14
 
 WORKDIR /app
@@ -9,6 +10,8 @@ RUN cd /app/frontend && \
     npm install && \
     npm run build
 
+
+#### then main project ####
 FROM python:3.9
 
 WORKDIR /app
