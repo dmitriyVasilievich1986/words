@@ -33,7 +33,9 @@ class RandomChoicesViewSet(GenericViewSet):
             )
             self.last_tags = [
                 {"id": x.id, "word": x.word}
-                for x in Tags.objects.filter(tags_filter).distinct()
+                for x in Tags.objects.filter(hidden=False)
+                .filter(tags_filter)
+                .distinct()
             ]
             self.last_choice_list = [
                 x
