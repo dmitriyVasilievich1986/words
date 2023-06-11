@@ -20,7 +20,13 @@ function PhrasePage() {
   const currentChoice = React.useRef(null);
 
   const sendAPIRequest = () => {
-    if (choices.length === 0) return;
+    if (choices.length === 0) {
+      if (tags.length) {
+        setSelectedTags([]);
+        setTags([]);
+      }
+      return;
+    }
     setShow(false);
     const postData = {
       random_choices: choices,
