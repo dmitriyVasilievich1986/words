@@ -17,11 +17,11 @@ from .support_classes import (
 )
 
 
-def _get_verb_declentions(tags=None):
+def _get_verb_declentions(**kwargs):
     declention = Declentions.objects.get(word="Nominative").id
     time = Time.objects.get(word="Present").id
     pronoun = Pronoun.random(declention=declention)
-    verb = Verb.random(time=time, pronoun=pronoun)
+    verb = Verb.random(time=time, pronoun=pronoun, **kwargs)
     return WordBaseAnswerList(main=pronoun, secondary=verb)
 
 
