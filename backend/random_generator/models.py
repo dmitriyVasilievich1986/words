@@ -85,7 +85,7 @@ RANDOM_CHOICES: List[Random] = [
         name="Глагол",
         func=_get_verb,
         description="Переведите глагол:",
-        tags=lambda: Q(verb__in=Verb.objects.filter(pronoun=None, time=None)),
+        tags=lambda: Q(verb__in=Verb.objects.all()),
     ),
     Random(
         name="Склонения глагола",
