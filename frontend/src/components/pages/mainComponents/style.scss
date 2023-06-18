@@ -26,6 +26,15 @@
     &:focus {
         border-color: #90e0ef;
     }
+
+    > .select-name {
+        background-color: white;
+        position: absolute;
+        font-size: 14px;
+        padding: 0 3px;
+        left: 10px;
+        top: -8px;
+    }
 }
 
 .value {

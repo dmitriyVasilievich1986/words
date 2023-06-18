@@ -4,7 +4,7 @@ import React from "react";
 
 const cx = className.bind(style);
 
-function Select({ multiple, value, onChange, options }) {
+function Select({ multiple, value, onChange, options, name }) {
   const [highlightedIndex, setHighlightedIndex] = React.useState(0);
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -40,6 +40,8 @@ function Select({ multiple, value, onChange, options }) {
       onBlur={() => setIsOpen(false)}
       tabIndex={0}
     >
+      {name && <span className={cx("select-name")}>{name}</span>}
+
       <span className={cx("value")}>
         {multiple
           ? options
