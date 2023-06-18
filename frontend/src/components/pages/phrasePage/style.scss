@@ -72,8 +72,11 @@
 
                     &:disabled {
                         background-color: #74c69d;
+                        border-radius: 5px;
                         font-weight: bold;
+                        color: #0d1b2a;
                         border: none;
+                        opacity: .7;
                     }
                 }
             }
