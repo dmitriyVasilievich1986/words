@@ -67,6 +67,7 @@ function PhrasePage() {
         <div>
           <Select
             onChange={(v) => setChoices(v)}
+            name="Часть речи / выражение"
             options={randomChoices}
             value={choices}
             multiple={true}
@@ -79,6 +80,7 @@ function PhrasePage() {
               value={selectedTags}
               multiple={true}
               options={tags}
+              name="Тэги"
             />
           )}
         </div>
