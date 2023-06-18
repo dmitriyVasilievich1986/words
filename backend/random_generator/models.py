@@ -86,36 +86,50 @@ RANDOM_CHOICES: List[Random] = [
         func=_get_verb,
         description="Переведите глагол:",
         tags=lambda: Q(verb__in=Verb.objects.all()),
+        count=lambda: Verb._get_objects().values("base").distinct().count(),
     ),
     Random(
         name="Склонения глагола",
         func=_get_verb_declentions,
-        description="Поставьте глагол в нужное склонение:",
         tags=lambda: Q(verb__in=Verb.objects.all()),
+        description="Поставьте глагол в нужное склонение:",
+        count=lambda: Verb._get_objects().values("base").distinct().count(),
     ),
     Random(
         name="Глагол в прошедшем времени",
-        func=lambda **kwargs: _get_past_future_verb("Past"),
-        description="Поставьте глагол в прошедшее время:",
         tags=lambda: Q(verb__in=Verb.objects.all()),
+        description="Поставьте глагол в прошедшее время:",
+        func=lambda **kwargs: _get_past_future_verb("Past"),
+        count=lambda: Verb._get_objects().values("base").distinct().count(),
     ),
     Random(
         name="Глагол в будущем времени",
-        func=lambda **kwargs: _get_past_future_verb("Future"),
-        description="Поставьте глагол в будущее время:",
         tags=lambda: Q(verb__in=Verb.objects.all()),
+        description="Поставьте глагол в будущее время:",
+        func=lambda **kwargs: _get_past_future_verb("Future"),
+        count=lambda: Verb._get_objects().values("base").distinct().count(),
     ),
     Random(
         func=_get_noun,
         name="Существительное",
         description="Переведите существительное:",
         tags=lambda: Q(noun__in=Noun.objects.all()),
+        count=lambda: Noun._get_objects()
+        .filter(plural=False)
+        .values("base")
+        .distinct()
+        .count(),
     ),
     Random(
         func=_get_noun_plural,
         name="Существительное мн.ч.",
-        description="Поставьте существительное во множественное число:",
         tags=lambda: Q(noun__in=Noun.objects.all()),
+        description="Поставьте существительное во множественное число:",
+        count=lambda: Noun._get_objects()
+        .filter(plural=True)
+        .values("base")
+        .distinct()
+        .count(),
     ),
     Random(
         name="Дательный падеж",

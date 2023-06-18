@@ -78,12 +78,14 @@ class Random:
     tags: Callable
     func: Callable
     description: str = ""
+    count: Callable = None
 
     def json(self) -> dict:
         return {
             "name": self.name,
             "word": self.name,
             "description": self.description,
+            "count": self.count and self.count(),
         }
 
     def __call__(self, **kwargs) -> AnswerList:

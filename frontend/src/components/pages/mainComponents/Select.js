@@ -90,6 +90,9 @@ function Select({ multiple, value, onChange, options }) {
             key={option.id}
           >
             {option.word}
+            {option.count && (
+              <span className={cx("count")}>{option.count}</span>
+            )}
           </li>
         ))}
       </ul>
