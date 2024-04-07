@@ -1,31 +1,21 @@
 version: "3.7"
+
 services:
   db:
+    env_file: words.env
     image: postgres:14
     container_name: db
     restart: unless-stopped
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_DB: ${DB_NAME}
 
   words:
+    env_file: words.env
     image: dmitriyvasil1986/words:latest
     container_name: words
     restart: unless-stopped
     volumes:
       - static:/app/backend/static
-    environment:
-      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_USER: ${DB_USER}
-      DB_NAME: ${DB_NAME}
-      DB_PORT: ${DB_PORT}
-      DB_HOST: ${DB_HOST}
-      SECRET: ${SECRET}
-      DEBUG: ${DEBUG}
     depends_on:
       - db
 

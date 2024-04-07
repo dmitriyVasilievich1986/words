@@ -68,10 +68,10 @@ WSGI_APPLICATION = "words.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "PASSWORD": environ.get("DB_PASSWORD", "root"),
+        "PASSWORD": environ.get("POSTGRES_PASSWORD", "root"),
+        "USER": environ.get("POSTGRES_USER", "root"),
+        "NAME": environ.get("POSTGRES_DB", "testdb"),
         "HOST": environ.get("DB_HOST", "localhost"),
-        "NAME": environ.get("DB_NAME", "testdb"),
-        "USER": environ.get("DB_USER", "root"),
         "PORT": environ.get("DB_PORT", "5432"),
     }
 }
