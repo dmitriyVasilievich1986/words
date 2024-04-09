@@ -1,5 +1,5 @@
 down:
-	sudo docker-compose -f docker-compose-local.yml down -v
+	docker-compose down -v
 
-runLocal:
-	sudo docker-compose -f docker-compose-local.yml up
+run:
+	docker-compose up
