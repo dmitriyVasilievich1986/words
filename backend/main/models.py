@@ -32,3 +32,6 @@ class Base(models.Model):
 
     class Meta:
         abstract = True
+
+class Infinitive(Base):
+    pass

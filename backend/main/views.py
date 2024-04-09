@@ -1,10 +1,11 @@
-from .models import Declentions, Gender, Time, Preposition, Tags
-from rest_framework.viewsets import ModelViewSet
+from .models import Declentions, Gender, Time, Preposition, Tags, Infinitive
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from django.shortcuts import render
 
 from .serializer import (
     PrepositionSerializer,
     DeclentionsSerializer,
+    InfinitiveSerializer,
     GenderSerializer,
     TimeSerializer,
     TagsSerializer,
@@ -38,3 +39,7 @@ class GenderViewSet(ModelViewSet):
 class TimeViewSet(ModelViewSet):
     serializer_class = TimeSerializer
     queryset = Time.objects.all()
+
+class InfinitiveViewSet(ReadOnlyModelViewSet):
+    serializer_class = InfinitiveSerializer
+    queryset = Infinitive.objects.all()
