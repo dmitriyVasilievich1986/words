@@ -1,6 +1,7 @@
 from main.support_mixin import RandomMixin, RepresentationClass
 from main.models import Declentions
 from django.db import models
+from main.models import Base
 
 
 class Pronoun(RepresentationClass, models.Model, RandomMixin):
@@ -18,3 +19,6 @@ class Pronoun(RepresentationClass, models.Model, RandomMixin):
     def __repr__(self):
         declention = self.declention and f"Declentions: {self.declention}"
         return super().__repr__(declention)
+
+class PersonalPronoun(Base):
+    pass
