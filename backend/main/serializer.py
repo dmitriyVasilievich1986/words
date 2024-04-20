@@ -1,4 +1,4 @@
-from .models import Declentions, Gender, Time, Preposition, Tags, Infinitive
+from .models import Declentions, Gender, Time, Preposition, Tags, Infinitive, PartsOfSpeech
 from rest_framework.serializers import ModelSerializer
 
 
@@ -34,4 +34,15 @@ class TimeSerializer(ModelSerializer):
 class InfinitiveSerializer(ModelSerializer):
     class Meta:
         model = Infinitive
+        fields = "__all__"
+
+class InfinitiveSerializerDeep(ModelSerializer):
+    class Meta:
+        depth = 1
+        model = Infinitive
+        fields = "__all__"
+
+class PartsOfSpeechSerializer(ModelSerializer):
+    class Meta:
+        model = PartsOfSpeech
         fields = "__all__"

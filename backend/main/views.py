@@ -1,8 +1,11 @@
-from .models import Declentions, Gender, Time, Preposition, Tags, Infinitive
+from .models import Declentions, Gender, Time, Preposition, Tags, Infinitive, PartsOfSpeech
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework.response import Response
 from django.shortcuts import render
 
 from .serializer import (
+    InfinitiveSerializerDeep,
+    PartsOfSpeechSerializer,
     PrepositionSerializer,
     DeclentionsSerializer,
     InfinitiveSerializer,
@@ -40,6 +43,15 @@ class TimeViewSet(ModelViewSet):
     serializer_class = TimeSerializer
     queryset = Time.objects.all()
 
-class InfinitiveViewSet(ReadOnlyModelViewSet):
+class InfinitiveViewSet(ModelViewSet):
     serializer_class = InfinitiveSerializer
     queryset = Infinitive.objects.all()
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = InfinitiveSerializerDeep(instance)
+        return Response(serializer.data)
+
+class PartsOfSpeechViewSet(ReadOnlyModelViewSet):
+    serializer_class = PartsOfSpeechSerializer
+    queryset = PartsOfSpeech.objects.all()

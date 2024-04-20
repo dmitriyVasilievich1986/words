@@ -33,5 +33,14 @@ class Base(models.Model):
     class Meta:
         abstract = True
 
-class Infinitive(Base):
+class PartsOfSpeech(Base):
     pass
+
+class Infinitive(Base):
+    part_of_speech = models.ForeignKey(
+        related_name="infinitive",
+        on_delete=models.CASCADE,
+        to=PartsOfSpeech,
+        blank=False,
+        null=False,
+    )

@@ -7,32 +7,18 @@ from .serializer import VerbSerializer
 from main.support_mixin import RDict
 from pronoun.models import Pronoun
 from .models import Verb
+from rest_framework.exceptions import ValidationError
 
 
 class VerbViewSet(ModelViewSet):
     serializer_class = VerbSerializer
     queryset = Verb.objects.all()
 
-    @action(detail=False, methods=["get"])
-    def model(self, *args, **kwargs):
-        time = [RDict(x) for x in Time.objects.all()]
-        tags = [RDict(x) for x in Tags.objects.all()]
-        d = Declentions.objects.get(word="Nominative")
-        preposition = [RDict(x) for x in Preposition.objects.all()]
-        pronoun = [RDict(x) for x in Pronoun.objects.filter(declention=d)]
+    @action(detail=False, methods=["POST"])
+    def infinitive(self, request):
+        if "infinitive" not in request.data:
+            raise ValidationError("Infinitive is required")
+        queryset = Verb.objects.filter(infinitive=request.data["infinitive"])
 
-        payload = [
-            TextInput(name="word", text="word"),
-            TextInput(name="base", text="base"),
-            TextInput(name="translate", text="translate"),
-            ChoiceInput(name="time", text="time", value=time),
-            ChoiceInput(name="pronoun", text="pronoun", value=pronoun),
-            ChoiceInput(name="tags", text="tags", value=tags, multiple=True),
-            ChoiceInput(
-                name="preposition",
-                text="preposition",
-                value=preposition,
-                multiple=True,
-            ),
-        ]
-        return Response(payload)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)

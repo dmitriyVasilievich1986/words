@@ -1,6 +1,7 @@
 from rest_framework import routers
 
 from .views import (
+    PartsOfSpeechViewSet,
     DeclentionsViewSet,
     PrepositionViewSet,
     InfinitiveViewSet,
@@ -12,6 +13,7 @@ from .views import (
 
 router = routers.SimpleRouter()
 
+router.register("PartsOfSpeech".lower(), PartsOfSpeechViewSet)
 router.register("Declentions".lower(), DeclentionsViewSet)
 router.register("Preposition".lower(), PrepositionViewSet)
 router.register("Infinitive".lower(), InfinitiveViewSet)
