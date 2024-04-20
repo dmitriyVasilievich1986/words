@@ -79,7 +79,7 @@ function UpdateWord(props) {
   const uodatePPVerb = ({ name, value }, ppId) => {
     setInfinitive((prev) => {
       const ppVerbs = { ...prev.ppVerbs };
-      ppVerbs[ppId] = { ...ppVerbs[ppId], [name]: value };
+      ppVerbs[ppId] = { ...ppVerbs[ppId], [name]: value.toLowerCase() };
       return { ...prev, ppVerbs };
     });
   };

@@ -58,15 +58,16 @@
     width: 100%;
 
     &>button {
-        padding: 0.5rem 1rem;
         background-color: #669bbc;
-        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: bold;
+        max-width: 180px;
+        color: #252422;
         cursor: pointer;
         font-size: 1rem;
-        font-weight: bold;
+        border: none;
         width: 50%;
-        max-width: 180px;
-        border-radius: 8px;
     }
 }
 
@@ -87,6 +88,7 @@
         &>input {
             width: 80%;
             padding: 2px 5px;
+            border-radius: 0;
             border-top: none;
             border-left: none;
             border-right: none;

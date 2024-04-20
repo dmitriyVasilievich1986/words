@@ -9,6 +9,8 @@ const cx = className.bind(style);
 function CreateWord(params) {
   const [selectedPartOfSpeech, setSelectedPartOfSpeech] = React.useState(null);
   const [partsOfSpeech, setPartsOfSpeech] = React.useState([]);
+  const [translate, setTranslate] = React.useState("");
+  const [word, setWord] = React.useState("");
 
   React.useEffect(() => {
     axios
@@ -25,9 +27,9 @@ function CreateWord(params) {
   const submitHandler = (event) => {
     event.preventDefault();
     const data = {
-      word: event.target.word.value,
-      translate: event.target.translate.value,
       part_of_speech: selectedPartOfSpeech.id,
+      translate,
+      word,
     };
     axios
       .post("/api/infinitive/", data)
@@ -54,11 +56,25 @@ function CreateWord(params) {
         <div className={cx("input-wrapper")}>
           <div className={cx("input-row")}>
             <label>word</label>
-            <input type="text" name="word" placeholder="word" />
+            <input
+              type="text"
+              value={word}
+              autoCorrect="off"
+              placeholder="word"
+              autoCapitalize="none"
+              onChange={(e) => setWord(e.target.value.toLowerCase())}
+            />
           </div>
           <div className={cx("input-row")}>
             <label>translate</label>
-            <input type="text" name="translate" placeholder="translate" />
+            <input
+              type="text"
+              value={translate}
+              autoCorrect="off"
+              autoCapitalize="none"
+              placeholder="translate"
+              onChange={(e) => setTranslate(e.target.value.toLowerCase())}
+            />
           </div>
         </div>
         <div className={cx("send-button")}>
