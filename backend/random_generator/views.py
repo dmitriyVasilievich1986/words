@@ -1,4 +1,4 @@
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 from rest_framework.response import Response
 from .models import RANDOM_CHOICES
 from django.db.models import Q
@@ -7,6 +7,27 @@ from functools import reduce
 from random import choice
 from operator import or_
 import json
+from django.core.exceptions import ObjectDoesNotExist
+
+from .models import RulesRandom
+from .serializer import RulesRandomSerializer
+
+from .models import (
+    VerbInflectionRandom,
+    VerbRandom,
+)
+
+class RulesRandomViewSet(ReadOnlyModelViewSet):
+    serializer_class = RulesRandomSerializer
+    queryset = RulesRandom.objects.all()
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.name == "Глагол":
+            return Response(VerbRandom().get_data())
+        if instance.name == "Склонение глагола":
+            return Response(VerbInflectionRandom().get_data())
+        raise ObjectDoesNotExist()
 
 
 class RandomChoicesViewSet(GenericViewSet):

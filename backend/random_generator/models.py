@@ -1,11 +1,14 @@
-from main.models import Time, Declentions, Gender, Tags
+from main.models import Time, Declentions, Gender, Tags, Infinitive, PartsOfSpeech
+from pronoun.models import Pronoun, PersonalPronoun
+from dataclasses import dataclass, asdict
 from adjective.models import Adjective
 from random import randint, choice
-from pronoun.models import Pronoun
+from typing import List, Optional
 from django.db.models import Q
 from verb.models import Verb
 from noun.models import Noun
-from typing import List
+from django.db import models
+from abc import ABC
 
 from .support_classes import (
     WordWithoutTranslate,
@@ -15,6 +18,64 @@ from .support_classes import (
     Word,
     Base,
 )
+
+class RulesRandom(models.Model):
+    description = models.CharField(max_length=150, blank=False, null=False)
+    name = models.CharField(max_length=150, blank=False, null=False)
+
+@dataclass
+class RandomResponse:
+    translate: str
+    word: str
+
+    base: Optional[str] = None
+    hint: Optional[str] = None
+
+    def __post_init__(self):
+        if self.base is None:
+            self.base = self.word
+        elif self.base != "" and self.base != self.word:
+            index = next((i for i in range(min(len(self.word), len(self.base))) if self.word[i]!=self.base[i]), None)
+            self.base = self.base[:index] if index else self.word
+
+class IRandom(ABC):
+    def _form_response(self) -> list[RandomResponse]:
+        raise NotImplementedError
+
+    def get_data(self) -> list[dict]:
+        return [asdict(x) for x in self._form_response()]
+
+class VerbRandom(IRandom):
+    def __init__(self):
+        self.part_of_speech = PartsOfSpeech.objects.get(word="verb")
+        self.infinitive = choice(Infinitive.objects.filter(part_of_speech=self.part_of_speech).all())
+
+    def _form_response(self):
+        return [
+            RandomResponse(
+                translate=self.infinitive.translate,
+                word=self.infinitive.word,
+                base="",
+            )
+        ]
+
+class VerbInflectionRandom(IRandom):
+    def __init__(self):
+        self.personal_pronoun = choice(PersonalPronoun.objects.exclude(verb__isnull=True).all())
+        self.verb = choice(Verb.objects.filter(personal_pronoun=self.personal_pronoun).all())
+
+    def _form_response(self):
+        return [
+            RandomResponse(
+                translate=self.personal_pronoun.translate,
+                word=self.personal_pronoun.word,
+            ),
+            RandomResponse(
+                base=self.verb.infinitive.word,
+                translate=self.verb.translate,
+                word=self.verb.word,
+            )
+        ]
 
 
 def _get_verb_declentions(**kwargs):
