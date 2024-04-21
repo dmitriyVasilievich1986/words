@@ -15,7 +15,7 @@ function PhraseInput({ base, word, error }) {
     setValue(v);
   };
 
-  if (word === base) return <span>{word}</span>;
+  if (word === base) return <span style={{ margin: "0 5px" }}>{word}</span>;
   return (
     <React.Fragment>
       <input
