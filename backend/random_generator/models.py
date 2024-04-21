@@ -46,10 +46,12 @@ class IRandom(ABC):
         return [asdict(x) for x in self._form_response()]
 
 class VerbRandom(IRandom):
-    def __init__(self):
+    def __init__(self, cache={"infinitive": 1}):
         self.part_of_speech = PartsOfSpeech.objects.get(word="verb")
-        self.infinitive = choice(Infinitive.objects.filter(part_of_speech=self.part_of_speech).all())
+        self.infinitive = choice(Infinitive.objects.filter(part_of_speech=self.part_of_speech).exclude(id=cache["infinitive"]).all())
 
+        cache["infinitive"] = self.infinitive.id
+    
     def _form_response(self):
         return [
             RandomResponse(
@@ -60,9 +62,12 @@ class VerbRandom(IRandom):
         ]
 
 class VerbInflectionRandom(IRandom):
-    def __init__(self):
-        self.personal_pronoun = choice(PersonalPronoun.objects.exclude(verb__isnull=True).all())
-        self.verb = choice(Verb.objects.filter(personal_pronoun=self.personal_pronoun).all())
+    def __init__(self, cache={"personal_pronoun": 1, "verb": 1}):
+        self.personal_pronoun = choice(PersonalPronoun.objects.exclude(verb__isnull=True, id=cache["personal_pronoun"]).all())
+        self.verb = choice(Verb.objects.filter(personal_pronoun=self.personal_pronoun).exclude(id=cache["verb"]).all())
+        
+        cache["personal_pronoun"] = self.personal_pronoun.id
+        cache["verb"] = self.verb.id
 
     def _form_response(self):
         return [
