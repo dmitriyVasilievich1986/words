@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
-import className from "classnames";
+import classnames from "classnames/bind";
 import style from "./style.scss";
 import PAGES from "Pages";
 import React from "react";
 
-const cx = className.bind(style);
+const cx = classnames.bind(style);
 
 function Navbar() {
   return (

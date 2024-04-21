@@ -1,10 +1,10 @@
 import { Select } from "../mainComponents";
-import className from "classnames";
+import classnames from "classnames/bind";
 import style from "./style.scss";
 import React from "react";
 import axios from "axios";
 
-const cx = className.bind(style);
+const cx = classnames.bind(style);
 
 function CreateWord(params) {
   const [selectedPartOfSpeech, setSelectedPartOfSpeech] = React.useState(null);

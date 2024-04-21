@@ -1,9 +1,9 @@
 import { useSearchParams } from "react-router-dom";
-import className from "classnames";
+import classnames from "classnames/bind";
 import style from "./style.scss";
 import React from "react";
 
-const cx = className.bind(style);
+const cx = classnames.bind(style);
 
 function WordsList({ infinitives }) {
   const [searchParams, setSearchParams] = useSearchParams();

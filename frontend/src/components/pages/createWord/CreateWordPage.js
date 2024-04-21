@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import className from "classnames";
+import classnames from "classnames/bind";
 import style from "./style.scss";
 import React from "react";
 import axios from "axios";
@@ -8,7 +8,7 @@ import CreateWord from "./CreateWord";
 import UpdateWord from "./UpdateWord";
 import WordsList from "./WordsList";
 
-const cx = className.bind(style);
+const cx = classnames.bind(style);
 
 function CreateWordPage() {
   const [infinitives, setInfinitives] = React.useState([]);
