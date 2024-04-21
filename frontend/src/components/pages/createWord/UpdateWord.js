@@ -41,6 +41,24 @@ function UpdateWord(props) {
   }, [props.pk]);
 
   const submitHandler = () => {
+    setIsLoading((prev) => prev + 1);
+    axios
+      .put(`/api/infinitive/${props.pk}/`, {
+        ...infinitive,
+        part_of_speech: infinitive.part_of_speech.id,
+      })
+      .then((response) => {
+        setInfinitive((prev) => ({ ...prev, ...response.data }));
+        props.setInfinitives((prev) =>
+          prev.map((inf) => (inf.id === response.data.id ? response.data : inf))
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally((_) => {
+        setIsLoading((prev) => prev - 1);
+      });
     Object.keys(infinitive.ppVerbs).forEach((ppId) => {
       if (
         infinitive.ppVerbs[ppId].translate === "" ||
@@ -84,41 +102,78 @@ function UpdateWord(props) {
     });
   };
 
-  if (isLoading > 0) return <div>loading...</div>;
+  if (isLoading > 0 || infinitive === null) return <div>loading...</div>;
   return (
     <div className={cx("container")}>
       <form onSubmit={submitHandler}>
-        {personal_pronouns.map((personal_pronoun) => {
-          const verb = infinitive.ppVerbs[personal_pronoun.id];
-          return (
-            <div
-              key={personal_pronoun.id}
-              className={cx("input-wrapper")}
-              style={{ marginTop: "5px" }}
-            >
-              <div className={cx("input-row")}>
-                <label>{personal_pronoun.word}</label>
-                <input
-                  type="text"
-                  name="word"
-                  placeholder="word"
-                  value={verb.word}
-                  onChange={(e) => uodatePPVerb(e.target, personal_pronoun.id)}
-                />
-              </div>
-              <div className={cx("input-row")}>
-                <label>{personal_pronoun.translate}</label>
-                <input
-                  type="text"
-                  name="translate"
-                  placeholder="translate"
-                  value={verb.translate}
-                  onChange={(e) => uodatePPVerb(e.target, personal_pronoun.id)}
-                />
-              </div>
+        <div className={cx("card")}>
+          <div className={cx("input-wrapper")}>
+            <div className={cx("input-row")}>
+              <label>word</label>
+              <input
+                type="text"
+                name="word"
+                placeholder="word"
+                value={infinitive.word}
+                onChange={(e) =>
+                  setInfinitive((prev) => ({ ...prev, word: e.target.value }))
+                }
+              />
             </div>
-          );
-        })}
+            <div className={cx("input-row")}>
+              <label>translate</label>
+              <input
+                type="text"
+                name="translate"
+                placeholder="translate"
+                value={infinitive.translate}
+                onChange={(e) =>
+                  setInfinitive((prev) => ({
+                    ...prev,
+                    translate: e.target.value,
+                  }))
+                }
+              />
+            </div>
+          </div>
+        </div>
+        <div className={cx("card")}>
+          {personal_pronouns.map((personal_pronoun) => {
+            const verb = infinitive.ppVerbs[personal_pronoun.id];
+            return (
+              <div
+                key={personal_pronoun.id}
+                className={cx("input-wrapper")}
+                style={{ marginTop: "5px" }}
+              >
+                <div className={cx("input-row")}>
+                  <label>{personal_pronoun.word}</label>
+                  <input
+                    type="text"
+                    name="word"
+                    placeholder="word"
+                    value={verb.word}
+                    onChange={(e) =>
+                      uodatePPVerb(e.target, personal_pronoun.id)
+                    }
+                  />
+                </div>
+                <div className={cx("input-row")}>
+                  <label>{personal_pronoun.translate}</label>
+                  <input
+                    type="text"
+                    name="translate"
+                    placeholder="translate"
+                    value={verb.translate}
+                    onChange={(e) =>
+                      uodatePPVerb(e.target, personal_pronoun.id)
+                    }
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
         <div className={cx("send-button")}>
           <button>send</button>
         </div>

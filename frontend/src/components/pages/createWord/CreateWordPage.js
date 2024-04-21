@@ -34,7 +34,10 @@ function CreateWordPage() {
         {searchParams.get("infinitive") === null ? (
           <CreateWord setInfinitives={setInfinitives} />
         ) : (
-          <UpdateWord pk={searchParams.get("infinitive")} />
+          <UpdateWord
+            pk={searchParams.get("infinitive")}
+            setInfinitives={setInfinitives}
+          />
         )}
       </div>
       <div className={cx("side")} />
