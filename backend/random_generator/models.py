@@ -35,8 +35,8 @@ class RandomResponse:
         if self.base is None:
             self.base = self.word
         elif self.base != "" and self.base != self.word:
-            index = next((i for i in range(min(len(self.word), len(self.base))) if self.word[i]!=self.base[i]), None)
-            self.base = self.base[:min(index, len(self.word) - 1)] if index else self.word
+            index = next((i for i in range(min(len(self.word), len(self.base))) if self.word[i]!=self.base[i]), float("inf"))
+            self.base = self.word[:min(index, len(self.word) - 1)]
 
 class IRandom(ABC):
     def _form_response(self) -> list[RandomResponse]:
