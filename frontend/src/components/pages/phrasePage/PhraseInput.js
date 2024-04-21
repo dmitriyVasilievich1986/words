@@ -4,7 +4,7 @@ import React from "react";
 
 const cx = classnames.bind(style);
 
-function PhraseInput({ base, word }) {
+function PhraseInput({ base, word, error }) {
   const [value, setValue] = React.useState(base);
 
   const changeHandler = (e) => {
@@ -17,16 +17,22 @@ function PhraseInput({ base, word }) {
 
   if (word === base) return <span>{word}</span>;
   return (
-    <input
-      className={cx({ isCorrect: value === word })}
-      style={{ width: `${word.length * 10}px` }}
-      onChange={changeHandler}
-      autoCapitalize="none"
-      autoComplete="off"
-      autoCorrect="off"
-      value={value}
-      type="text"
-    />
+    <React.Fragment>
+      <input
+        className={cx({ isCorrect: value === word, error })}
+        style={{ width: `${word.length * 10}px` }}
+        value={error ? word : value}
+        onChange={changeHandler}
+        autoCapitalize="none"
+        autoComplete="off"
+        autoCorrect="off"
+        autoFocus={true}
+        type="text"
+      />
+      {!error && value !== word && (
+        <input type="hidden" name="isNotComplited" />
+      )}
+    </React.Fragment>
   );
 }
 

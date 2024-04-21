@@ -52,6 +52,12 @@
             outline: solid 1px #a9d6e5;
         }
 
+        &.error {
+            border-bottom: 4px solid #e63946;
+            color: #e63946;
+            outline: none;
+        }
+
         &.isCorrect {
             border-bottom: 4px solid #52b788;
             color: #52b788;

@@ -7,8 +7,11 @@ import axios from "axios";
 const cx = classnames.bind(style);
 
 function PhraseForm(props) {
+  const formRef = React.useRef(null);
+
   const [pk, setPk] = React.useState(null);
   const [words, setWords] = React.useState([]);
+  const [error, setError] = React.useState(false);
 
   React.useEffect(() => {
     if (props.selectedRules.length === 0) {
@@ -24,6 +27,7 @@ function PhraseForm(props) {
         Math.floor(Math.random() * props.selectedRules.length)
       ];
     setPk(newPk);
+    setError(false);
     axios
       .get(`api/rulesrandom/${newPk}/`)
       .then((data) => {
@@ -34,7 +38,15 @@ function PhraseForm(props) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    getWords();
+    if (
+      Array.from(formRef.current.getElementsByTagName("input")).find(
+        (i) => i.name === "isNotComplited"
+      )
+    ) {
+      setError(true);
+    } else {
+      getWords();
+    }
   };
 
   if (words.length === 0)
@@ -48,7 +60,7 @@ function PhraseForm(props) {
   const description = props.rules.find((r) => r.id === pk)?.description;
   return (
     <div className={cx("container")}>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={submitHandler} ref={formRef}>
         <div className={cx("row")} style={{ marginBottom: "2rem" }}>
           <div className={cx("description")}>{description}</div>
         </div>
@@ -61,7 +73,7 @@ function PhraseForm(props) {
         <div className={cx("row")}>
           <div className={cx("problem")}>
             {words.map((w) => (
-              <PhraseInput key={w.word} {...w} />
+              <PhraseInput key={w.word} {...w} error={error} />
             ))}
           </div>
         </div>
