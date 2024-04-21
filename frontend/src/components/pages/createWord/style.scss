@@ -24,14 +24,16 @@
 
 .list {
     justify-content: center;
+    flex-direction: column;
+    margin-top: 1rem;
     display: flex;
 
     &>.wrapper {
         max-height: 300px;
         max-width: 400px;
         overflow-y: auto;
+        margin: 0 1rem;
         padding: 5px;
-        margin: 1rem;
         width: 90%;
 
         &>div {
@@ -111,4 +113,13 @@
     padding: 1rem 10px;
     margin-top: 1rem;
     width: 100%;
+}
+
+.search {
+    width: 100%;
+
+    &>input {
+        margin-left: 1rem;
+        width: 140px;
+    }
 }
