@@ -1,85 +1,83 @@
-.phrase-page-card {
+.container {
+    justify-content: center;
+    margin-top: 2rem;
+    display: flex;
+
+    &>form {
+        max-width: 500px;
+        width: 90%;
+        
+        background-color: #faedcd;
+        box-shadow: 4px 4px #ccc;
+        border: 1px solid #000;
+        border-radius: 10px;
+        padding: 2rem 10px;
+
+        &>.description {
+            text-align: center;
+            width: 100%;
+        }
+    }
+}
+
+.row {
+    justify-content: center;
+    display: flex;
+    width: 100%;
+
+    &>.delimiter {
+        border-bottom: 1px solid #000;
+        min-width: 150px;
+        margin: 1rem 0;
+        width: 60%;
+    }
+}
+
+.problem {
+    display: flex;
+
+    &>input {
+        margin: 0 10px;
+        padding: 2px 5px;
+        border-radius: 0;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        text-align: center;
+        background-color: inherit;
+
+        outline: none;
+
+        &:focus {
+            outline: solid 1px #a9d6e5;
+        }
+
+        &.isCorrect {
+            border-bottom: 4px solid #52b788;
+            color: #52b788;
+            outline: none;
+        }
+    }
+}
+
+.page {
     flex-wrap: wrap;
     display: flex;
 
-    > .side {
-        justify-content: center;
-        flex-wrap: wrap;
-        column-gap: 5px;
-        display: flex;
-        flex: 1 300px;
-
-        > div {
-            margin: 1rem 0;
-            width: 250px;
-
-            > select {
-                width: 100%;
-            }
-        }
+    &>.side {
+        flex: 3 300px;
+    }
+    
+    &>.center {
+        flex: 1 700px;
     }
 
-    > .center {
+    &>.left {
         justify-content: center;
-        margin-top: 1rem;
-        padding: 0 10px;
-        flex: 3 700px;
         display: flex;
 
-        > .wrapper {
-            box-shadow: 2px 2px gray;
-            border: 1px solid black;
-            border-radius: 10px;
-            padding: 2rem 1rem;
+        &>div {
             margin-top: 2rem;
-            max-width: 700px;
-            cursor: pointer;
-            width: 100%;
-
-            > div {
-                text-align: center;
-            }
-
-            > .phrase-row {
-                justify-content: center;
-                align-items: center;
-                margin-top: 2rem;
-                font-size: 16px;
-                display: flex;
-
-                > img {
-                    margin: 0 1rem;
-                    height: 20px;
-                    width: 20px;
-                }
-
-                > div {
-                    width: fit-content;
-                    min-width: 1rem;
-                }
-
-                > input {
-                    -webkit-border-radius:0px;
-                    -webkit-appearance: none;
-                    text-align: center;
-                    border-radius: 0;
-                    font-size: 16px;
-                    outline: none;
-                    border: none;
-
-                    border-bottom: 1px solid black;
-                    padding: 3px 7px;
-
-                    &:disabled {
-                        background-color: #74c69d;
-                        border-radius: 5px;
-                        font-weight: bold;
-                        color: #0d1b2a;
-                        border: none;
-                        opacity: .7;
-                    }
-                }
-            }
         }
     }
 }

@@ -1,32 +1,29 @@
+import classnames from "classnames/bind";
+import style from "./style.scss";
 import React from "react";
 
-function PhraseInput(props) {
-  const [value, setValue] = React.useState("");
+const cx = classnames.bind(style);
 
-  React.useEffect(() => {
-    setValue("");
-  }, [props.word]);
-
-  React.useEffect(() => {
-    if (props.show) setValue(props.word);
-  }, [props.show]);
+function PhraseInput({ base, word }) {
+  const [value, setValue] = React.useState(base);
 
   const changeHandler = (e) => {
     const v = e.target.value.toLocaleLowerCase();
-    if (v.length >= props.word.length + 1) {
+    if (v.length >= word.length + 3 || value === word || !v.startsWith(base)) {
       return;
     }
     setValue(v);
   };
 
-  if (!props.hiden) {
-    return <div>{props.word}</div>;
-  }
+  if (word === base) return <span>{word}</span>;
   return (
     <input
-      style={{ width: `${props.word.length * 13}px` }}
-      disabled={value === props.word}
+      className={cx({ isCorrect: value === word })}
+      style={{ width: `${word.length * 10}px` }}
       onChange={changeHandler}
+      autoCapitalize="none"
+      autoComplete="off"
+      autoCorrect="off"
       value={value}
       type="text"
     />
