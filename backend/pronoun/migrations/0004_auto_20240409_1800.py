@@ -13,8 +13,8 @@ def insert_pp(apps, schema_editor):
         ("ми", "мы"),
         ("ви", "вы"),
         ("они", "они"),
-        ("они", "оне"),
-        ("они", "она"),
+        ("оне", "они"),
+        ("она", "они"),
     )
     for word, translate in pps:
         pp = PersonalPronoun.objects.create(word=word, translate=translate)
