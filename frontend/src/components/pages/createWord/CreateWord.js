@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { Select } from "../mainComponents";
 import classnames from "classnames/bind";
+import { Card } from "../components";
 import style from "./style.scss";
 import React from "react";
 import axios from "axios";
@@ -51,7 +52,7 @@ function CreateWord(props) {
 
   if (partsOfSpeech.length === 0) return <div>loading...</div>;
   return (
-    <div className={cx("container")}>
+    <div>
       <form onSubmit={submitHandler}>
         <div className={cx("send-button")} style={{ marginBottom: "2rem" }}>
           <Select
@@ -61,30 +62,32 @@ function CreateWord(props) {
             isNullable={false}
           />
         </div>
-        <div className={cx("input-wrapper")}>
-          <div className={cx("input-row")}>
-            <label>Слово:</label>
-            <input
-              type="text"
-              value={word}
-              autoCorrect="off"
-              placeholder="Слово"
-              autoCapitalize="none"
-              onChange={(e) => setWord(e.target.value.toLowerCase())}
-            />
+        <Card>
+          <div className={cx("input-wrapper")}>
+            <div className={cx("input-row")}>
+              <label>Слово:</label>
+              <input
+                type="text"
+                value={word}
+                autoCorrect="off"
+                placeholder="Слово"
+                autoCapitalize="none"
+                onChange={(e) => setWord(e.target.value.toLowerCase())}
+              />
+            </div>
+            <div className={cx("input-row")}>
+              <label>Перевод:</label>
+              <input
+                type="text"
+                value={translate}
+                autoCorrect="off"
+                autoCapitalize="none"
+                placeholder="Перевод"
+                onChange={(e) => setTranslate(e.target.value.toLowerCase())}
+              />
+            </div>
           </div>
-          <div className={cx("input-row")}>
-            <label>Перевод:</label>
-            <input
-              type="text"
-              value={translate}
-              autoCorrect="off"
-              autoCapitalize="none"
-              placeholder="Перевод"
-              onChange={(e) => setTranslate(e.target.value.toLowerCase())}
-            />
-          </div>
-        </div>
+        </Card>
         <div className={cx("send-button")}>
           <button>сохранить</button>
         </div>

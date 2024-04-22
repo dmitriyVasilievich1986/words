@@ -1,9 +1,9 @@
+import { Delimiter, Card } from "../components";
 import classnames from "classnames/bind";
 import PhraseInput from "./PhraseInput";
 import style from "./style.scss";
 import React from "react";
 import axios from "axios";
-import { Delimiter } from "../components";
 
 const cx = classnames.bind(style);
 
@@ -60,7 +60,7 @@ function PhraseForm(props) {
     );
   const description = props.rules.find((r) => r.id === pk)?.description;
   return (
-    <div className={cx("container")}>
+    <Card>
       <form onSubmit={submitHandler} ref={formRef}>
         <div className={cx("row")} style={{ marginBottom: "2rem" }}>
           <div className={cx("description")}>{description}</div>
@@ -77,7 +77,7 @@ function PhraseForm(props) {
           </div>
         </div>
       </form>
-    </div>
+    </Card>
   );
 }
 

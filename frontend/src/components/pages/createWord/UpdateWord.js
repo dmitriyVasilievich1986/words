@@ -1,4 +1,5 @@
 import classnames from "classnames/bind";
+import { Card } from "../components";
 import style from "./style.scss";
 import React from "react";
 import axios from "axios";
@@ -108,7 +109,7 @@ function UpdateWord(props) {
   return (
     <div className={cx("container")}>
       <form onSubmit={submitHandler}>
-        <div className={cx("card")}>
+        <Card>
           <div className={cx("input-wrapper")}>
             <div className={cx("input-row")}>
               <label>Слово:</label>
@@ -138,8 +139,8 @@ function UpdateWord(props) {
               />
             </div>
           </div>
-        </div>
-        <div className={cx("card")}>
+        </Card>
+        <Card>
           {personal_pronouns.map((personal_pronoun) => {
             const verb = infinitive.ppVerbs[personal_pronoun.id];
             return (
@@ -175,7 +176,7 @@ function UpdateWord(props) {
               </div>
             );
           })}
-        </div>
+        </Card>
         <div className={cx("send-button")}>
           <button>сохранить</button>
         </div>
