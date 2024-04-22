@@ -9,15 +9,10 @@ import axios from "axios";
 const cx = classnames.bind(style);
 
 function PhrasePage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-
+  const [selectedRules, setSelectedRules] = React.useState([]);
   const [rules, setRules] = React.useState([]);
-  const [selectedRules, setSelectedRules] = React.useState(
-    searchParams
-      .get("rules")
-      ?.split(",")
-      ?.map((r) => Number(r)) || []
-  );
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   React.useEffect(() => {
     axios
@@ -27,6 +22,15 @@ function PhrasePage() {
       })
       .catch((e) => console.log(e));
   }, []);
+
+  React.useEffect(() => {
+    setSelectedRules(
+      searchParams
+        .get("rules")
+        ?.split(",")
+        ?.map((r) => Number(r)) || []
+    );
+  }, [searchParams.get("rules")]);
 
   if (rules.length === 0) return <div>Loading...</div>;
   return (
