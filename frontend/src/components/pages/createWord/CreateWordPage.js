@@ -8,6 +8,8 @@ import CreateWord from "./CreateWord";
 import UpdateWord from "./UpdateWord";
 import WordsList from "./WordsList";
 
+import { Delimiter } from "../components";
+
 const cx = classnames.bind(style);
 
 function Tags(props) {
@@ -46,9 +48,7 @@ function Tags(props) {
               ))
           )}
         </div>
-        <div className={cx("delimiter")}>
-          <div />
-        </div>
+        <Delimiter />
         <div className={cx("tags-row")}>
           {allTags
             .filter((at) => !props.tags.includes(at.id))

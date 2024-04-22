@@ -3,6 +3,7 @@ import PhraseInput from "./PhraseInput";
 import style from "./style.scss";
 import React from "react";
 import axios from "axios";
+import { Delimiter } from "../components";
 
 const cx = classnames.bind(style);
 
@@ -67,9 +68,7 @@ function PhraseForm(props) {
         <div className={cx("row")}>
           <div>{words.map((w) => w.translate).join(" ")}</div>
         </div>
-        <div className={cx("row")}>
-          <div className={cx("delimiter")} />
-        </div>
+        <Delimiter />
         <div className={cx("row")}>
           <div className={cx("problem")}>
             {words.map((w) => (

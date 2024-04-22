@@ -150,13 +150,6 @@
             }
         }
     }
-
-    &>.delimiter {
-        border-bottom: 1px solid #000;
-        max-width: 150px;
-        margin: 1rem 0;
-        width: 90%;
-    }
 }
 
 .tags-row {
@@ -178,17 +171,5 @@
         &.chosen:hover {
             background-color: #ff4d6d;
         }
-    }
-}
-
-.delimiter {
-    justify-content: center;
-    display: flex;
-
-    &>div {
-        border-bottom: 1px solid #000;
-        max-width: 350px;
-        margin: 1rem 0;
-        width: 90%;
     }
 }

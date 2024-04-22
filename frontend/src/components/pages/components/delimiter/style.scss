@@ -1,0 +1,19 @@
+.delimiter {
+    justify-content: center;
+    display: flex;
+
+    &>div {
+        border-bottom: 1px solid #000;
+        max-width: 250px;
+        margin: 1rem 0;
+        width: 90%;
+        
+        &.wide {
+            max-width: 90%;
+        }
+        
+        &.narrow {
+            margin: 10px 0;
+        }
+    }
+}
