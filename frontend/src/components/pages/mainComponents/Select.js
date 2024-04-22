@@ -4,7 +4,14 @@ import React from "react";
 
 const cx = classnames.bind(style);
 
-function Select({ multiple, value, onChange, options, name }) {
+function Select({
+  multiple,
+  value,
+  onChange,
+  options,
+  name,
+  isNullable = true,
+}) {
   const [highlightedIndex, setHighlightedIndex] = React.useState(0);
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -62,16 +69,18 @@ function Select({ multiple, value, onChange, options, name }) {
           : options.find((o) => o.id === value)?.word}
       </span>
 
-      <button
-        className={cx("clear-btn")}
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          clearOptions();
-        }}
-      >
-        &times;
-      </button>
+      {isNullable && (
+        <button
+          className={cx("clear-btn")}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            clearOptions();
+          }}
+        >
+          &times;
+        </button>
+      )}
 
       <div className={cx("divider")}></div>
       <div className={cx("caret")}></div>

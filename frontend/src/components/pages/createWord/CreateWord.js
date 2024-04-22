@@ -54,8 +54,9 @@ function CreateWord(params) {
         <div className={cx("send-button")} style={{ marginBottom: "2rem" }}>
           <Select
             options={partsOfSpeech.map((p) => ({ ...p, word: p.translate }))}
-            value={selectedPartOfSpeech.id}
             onChange={setSelectedPartOfSpeech}
+            value={selectedPartOfSpeech.id}
+            isNullable={false}
           />
         </div>
         <div className={cx("input-wrapper")}>
