@@ -27,11 +27,12 @@
     color: #FFFFFF;
     font-size: 22px;
 
+    &.isActive {
+        text-decoration: 3px underline;
+        color: #fefae0;
+    }
+    
     &:hover {
         color: #FFDf6C;
-    }
-
-    &.active {
-        text-decoration: 3px underline;
     }
 }

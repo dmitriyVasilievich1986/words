@@ -5,14 +5,14 @@ const PAGES = [
   {
     element: PhrasePage,
     hiden: false,
-    name: "Home",
+    name: "HOME",
     path: "/",
   },
   {
     element: CreateWordPage,
+    hiden: process.env.NODE_ENV === "production",
     path: "/create",
-    name: "Create",
-    hiden: true,
+    name: "CREATE",
   },
 ];
 
