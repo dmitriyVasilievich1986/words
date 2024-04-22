@@ -53,37 +53,37 @@ function CreateWord(params) {
       <form onSubmit={submitHandler}>
         <div className={cx("send-button")} style={{ marginBottom: "2rem" }}>
           <Select
-            options={partsOfSpeech}
+            options={partsOfSpeech.map((p) => ({ ...p, word: p.translate }))}
             value={selectedPartOfSpeech.id}
             onChange={setSelectedPartOfSpeech}
           />
         </div>
         <div className={cx("input-wrapper")}>
           <div className={cx("input-row")}>
-            <label>word</label>
+            <label>Слово:</label>
             <input
               type="text"
               value={word}
               autoCorrect="off"
-              placeholder="word"
+              placeholder="Слово"
               autoCapitalize="none"
               onChange={(e) => setWord(e.target.value.toLowerCase())}
             />
           </div>
           <div className={cx("input-row")}>
-            <label>translate</label>
+            <label>Перевод:</label>
             <input
               type="text"
               value={translate}
               autoCorrect="off"
               autoCapitalize="none"
-              placeholder="translate"
+              placeholder="Перевод"
               onChange={(e) => setTranslate(e.target.value.toLowerCase())}
             />
           </div>
         </div>
         <div className={cx("send-button")}>
-          <button>send</button>
+          <button>сохранить</button>
         </div>
       </form>
     </div>

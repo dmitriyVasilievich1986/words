@@ -109,11 +109,11 @@ function UpdateWord(props) {
         <div className={cx("card")}>
           <div className={cx("input-wrapper")}>
             <div className={cx("input-row")}>
-              <label>word</label>
+              <label>Слово:</label>
               <input
                 type="text"
                 name="word"
-                placeholder="word"
+                placeholder="Слово"
                 value={infinitive.word}
                 onChange={(e) =>
                   setInfinitive((prev) => ({ ...prev, word: e.target.value }))
@@ -121,11 +121,11 @@ function UpdateWord(props) {
               />
             </div>
             <div className={cx("input-row")}>
-              <label>translate</label>
+              <label>Перевод:</label>
               <input
                 type="text"
                 name="translate"
-                placeholder="translate"
+                placeholder="Перевод"
                 value={infinitive.translate}
                 onChange={(e) =>
                   setInfinitive((prev) => ({
@@ -175,7 +175,7 @@ function UpdateWord(props) {
           })}
         </div>
         <div className={cx("send-button")}>
-          <button>send</button>
+          <button>сохранить</button>
         </div>
       </form>
     </div>
