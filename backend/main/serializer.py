@@ -40,7 +40,15 @@ class InfinitiveSerializerDeep(ModelSerializer):
     class Meta:
         depth = 1
         model = Infinitive
-        fields = "__all__"
+        fields = (
+            "part_of_speech",
+            "translate",
+            "word",
+            "tags",
+            "id",
+        )
+
+        read_only_fields = ("id", "part_of_speech")
 
 class PartsOfSpeechSerializer(ModelSerializer):
     class Meta:

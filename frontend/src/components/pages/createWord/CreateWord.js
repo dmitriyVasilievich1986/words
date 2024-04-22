@@ -7,7 +7,7 @@ import axios from "axios";
 
 const cx = classnames.bind(style);
 
-function CreateWord(params) {
+function CreateWord(props) {
   const [selectedPartOfSpeech, setSelectedPartOfSpeech] = React.useState(null);
   const [partsOfSpeech, setPartsOfSpeech] = React.useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -15,6 +15,7 @@ function CreateWord(params) {
   const [word, setWord] = React.useState("");
 
   React.useEffect(() => {
+    props.setTags([]);
     axios
       .get("/api/partsofspeech/")
       .then((response) => {
@@ -30,21 +31,23 @@ function CreateWord(params) {
     event.preventDefault();
     const data = {
       part_of_speech: selectedPartOfSpeech.id,
+      tags: props.tags,
       translate,
       word,
     };
-    axios
-      .post("/api/infinitive/", data)
-      .then((response) => {
-        params.setInfinitives((prev) => [...prev, response.data]);
-        setTranslate("");
-        setWord("");
-        setSearchParams({ infinitive: response.data.id });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    event.target.reset();
+    console.log("data", data);
+    // axios
+    //   .post("/api/infinitive/", data)
+    //   .then((response) => {
+    //     props.setInfinitives((prev) => [...prev, response.data]);
+    //     setTranslate("");
+    //     setWord("");
+    //     setSearchParams({ infinitive: response.data.id });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // event.target.reset();
   };
 
   if (partsOfSpeech.length === 0) return <div>loading...</div>;

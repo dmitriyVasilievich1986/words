@@ -30,6 +30,7 @@ function UpdateWord(props) {
           ...infinitive.data,
           ppVerbs: Object.fromEntries(ppVerb),
         });
+        props.setTags(infinitive.data.tags.map((t) => t.tags));
         setPersonal_pronouns(personal_pronouns.data);
       })
       .catch((error) => {
@@ -46,6 +47,7 @@ function UpdateWord(props) {
       .put(`/api/infinitive/${props.pk}/`, {
         ...infinitive,
         part_of_speech: infinitive.part_of_speech.id,
+        tags: props.tags,
       })
       .then((response) => {
         setInfinitive((prev) => ({ ...prev, ...response.data }));

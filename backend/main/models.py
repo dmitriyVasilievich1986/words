@@ -26,7 +26,7 @@ class Preposition(RepresentationClass, models.Model, RandomMixin):
     translate = models.CharField(max_length=50, blank=False, null=False)
     word = models.CharField(max_length=50, blank=False, null=False)
 
-class Base(models.Model):    
+class Base(models.Model):
     translate = models.CharField(max_length=150, blank=False, null=False)
     word = models.CharField(max_length=150, blank=False, null=False)
 
@@ -43,4 +43,20 @@ class Infinitive(Base):
         to=PartsOfSpeech,
         blank=False,
         null=False,
+    )
+
+class InfinitiveTags(models.Model):
+    infinitive = models.ForeignKey(
+        on_delete=models.CASCADE,
+        related_name="tags",
+        to=Infinitive,
+        blank=False,
+        null=False,
+    )
+    tags = models.ForeignKey(
+        related_name="infinitives",
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False,
+        to=Tags,
     )
