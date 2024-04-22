@@ -35,19 +35,18 @@ function CreateWord(props) {
       translate,
       word,
     };
-    console.log("data", data);
-    // axios
-    //   .post("/api/infinitive/", data)
-    //   .then((response) => {
-    //     props.setInfinitives((prev) => [...prev, response.data]);
-    //     setTranslate("");
-    //     setWord("");
-    //     setSearchParams({ infinitive: response.data.id });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // event.target.reset();
+    axios
+      .post("/api/infinitive/", data)
+      .then((response) => {
+        props.setInfinitives((prev) => [...prev, response.data]);
+        setTranslate("");
+        setWord("");
+        setSearchParams({ infinitive: response.data.id });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    event.target.reset();
   };
 
   if (partsOfSpeech.length === 0) return <div>loading...</div>;
