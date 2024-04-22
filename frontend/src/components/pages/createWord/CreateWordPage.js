@@ -8,7 +8,7 @@ import CreateWord from "./CreateWord";
 import UpdateWord from "./UpdateWord";
 import WordsList from "./WordsList";
 
-import { Delimiter } from "../components";
+import { SideContainer, Delimiter } from "../components";
 
 const cx = classnames.bind(style);
 
@@ -27,42 +27,40 @@ function Tags(props) {
   }, []);
 
   return (
-    <div className={cx("container")}>
-      <form>
-        <div className={cx("tags-row")}>
-          {props.tags.length === 0 ? (
-            <div>теги не привязаны</div>
-          ) : (
-            allTags
-              .filter((at) => props.tags.includes(at.id))
-              .map((tag) => (
-                <span
-                  key={tag.id}
-                  className={cx("chosen")}
-                  onClick={() =>
-                    props.setTags((prev) => prev.filter((p) => p !== tag.id))
-                  }
-                >
-                  {tag.word}
-                </span>
-              ))
-          )}
-        </div>
-        <Delimiter />
-        <div className={cx("tags-row")}>
-          {allTags
-            .filter((at) => !props.tags.includes(at.id))
+    <form>
+      <div className={cx("tags-row")}>
+        {props.tags.length === 0 ? (
+          <div>теги не привязаны</div>
+        ) : (
+          allTags
+            .filter((at) => props.tags.includes(at.id))
             .map((tag) => (
               <span
                 key={tag.id}
-                onClick={() => props.setTags((prev) => [...prev, tag.id])}
+                className={cx("chosen")}
+                onClick={() =>
+                  props.setTags((prev) => prev.filter((p) => p !== tag.id))
+                }
               >
                 {tag.word}
               </span>
-            ))}
-        </div>
-      </form>
-    </div>
+            ))
+        )}
+      </div>
+      <Delimiter />
+      <div className={cx("tags-row")}>
+        {allTags
+          .filter((at) => !props.tags.includes(at.id))
+          .map((tag) => (
+            <span
+              key={tag.id}
+              onClick={() => props.setTags((prev) => [...prev, tag.id])}
+            >
+              {tag.word}
+            </span>
+          ))}
+      </div>
+    </form>
   );
 }
 
@@ -85,9 +83,9 @@ function CreateWordPage() {
 
   return (
     <div className={cx("page")}>
-      <div className={cx("side")}>
+      <SideContainer>
         <WordsList infinitives={infinitives} />
-      </div>
+      </SideContainer>
       <div className={cx("center")}>
         {searchParams.get("infinitive") === null ? (
           <CreateWord
@@ -104,9 +102,9 @@ function CreateWordPage() {
           />
         )}
       </div>
-      <div className={cx("side")}>
+      <SideContainer className="margin">
         <Tags tags={tags} setTags={setTags} />
-      </div>
+      </SideContainer>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router-dom";
+import { SideContainer } from "../components";
 import { Select } from "../mainComponents";
 import classnames from "classnames/bind";
 import PhraseForm from "./PhraseForm";
@@ -35,21 +36,17 @@ function PhrasePage() {
   if (rules.length === 0) return <div>Loading...</div>;
   return (
     <div className={cx("page")}>
-      <div className={cx("side", "left")}>
-        <div>
-          <Select
-            multiple={true}
-            value={selectedRules}
-            options={rules.map((r) => ({ ...r, word: r.name }))}
-            onChange={(items) => {
-              setSearchParams(
-                items.length > 0 ? { rules: items.join(",") } : {}
-              );
-              setSelectedRules(items);
-            }}
-          />
-        </div>
-      </div>
+      <SideContainer className="margin">
+        <Select
+          multiple={true}
+          value={selectedRules}
+          options={rules.map((r) => ({ ...r, word: r.name }))}
+          onChange={(items) => {
+            setSearchParams(items.length > 0 ? { rules: items.join(",") } : {});
+            setSelectedRules(items);
+          }}
+        />
+      </SideContainer>
       <div className={cx("center")}>
         <PhraseForm selectedRules={selectedRules} rules={rules} />
       </div>

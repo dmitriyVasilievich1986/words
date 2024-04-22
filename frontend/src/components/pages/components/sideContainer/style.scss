@@ -1,0 +1,14 @@
+.container {
+    justify-content: center;
+    flex: 3 300px;
+    display: flex;
+
+    &>div {
+        width: fit-content;
+        max-width: 500px;
+
+        &.margin {
+            margin-top: 1rem;
+        }
+    }
+}
