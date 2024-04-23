@@ -1,15 +1,12 @@
-import { useSearchParams } from "react-router-dom";
 import classnames from "classnames/bind";
+import { NavLink } from "react-router-dom";
 import style from "./style.scss";
 import React from "react";
 
 const cx = classnames.bind(style);
 
 function WordsList({ infinitives }) {
-  const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = React.useState("");
-
-  const selectedInfinitive = searchParams.get("infinitive");
 
   return (
     <div className={cx("list")}>
@@ -29,16 +26,13 @@ function WordsList({ infinitives }) {
               i.translate.toLowerCase().includes(search.toLowerCase())
           )
           .map((infinitive) => (
-            <div
-              key={infinitive.id}
-              onClick={() => setSearchParams({ infinitive: infinitive.id })}
-              className={cx({
-                isSelected: selectedInfinitive == infinitive.id,
-              })}
-            >
-              <div>
+            <div key={infinitive.id}>
+              <NavLink
+                className={({ isActive }) => cx({ isActive })}
+                to={`/create/update/${infinitive.id}`}
+              >
                 {infinitive.word} / {infinitive.translate}
-              </div>
+              </NavLink>
             </div>
           ))}
       </div>

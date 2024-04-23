@@ -1,3 +1,4 @@
+import { useOutletContext, useParams } from "react-router-dom";
 import classnames from "classnames/bind";
 import { Card } from "../../components";
 import style from "./style.scss";
@@ -6,7 +7,9 @@ import axios from "axios";
 
 const cx = classnames.bind(style);
 
-function UpdateWord(props) {
+function UpdateWord() {
+  const props = { ...useParams(), ...useOutletContext() };
+
   const [personal_pronouns, setPersonal_pronouns] = React.useState([]);
   const [infinitive, setInfinitive] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(0);

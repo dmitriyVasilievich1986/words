@@ -1,6 +1,5 @@
-import { useSearchParams } from "react-router-dom";
-import { CreateWord, UpdateWord } from "./center";
 import { SideContainer } from "../components";
+import { Outlet } from "react-router-dom";
 import { WordsList, Tags } from "./sides";
 import classnames from "classnames/bind";
 import style from "./style.scss";
@@ -12,8 +11,6 @@ const cx = classnames.bind(style);
 function CreateWordPage() {
   const [infinitives, setInfinitives] = React.useState([]);
   const [tags, setTags] = React.useState([]);
-
-  const [searchParams, setSearchParams] = useSearchParams();
 
   React.useEffect(() => {
     axios
@@ -32,20 +29,13 @@ function CreateWordPage() {
         <WordsList infinitives={infinitives} />
       </SideContainer>
       <div className={cx("center")}>
-        {searchParams.get("infinitive") === null ? (
-          <CreateWord
-            setInfinitives={setInfinitives}
-            tags={tags}
-            setTags={setTags}
-          />
-        ) : (
-          <UpdateWord
-            pk={searchParams.get("infinitive")}
-            setInfinitives={setInfinitives}
-            setTags={setTags}
-            tags={tags}
-          />
-        )}
+        <Outlet
+          context={{
+            setInfinitives: setInfinitives,
+            setTags: setTags,
+            tags: tags,
+          }}
+        />
       </div>
       <SideContainer className="margin">
         <Tags tags={tags} setTags={setTags} />

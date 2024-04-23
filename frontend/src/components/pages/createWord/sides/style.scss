@@ -40,8 +40,13 @@
             cursor: pointer;
             width: 100%;
 
-            &.isSelected {
-                background-color: #f5ebe0;
+            &>a {
+                text-decoration: none;
+                color: #000;
+            }
+
+            &>.isActive {
+                color: blue;
             }
 
             &:hover {

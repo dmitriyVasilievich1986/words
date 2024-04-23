@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { Select } from "../../components";
 import classnames from "classnames/bind";
 import { Card } from "../../components";
@@ -8,10 +8,12 @@ import axios from "axios";
 
 const cx = classnames.bind(style);
 
-function CreateWord(props) {
+function CreateWord() {
+  const props = useOutletContext();
+  const navigate = useNavigate();
+
   const [selectedPartOfSpeech, setSelectedPartOfSpeech] = React.useState(null);
   const [partsOfSpeech, setPartsOfSpeech] = React.useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
   const [translate, setTranslate] = React.useState("");
   const [word, setWord] = React.useState("");
 
@@ -42,7 +44,7 @@ function CreateWord(props) {
         props.setInfinitives((prev) => [...prev, response.data]);
         setTranslate("");
         setWord("");
-        setSearchParams({ infinitive: response.data.id });
+        navigate(`update/${response.data.id}`);
       })
       .catch((error) => {
         console.log(error);
