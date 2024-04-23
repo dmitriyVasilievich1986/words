@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
-import { Select } from "../mainComponents";
+import { Select } from "../../mainComponents";
 import classnames from "classnames/bind";
-import { Card } from "../components";
+import { Card } from "../../components";
 import style from "./style.scss";
 import React from "react";
 import axios from "axios";

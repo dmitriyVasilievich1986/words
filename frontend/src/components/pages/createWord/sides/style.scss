@@ -1,0 +1,61 @@
+.tags-row {
+    justify-content: center;
+    display: flex;
+
+    &>span {
+        background-color: #f5ebe0;
+        border-radius: 5px;
+        width: fit-content;
+        padding: 2px 5px;
+        cursor: pointer;
+        margin: 0 5px;
+
+        &:hover {
+            background-color: #219ebc;
+        }
+
+        &.chosen:hover {
+            background-color: #ff4d6d;
+        }
+    }
+}
+
+.list {
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 1rem;
+    display: flex;
+
+    &>.wrapper {
+        max-height: 300px;
+        max-width: 400px;
+        overflow-y: auto;
+        margin: 0 1rem;
+        padding: 5px;
+        width: 90%;
+
+        &>div {
+            box-sizing: border-box;
+            padding: 3px 1rem;
+            cursor: pointer;
+            width: 100%;
+
+            &.isSelected {
+                background-color: #f5ebe0;
+            }
+
+            &:hover {
+                background-color: #d6ccc2;
+            }
+        }
+    }
+}
+
+.search {
+    width: 100%;
+
+    &>input {
+        margin-left: 1rem;
+        width: 140px;
+    }
+}
