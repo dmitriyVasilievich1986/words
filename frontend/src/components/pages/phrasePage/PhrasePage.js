@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { SideContainer } from "../components";
-import { Select } from "../mainComponents";
 import classnames from "classnames/bind";
+import { Select } from "../components";
 import PhraseForm from "./PhraseForm";
 import style from "./style.scss";
 import React from "react";

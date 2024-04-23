@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { Select } from "../../mainComponents";
+import { Select } from "../../components";
 import classnames from "classnames/bind";
 import { Card } from "../../components";
 import style from "./style.scss";

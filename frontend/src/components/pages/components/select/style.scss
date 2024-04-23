@@ -1,0 +1,129 @@
+.select-container {
+    border: .05em solid #777;
+    border-radius: .25em;
+    align-items: center;
+    position: relative;
+    min-height: 1.5em;
+    max-width: 90%;
+    display: flex;
+    padding: .5em;
+    outline: none;
+    width: 20em;
+    gap: .5em;
+
+    &:focus {
+        border-color: #90e0ef;
+    }
+
+    > .select-name {
+        background-color: white;
+        position: absolute;
+        font-size: 14px;
+        padding: 0 3px;
+        left: 10px;
+        top: -8px;
+    }
+}
+
+.value {
+    flex-wrap: wrap;
+    display: flex;
+    flex-grow: 1;
+    gap: .5em;
+}
+
+.clear-btn {
+    font-size: 1.25em;
+    background: none;
+    cursor: pointer;
+    outline: none;
+    color: #777;
+    border: none;
+    padding: 0;
+
+    &:focus,
+    &:hover {
+        color: #333;
+    }
+}
+
+.divider {
+    background-color: #777;
+    align-self: stretch;
+    width: .05em;
+}
+
+.caret {
+    border: .25em solid transparent;
+    border-top-color: #777;
+    translate: 0 25%;
+}
+
+.options {
+    border: .05em solid #777;
+    background-color: white;
+    top: calc(100% + .25em);
+    border-radius: .25em;
+    position: absolute;
+    list-style: none;
+    max-height: 15em;
+    overflow-y: auto;
+    display: none;
+    z-index: 99;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    left: 0;
+
+    &.isOpen {
+        display: block;
+    }
+}
+
+.option {
+    padding: .25em .5em;
+    cursor: pointer;
+
+    &.selected {
+        background-color: #90e0ef;
+    }
+
+    &.highlighted {
+        background-color: #0077b6;
+        color: white;
+    }
+    > .count {
+        padding: 0 10px;
+        margin-left: .5em;
+        border-radius: 10px;
+        background-color: #ccc;
+    }
+}
+
+.option-badge {
+    border: .05em solid #777;
+    border-radius: .25em;
+    padding: .15em .25em;
+    align-items: center;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    outline: none;
+    gap: .25em;
+
+    > .remove-btn {
+        font-size: 1.25em;
+        color: #777;
+    }
+
+    &:hover,
+    &:focus {
+        background-color: #ffb3c1;
+        border-color: #c9184a;
+
+        > .remove-btn,
+        > .remove-btn {
+            color: #c9184a;
+        }
+    }
+}
