@@ -1,5 +1,7 @@
-from .models import Declentions, Gender, Time, Preposition, Tags, Infinitive, PartsOfSpeech
+from .models import Declentions, Gender, Time, Preposition, Tags, Infinitive, PartsOfSpeech, InfinitiveTags
 from rest_framework.serializers import ModelSerializer
+from verb.serializer import VerbSerializer
+from verb.models import Verb
 
 
 class PrepositionSerializer(ModelSerializer):
@@ -31,26 +33,64 @@ class TimeSerializer(ModelSerializer):
         model = Time
         fields = "__all__"
 
+class PartsOfSpeechSerializer(ModelSerializer):
+    class Meta:
+        model = PartsOfSpeech
+        fields = "__all__"
+
 class InfinitiveSerializer(ModelSerializer):
     class Meta:
         model = Infinitive
         fields = "__all__"
 
 class InfinitiveSerializerDeep(ModelSerializer):
+    verb = VerbSerializer(many=True)
+    
     class Meta:
-        depth = 1
         model = Infinitive
         fields = (
             "part_of_speech",
             "translate",
             "word",
             "tags",
+            "verb",
             "id",
         )
 
-        read_only_fields = ("id", "part_of_speech")
+        read_only_fields = ("id", "part_of_speech", "tags")
 
-class PartsOfSpeechSerializer(ModelSerializer):
-    class Meta:
-        model = PartsOfSpeech
-        fields = "__all__"
+    def create(self, validated_data: dict) -> Infinitive:
+        instance = super().create({k: v for k, v in validated_data.items() if k not in ("verb", "tags")})
+        self._update_verbs(instance, validated_data.get("verb", None))
+        self._update_tags(instance, validated_data.get("tags", None))
+        return instance
+
+
+    def update(self, instance: Infinitive, validated_data: dict) -> Infinitive:
+        self._update_verbs(instance, validated_data.get("verb", None))
+        self._update_tags(instance, validated_data.get("tags", None))
+        return super().update(instance, {k: v for k, v in validated_data.items() if k not in ("verb", "tags")})
+
+    def validate_tags(self, value: list[int]) -> list[Tags]:
+        if value is None:
+            return
+        tags = Tags.objects.filter(id__in=value)
+        if tags.count() != len(value):
+            raise ValueError("Invalid tags")
+        return tags
+
+    def _update_verbs(self, instance: Infinitive, verbs: list[dict] = None) -> None:
+        for verb in (verbs or list()):
+            verb_instance: Verb = Verb.objects.get_or_create(**verb)[0]
+            verb_instance.save()
+            instance.verb.add(verb_instance)
+
+    def _update_tags(self, instance: Infinitive, tags: list[Tags] = None) -> None:
+        if tags is None:
+            return
+        InfinitiveTags.objects.filter(infinitive=instance).exclude(tags__in=tags).delete()
+        infinitive_tags = [
+            InfinitiveTags.objects.get_or_create(tags=t, infinitive=instance)[0]
+            for t in tags
+        ]
+        instance.tags.set(infinitive_tags)
