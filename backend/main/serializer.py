@@ -1,5 +1,7 @@
 from .models import Declentions, Gender, Time, Preposition, Tags, Infinitive, PartsOfSpeech, InfinitiveTags
 from rest_framework.serializers import ModelSerializer
+from rest_framework.exceptions import ValidationError
+from pronoun.models import PersonalPronoun
 from verb.serializer import VerbSerializer
 from verb.models import Verb
 
@@ -44,7 +46,7 @@ class InfinitiveSerializer(ModelSerializer):
         fields = "__all__"
 
 class InfinitiveSerializerDeep(ModelSerializer):
-    verb = VerbSerializer(many=True)
+    verb = VerbSerializer(many=True, required=True)
     
     class Meta:
         model = Infinitive
@@ -71,12 +73,19 @@ class InfinitiveSerializerDeep(ModelSerializer):
         self._update_tags(instance, validated_data.get("tags", None))
         return super().update(instance, {k: v for k, v in validated_data.items() if k not in ("verb", "tags")})
 
+    def validate_verb(self, value: list[Verb]) -> list[Verb]:
+        if value is None:
+            return ValidationError("Field `verb` is required")
+        elif PersonalPronoun.objects.all().count() != len(value):
+            raise ValidationError("Verbs should contain all personal pronouns")
+        return value
+
     def validate_tags(self, value: list[int]) -> list[Tags]:
         if value is None:
             return
         tags = Tags.objects.filter(id__in=value)
         if tags.count() != len(value):
-            raise ValueError("Invalid tags")
+            raise ValidationError("Some tags do not exist in the database")
         return tags
 
     def _update_verbs(self, instance: Infinitive, verbs: list[dict] = None) -> None:
