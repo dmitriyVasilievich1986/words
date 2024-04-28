@@ -7,7 +7,10 @@ const cx = classnames.bind(style);
 function Card({ className = "", ...props }) {
   return (
     <div className={cx("card")}>
-      <div className={cx(...className.split(" "))}>{props.children}</div>
+      <div className={cx(...className.split(" "))}>
+        {props?.label && <h3 className={cx("label")}>{props.label}</h3>}
+        {props.children}
+      </div>
     </div>
   );
 }

@@ -104,7 +104,7 @@ function Verb(props) {
           </div>
         </Card>
         {time.map((t) => (
-          <Card key={t.word}>
+          <Card key={t.word} label={t.translate}>
             {personal_pronouns.map((personal_pronoun) => {
               const verb = infinitive.verb.find(
                 (v) =>
