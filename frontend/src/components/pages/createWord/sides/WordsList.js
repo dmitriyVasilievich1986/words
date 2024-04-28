@@ -1,4 +1,4 @@
-import { NavLink, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Select } from "../../components";
 import classnames from "classnames/bind";
 import style from "./style.scss";
@@ -6,6 +6,26 @@ import React from "react";
 import axios from "axios";
 
 const cx = classnames.bind(style);
+
+function NavigaeItem({ infinitive, partsOfSpeech }) {
+  const navigate = useNavigate();
+  const params = useParams();
+
+  const isActive =
+    params.pk == infinitive.id &&
+    partsOfSpeech.find((p) => p.word === params.page).id ===
+      infinitive.part_of_speech;
+
+  const clickHandler = () => {
+    navigate(`/create/${params.page}/${infinitive.id}`);
+  };
+
+  return (
+    <div className={cx("navigate-item", { isActive })} onClick={clickHandler}>
+      {infinitive.word} / {infinitive.translate}
+    </div>
+  );
+}
 
 function WordsList({ infinitives }) {
   const [partsOfSpeech, setPartsOfSpeech] = React.useState([]);
@@ -60,16 +80,11 @@ function WordsList({ infinitives }) {
               i.translate.toLowerCase().includes(search.toLowerCase())
           )
           .map((infinitive) => (
-            <div key={infinitive.id}>
-              <NavLink
-                className={({ isActive }) => cx({ isActive })}
-                to={`/create/${partsOfSpeech
-                  .find((p) => p.id == infinitive.part_of_speech)
-                  .word.toLowerCase()}/${infinitive.id}`}
-              >
-                {infinitive.word} / {infinitive.translate}
-              </NavLink>
-            </div>
+            <NavigaeItem
+              key={infinitive.id}
+              infinitive={infinitive}
+              partsOfSpeech={partsOfSpeech}
+            />
           ))}
       </div>
     </div>

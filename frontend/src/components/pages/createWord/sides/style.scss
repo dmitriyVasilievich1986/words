@@ -33,26 +33,6 @@
         margin: 0 1rem;
         padding: 5px;
         width: 90%;
-
-        &>div {
-            box-sizing: border-box;
-            padding: 3px 1rem;
-            cursor: pointer;
-            width: 100%;
-
-            &>a {
-                text-decoration: none;
-                color: #000;
-            }
-
-            &>.isActive {
-                color: blue;
-            }
-
-            &:hover {
-                background-color: #d6ccc2;
-            }
-        }
     }
 }
 
@@ -62,5 +42,20 @@
     &>input {
         margin-left: 1rem;
         width: 140px;
+    }
+}
+
+.navigate-item {
+    box-sizing: border-box;
+    padding: 3px 1rem;
+    cursor: pointer;
+    width: 100%;
+
+    &.isActive {
+        background-color: #faedcd;
+    }
+    
+    &:hover {
+        background-color: #d6ccc2;
     }
 }
