@@ -21,7 +21,7 @@ function Tags(props) {
   }, []);
 
   return (
-    <form>
+    <form style={{ position: "sticky", top: "10px" }}>
       <div className={cx("tags-row")}>
         {props.tags.length === 0 ? (
           <div>теги не привязаны</div>

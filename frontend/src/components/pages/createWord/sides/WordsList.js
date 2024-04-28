@@ -53,7 +53,7 @@ function WordsList({ infinitives }) {
 
   if (partsOfSpeech.length === 0) return null;
   return (
-    <div className={cx("list")}>
+    <div className={cx("list")} style={{ position: "sticky", top: "10px" }}>
       <div style={{ marginBottom: "2rem", width: "180px" }}>
         <Select
           options={partsOfSpeech.map((p) => ({ ...p, word: p.translate }))}
