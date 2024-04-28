@@ -1,13 +1,12 @@
-from main.models import Time, Declentions, Preposition, Tags
+from rest_framework.exceptions import ValidationError
+from main.models import Infinitive, PartsOfSpeech
+from main.serializer import InfinitiveSerializer
 from rest_framework.viewsets import ModelViewSet
-from models.models import TextInput, ChoiceInput
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from pronoun.models import PersonalPronoun
 from .serializer import VerbSerializer
-from main.support_mixin import RDict
-from pronoun.models import Pronoun
 from .models import Verb
-from rest_framework.exceptions import ValidationError
 
 
 class VerbViewSet(ModelViewSet):
@@ -22,3 +21,14 @@ class VerbViewSet(ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+    @action(detail=False, methods=["GET"])
+    def empty(self, request):
+        payload = InfinitiveSerializer(Infinitive(word="", translate="", part_of_speech=PartsOfSpeech.objects.get(word="verb"))).data
+        verb = VerbSerializer([
+            Verb(word="", translate="", personal_pronoun=x)
+            for x in PersonalPronoun.objects.all()
+        ], many=True).data
+        return Response(
+            payload | {"verb": verb, "tags": []}
+        )
