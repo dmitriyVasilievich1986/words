@@ -1,5 +1,5 @@
+from main.models import Base, Infinitive, Time
 from pronoun.models import PersonalPronoun
-from main.models import Base, Infinitive
 from django.db import models
 
 
@@ -17,4 +17,11 @@ class Verb(Base):
         to=PersonalPronoun,
         blank=False,
         null=False,
+    )
+    time = models.ForeignKey(
+        on_delete=models.CASCADE,
+        related_name="verb",
+        blank=False,
+        null=False,
+        to=Time,
     )

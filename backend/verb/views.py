@@ -1,5 +1,5 @@
+from main.models import Infinitive, PartsOfSpeech, Time
 from rest_framework.exceptions import ValidationError
-from main.models import Infinitive, PartsOfSpeech
 from main.serializer import InfinitiveSerializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
@@ -26,8 +26,9 @@ class VerbViewSet(ModelViewSet):
     def empty(self, request):
         payload = InfinitiveSerializer(Infinitive(word="", translate="", part_of_speech=PartsOfSpeech.objects.get(word="verb"))).data
         verb = VerbSerializer([
-            Verb(word="", translate="", personal_pronoun=x)
+            Verb(word="", translate="", personal_pronoun=x, time=t)
             for x in PersonalPronoun.objects.all()
+            for t in Time.objects.all()
         ], many=True).data
         return Response(
             payload | {"verb": verb, "tags": []}

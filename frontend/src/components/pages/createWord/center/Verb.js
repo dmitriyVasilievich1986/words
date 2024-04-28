@@ -13,15 +13,21 @@ function Verb(props) {
 
   const [personal_pronouns, setPersonal_pronouns] = React.useState([]);
   const [infinitive, setInfinitive] = React.useState(null);
+  const [time, setTime] = React.useState(null);
 
   React.useEffect(() => {
     const url = params?.pk
       ? `/api/infinitive/${params.pk}/`
       : "/api/verb/empty/";
-    Promise.all([axios.get(url), axios.get("/api/personal_pronoun/")])
+    Promise.all([
+      axios.get(url),
+      axios.get("/api/personal_pronoun/"),
+      axios.get("/api/time/"),
+    ])
       .then((response) => {
-        const [infinitive, personal_pronouns] = response;
+        const [infinitive, personal_pronouns, time_data] = response;
         setInfinitive({ ...infinitive.data });
+        setTime(time_data.data);
         props.setTags(infinitive.data.tags.map((t) => t.tags));
         setPersonal_pronouns(personal_pronouns.data);
       })
@@ -51,10 +57,12 @@ function Verb(props) {
       });
   };
 
-  const updatePPVerb = ({ name, value }, ppId) => {
+  const updatePPVerb = ({ name, value }, ppId, tId) => {
     setInfinitive((prev) => {
       const verb = prev.verb.map((v) =>
-        v.personal_pronoun == ppId ? { ...v, [name]: value } : v
+        v.personal_pronoun == ppId && v.time == tId
+          ? { ...v, [name]: value }
+          : v
       );
       return { ...prev, verb };
     });
@@ -95,45 +103,48 @@ function Verb(props) {
             </div>
           </div>
         </Card>
-        <Card>
-          {personal_pronouns.map((personal_pronoun) => {
-            const verb = infinitive.verb.find(
-              (v) => v.personal_pronoun === personal_pronoun.id
-            );
-            return (
-              <div
-                key={personal_pronoun.id}
-                className={cx("input-wrapper")}
-                style={{ marginTop: "5px" }}
-              >
-                <div className={cx("input-row")}>
-                  <label>{personal_pronoun.word}</label>
-                  <input
-                    type="text"
-                    name="word"
-                    placeholder="word"
-                    value={verb.word}
-                    onChange={(e) =>
-                      updatePPVerb(e.target, personal_pronoun.id)
-                    }
-                  />
+        {time.map((t) => (
+          <Card key={t.word}>
+            {personal_pronouns.map((personal_pronoun) => {
+              const verb = infinitive.verb.find(
+                (v) =>
+                  v.personal_pronoun === personal_pronoun.id && v.time === t.id
+              );
+              return (
+                <div
+                  key={personal_pronoun.id}
+                  className={cx("input-wrapper")}
+                  style={{ marginTop: "5px" }}
+                >
+                  <div className={cx("input-row")}>
+                    <label>{personal_pronoun.word}</label>
+                    <input
+                      type="text"
+                      name="word"
+                      placeholder="word"
+                      value={verb.word}
+                      onChange={(e) =>
+                        updatePPVerb(e.target, personal_pronoun.id, t.id)
+                      }
+                    />
+                  </div>
+                  <div className={cx("input-row")}>
+                    <label>{personal_pronoun.translate}</label>
+                    <input
+                      type="text"
+                      name="translate"
+                      placeholder="translate"
+                      value={verb.translate}
+                      onChange={(e) =>
+                        updatePPVerb(e.target, personal_pronoun.id, t.id)
+                      }
+                    />
+                  </div>
                 </div>
-                <div className={cx("input-row")}>
-                  <label>{personal_pronoun.translate}</label>
-                  <input
-                    type="text"
-                    name="translate"
-                    placeholder="translate"
-                    value={verb.translate}
-                    onChange={(e) =>
-                      updatePPVerb(e.target, personal_pronoun.id)
-                    }
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </Card>
+              );
+            })}
+          </Card>
+        ))}
         <div className={cx("send-button")}>
           <button>сохранить</button>
         </div>

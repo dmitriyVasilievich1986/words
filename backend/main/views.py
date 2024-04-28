@@ -97,7 +97,7 @@ class InfinitiveViewSet(ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         verbs = request.data.get("verb", [])
-        if len(verbs) < PersonalPronoun.objects.count():
+        if len(verbs) < (PersonalPronoun.objects.count() * Time.objects.count()):
             raise ValidationError("You must provide a verb for each personal pronoun")
         self.perform_create(serializer)
         
