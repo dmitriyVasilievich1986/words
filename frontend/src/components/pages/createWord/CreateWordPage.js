@@ -1,12 +1,24 @@
 import { SideContainer } from "../components";
-import { Outlet } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { WordsList, Tags } from "./sides";
 import classnames from "classnames/bind";
 import style from "./style.scss";
+import { Verb } from "./center";
 import React from "react";
 import axios from "axios";
 
 const cx = classnames.bind(style);
+
+function Center(props) {
+  const params = useParams();
+
+  switch (params.page) {
+    case "verb":
+      return <Verb {...props} />;
+    default:
+      return null;
+  }
+}
 
 function CreateWordPage() {
   const [infinitives, setInfinitives] = React.useState([]);
@@ -29,13 +41,7 @@ function CreateWordPage() {
         <WordsList infinitives={infinitives} />
       </SideContainer>
       <div className={cx("center")}>
-        <Outlet
-          context={{
-            setInfinitives: setInfinitives,
-            setTags: setTags,
-            tags: tags,
-          }}
-        />
+        <Center setInfinitives={setInfinitives} setTags={setTags} tags={tags} />
       </div>
       <SideContainer className="margin">
         <Tags tags={tags} setTags={setTags} />

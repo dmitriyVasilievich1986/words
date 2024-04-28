@@ -1,4 +1,4 @@
-import { useOutletContext, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import classnames from "classnames/bind";
 import { Card } from "../../components";
 import style from "./style.scss";
@@ -7,54 +7,47 @@ import axios from "axios";
 
 const cx = classnames.bind(style);
 
-function UpdateWord() {
-  const props = { ...useParams(), ...useOutletContext() };
+function Verb(props) {
+  const navigate = useNavigate();
+  const params = useParams();
 
   const [personal_pronouns, setPersonal_pronouns] = React.useState([]);
   const [infinitive, setInfinitive] = React.useState(null);
-  const [isLoading, setIsLoading] = React.useState(0);
 
   React.useEffect(() => {
-    setIsLoading((prev) => prev + 1);
-    Promise.all([
-      axios.get(`/api/infinitive/${props.pk}/`),
-      axios.get("/api/personal_pronoun/"),
-    ])
+    const url = params?.pk
+      ? `/api/infinitive/${params.pk}/`
+      : "/api/verb/empty/";
+    Promise.all([axios.get(url), axios.get("/api/personal_pronoun/")])
       .then((response) => {
         const [infinitive, personal_pronouns] = response;
-        setInfinitive({
-          ...infinitive.data,
-        });
+        setInfinitive({ ...infinitive.data });
         props.setTags(infinitive.data.tags.map((t) => t.tags));
         setPersonal_pronouns(personal_pronouns.data);
       })
       .catch((error) => {
         console.log(error);
-      })
-      .finally((_) => {
-        setIsLoading((prev) => prev - 1);
       });
-  }, [props.pk]);
+  }, [params.pk]);
 
-  const submitHandler = () => {
-    setIsLoading((prev) => prev + 1);
-    axios
-      .put(`/api/infinitive/${props.pk}/`, {
-        ...infinitive,
-        part_of_speech: infinitive.part_of_speech.id,
-        tags: props.tags,
-      })
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const url = params?.pk
+      ? `/api/infinitive/${params.pk}/`
+      : "/api/infinitive/";
+    const method = params?.pk ? "put" : "post";
+    axios({
+      method,
+      url,
+      data: { ...infinitive, tags: props.tags },
+    })
       .then((response) => {
-        setInfinitive((prev) => ({ ...prev, ...response.data }));
-        props.setInfinitives((prev) =>
-          prev.map((inf) => (inf.id === response.data.id ? response.data : inf))
-        );
+        setInfinitive({ ...response.data });
+        props.setTags(infinitive.data.tags.map((t) => t.tags));
+        navigate(`/create/verb/${response.data.id}`);
       })
       .catch((error) => {
         console.log(error);
-      })
-      .finally((_) => {
-        setIsLoading((prev) => prev - 1);
       });
   };
 
@@ -67,7 +60,7 @@ function UpdateWord() {
     });
   };
 
-  if (isLoading > 0 || infinitive === null) return <div>loading...</div>;
+  if (infinitive === null || personal_pronouns.length === 0) return null;
   return (
     <div className={cx("container")}>
       <form onSubmit={submitHandler}>
@@ -149,4 +142,4 @@ function UpdateWord() {
   );
 }
 
-export default UpdateWord;
+export default Verb;

@@ -1,4 +1,4 @@
-import CreateWord from "./CreateWord";
 import UpdateWord from "./UpdateWord";
+import Verb from "./Verb";
 
-export { CreateWord, UpdateWord };
+export { UpdateWord, Verb };

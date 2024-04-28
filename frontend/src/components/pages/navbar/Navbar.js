@@ -19,7 +19,7 @@ function Navbar() {
         {process.env.NODE_ENV === "development" && (
           <NavLink
             className={({ isActive }) => cx("nav-link", { isActive })}
-            to="/create"
+            to="/create/verb"
           >
             CREATE
           </NavLink>
