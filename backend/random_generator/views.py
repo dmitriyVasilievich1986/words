@@ -14,6 +14,8 @@ from .serializer import RulesRandomSerializer
 
 from .models import (
     VerbInflectionRandom,
+    VerbFutureRandom,
+    VerbPastRandom,
     VerbRandom,
 )
 
@@ -27,6 +29,10 @@ class RulesRandomViewSet(ReadOnlyModelViewSet):
             return Response(VerbRandom().get_data())
         if instance.name == "Склонение глагола":
             return Response(VerbInflectionRandom().get_data())
+        if instance.name == "Глагол в прошедшем времени":
+            return Response(VerbPastRandom().get_data())
+        if instance.name == "Глагол в будущем времени":
+            return Response(VerbFutureRandom().get_data())
         raise ObjectDoesNotExist()
 
 

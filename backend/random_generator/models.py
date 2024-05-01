@@ -1,11 +1,11 @@
 from main.models import Time, Declentions, Gender, Tags, Infinitive, PartsOfSpeech
+from verb.models import Verb, TimePersonalPronounVerb
 from pronoun.models import Pronoun, PersonalPronoun
 from dataclasses import dataclass, asdict
 from adjective.models import Adjective
 from random import randint, choice
 from typing import List, Optional
 from django.db.models import Q
-from verb.models import Verb
 from noun.models import Noun
 from django.db import models
 from abc import ABC
@@ -63,8 +63,9 @@ class VerbRandom(IRandom):
 
 class VerbInflectionRandom(IRandom):
     def __init__(self, cache={"personal_pronoun": 1, "verb": 1}):
+        time = Time.objects.get(word="Present")
         self.personal_pronoun = choice(PersonalPronoun.objects.exclude(verb__isnull=True, id=cache["personal_pronoun"]).all())
-        self.verb = choice(Verb.objects.filter(personal_pronoun=self.personal_pronoun).exclude(id=cache["verb"]).all())
+        self.verb = choice(Verb.objects.filter(personal_pronoun=self.personal_pronoun, time=time).exclude(id=cache["verb"]).all())
         
         cache["personal_pronoun"] = self.personal_pronoun.id
         cache["verb"] = self.verb.id
@@ -78,6 +79,62 @@ class VerbInflectionRandom(IRandom):
             RandomResponse(
                 base=self.verb.infinitive.word,
                 translate=self.verb.translate,
+                word=self.verb.word,
+            )
+        ]
+
+class VerbPastRandom(IRandom):
+    def __init__(self, cache={"personal_pronoun": 1, "verb": 1}):
+        time: Time = Time.objects.get(word="Past")
+        
+        self.personal_pronoun: PersonalPronoun = choice(PersonalPronoun.objects.exclude(id=cache["personal_pronoun"]).all())
+        self.verb: Verb = choice(Verb.objects.filter(personal_pronoun=self.personal_pronoun, time=time).exclude(id=cache["verb"]).all())
+        self.time_verb: TimePersonalPronounVerb = self.personal_pronoun.time_verb.get(time=time)
+        
+        cache["personal_pronoun"] = self.personal_pronoun.id
+        cache["verb"] = self.verb.id
+
+    def _form_response(self):
+        return [
+            RandomResponse(
+                translate=self.personal_pronoun.word,
+                word=self.personal_pronoun.word,
+            ),
+            RandomResponse(
+                translate="",
+                word=self.time_verb.word,
+            ),
+            RandomResponse(
+                translate=self.verb.infinitive.word,
+                base=self.verb.infinitive.word,
+                word=self.verb.word,
+            )
+        ]
+
+class VerbFutureRandom(IRandom):
+    def __init__(self, cache={"personal_pronoun": 1, "verb": 1}):
+        time: Time = Time.objects.get(word="Future")
+        
+        self.personal_pronoun: PersonalPronoun = choice(PersonalPronoun.objects.exclude(id=cache["personal_pronoun"]).all())
+        self.verb: Verb = choice(Verb.objects.filter(personal_pronoun=self.personal_pronoun, time=time).exclude(id=cache["verb"]).all())
+        self.time_verb: TimePersonalPronounVerb = self.personal_pronoun.time_verb.get(time=time)
+        
+        cache["personal_pronoun"] = self.personal_pronoun.id
+        cache["verb"] = self.verb.id
+
+    def _form_response(self):
+        return [
+            RandomResponse(
+                translate=self.personal_pronoun.word,
+                word=self.personal_pronoun.word,
+            ),
+            RandomResponse(
+                translate="",
+                word=self.time_verb.word,
+            ),
+            RandomResponse(
+                translate=self.verb.infinitive.word,
+                base=self.verb.infinitive.word,
                 word=self.verb.word,
             )
         ]
