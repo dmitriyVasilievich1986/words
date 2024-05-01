@@ -25,3 +25,24 @@ class Verb(Base):
         null=False,
         to=Time,
     )
+
+class TimePersonalPronounVerb(models.Model):
+    word = models.CharField(max_length=150, blank=False, null=False)
+    
+    time = models.ForeignKey(
+        on_delete=models.CASCADE,
+        related_name="time_verb",
+        blank=False,
+        null=False,
+        to=Time,
+    )
+    personal_pronoun = models.ForeignKey(
+        on_delete=models.CASCADE,
+        related_name="time_verb",
+        to=PersonalPronoun,
+        blank=False,
+        null=False,
+    )
+
+    class Meta:
+        unique_together = ('time', 'personal_pronoun',)
