@@ -23,6 +23,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("random_generator", "0001_initial"),
+        ("verb", "0009_auto_20240415_2057"),
     ]
 
     operations = [
